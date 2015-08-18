@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] small bug
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2011-October/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20small%20bug&In-Reply-To=%3C4E957926.1070009%40thiele-hydraulik.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000024.html">
+   <LINK REL="Next"  HREF="000026.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] small bug</H1>
+    <B>Erik Thiele</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20small%20bug&In-Reply-To=%3C4E957926.1070009%40thiele-hydraulik.de%3E"
+       TITLE="[Soem-user] small bug">erik.thiele at thiele-hydraulik.de
+       </A><BR>
+    <I>Wed Oct 12 13:25:26 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000024.html">[Soem-user] first steps
+</A></li>
+        <LI>Next message: <A HREF="000026.html">[Soem-user] First questions about SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#25">[ date ]</a>
+              <a href="thread.html#25">[ thread ]</a>
+              <a href="subject.html#25">[ subject ]</a>
+              <a href="author.html#25">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>hi
+
+i found a mismatch between header and implementation. please fix into
+either variant in both places:
+
+ethercatprint.h:char* ec_sdoerror2string( uint16 sdoerrorcode);
+ethercatprint.c:char* ec_sdoerror2string( uint32 sdoerrorcode)
+
+
+cya
+erik
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000024.html">[Soem-user] first steps
+</A></li>
+	<LI>Next message: <A HREF="000026.html">[Soem-user] First questions about SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#25">[ date ]</a>
+              <a href="thread.html#25">[ thread ]</a>
+              <a href="subject.html#25">[ subject ]</a>
+              <a href="author.html#25">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

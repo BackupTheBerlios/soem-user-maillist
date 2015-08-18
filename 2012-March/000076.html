@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Permissions on the soem device
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-March/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Permissions%20on%20the%20soem%20device&In-Reply-To=%3C201203021928.13019.leo%40alaxarxa.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000075.html">
+   <LINK REL="Next"  HREF="000077.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Permissions on the soem device</H1>
+    <B>Leopold Palomo Avellaneda</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Permissions%20on%20the%20soem%20device&In-Reply-To=%3C201203021928.13019.leo%40alaxarxa.net%3E"
+       TITLE="[Soem-user] Permissions on the soem device">leo at alaxarxa.net
+       </A><BR>
+    <I>Fri Mar  2 19:28:12 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000075.html">[Soem-user] Permissions on the soem device
+</A></li>
+        <LI>Next message: <A HREF="000077.html">[Soem-user] empty object entry list
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#76">[ date ]</a>
+              <a href="thread.html#76">[ thread ]</a>
+              <a href="subject.html#76">[ subject ]</a>
+              <a href="author.html#76">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>A Friday, 2 of March de 2012, Ruben Smits va escriure:
+&gt;<i> On Fri, Mar 2, 2012 at 3:07 PM, Leopold Palomo Avellaneda
+</I>&gt;<i> 
+</I>&gt;<i> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">leo at alaxarxa.net</A>&gt; wrote:
+</I>&gt;<i> &gt; Hi,
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; I think that to use a SOEM device, the user must root, or acceding to the
+</I>&gt;<i> &gt; device with sudo.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; There's some way to create a group giving access to the device and add
+</I>&gt;<i> &gt; that user to that group?
+</I>&gt;<i> 
+</I>&gt;<i> You can use the setcap utility to give a specific executable the
+</I>&gt;<i> NET_RAW capabilities that are needed for SOEM to work:
+</I>&gt;<i> 
+</I>&gt;<i> sudo setcap cap_net_raw+ep /location/of/your/executable
+</I>&gt;<i> 
+</I>
+ummm, well it's not exactly what I wanted but it gives me some idea. My 
+problem is that I have a box in a corporate environtment where I need that 
+some users, that develop programs in their home environment, that it's a nfs 
+mount, could execute them.
+
+I would not want to mount the nfs home with the no_root_squash option . But if 
+I don't do it, the users cannot run the SOEM program with sudo, and must go a 
+local directory to execute it.
+
+With the no_root_squash option the root user of the local mount is mapped to 
+the anonymous uid/gid, so cannot access to the mount nfs and cannot do a sudo 
+to an executable because cannot access it. If the executable is in a local 
+disk, can do it, because the root user can acces and can execute it with from 
+sudo.
+
+The idea it that the users could acces to the device with the group 
+permissions.
+
+Thats, the problem.
+
+Leo
+
+
+
+-- 
+--
+Linux User 152692     PGP: 0xF944807E
+Catalonia
+-------------------------------------
+A: Because it messes up the order in which people normally read text.
+Q: Why is top-posting such a bad thing?
+A: Top-posting.
+Q: What is the most annoying thing in e-mail?
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000075.html">[Soem-user] Permissions on the soem device
+</A></li>
+	<LI>Next message: <A HREF="000077.html">[Soem-user] empty object entry list
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#76">[ date ]</a>
+              <a href="thread.html#76">[ thread ]</a>
+              <a href="subject.html#76">[ subject ]</a>
+              <a href="author.html#76">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

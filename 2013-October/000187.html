@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Dc synchronization
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2013-October/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Dc%20synchronization&In-Reply-To=%3C525406A0.5000409%40free.fr%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000185.html">
+   <LINK REL="Next"  HREF="000186.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Dc synchronization</H1>
+    <B>St&#233;phane ANCELOT</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Dc%20synchronization&In-Reply-To=%3C525406A0.5000409%40free.fr%3E"
+       TITLE="[Soem-user] Dc synchronization">sancelot at free.fr
+       </A><BR>
+    <I>Tue Oct  8 15:20:32 CEST 2013</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000185.html">[Soem-user] Dc synchronization
+</A></li>
+        <LI>Next message: <A HREF="000186.html">[Soem-user] Dc synchronization
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#187">[ date ]</a>
+              <a href="thread.html#187">[ thread ]</a>
+              <a href="subject.html#187">[ subject ]</a>
+              <a href="author.html#187">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+On July, I had a look at it in July.
+
+There are some things that may need to be fixed.
+
+eg :
+There is a bad assumption in ecx_configdc(), you suppose the
+/* entryport is port with the lowest timestamp */
+
+but it is not, you have to manage the 32 bits overrun, at first.
+
+
+Regards,
+Steph
+
+
+  there seems to be some
+On 08/10/2013 11:17, Sergi Ruiz wrote:
+&gt;<i> I'm working on controlling three EtherCAT servomotors using SOEM 
+</I>&gt;<i> library. I want to use DC to synchronize outputs sent to motors, but I 
+</I>&gt;<i> have some queries and I would be grateful if somebody could solve them.
+</I>&gt;<i>
+</I>&gt;<i> 1) Following the code in the examples, I use ec_configdc() to set up 
+</I>&gt;<i> distributed clocks, but afterwards, to compensate the drift of every 
+</I>&gt;<i> local clock is it necessary that the master sends some other command? 
+</I>&gt;<i> if so, this command has to be sent periodically or only once?
+</I>&gt;<i>
+</I>&gt;<i> 2) My other question is about SYNC0. The master have to calculate and 
+</I>&gt;<i> send the control commands of the servos before the SYNC0 event. So, 
+</I>&gt;<i> how could I synchronize the master cycle with the SYNC0 event?
+</I>&gt;<i>
+</I>The master is responsible to starting the DC Sync generation, so it 
+knows, first when the first Sync will be generated.
+Then, basically, you read the slave 's DC clock in your PDO (ARMW cmd) , 
+you have to sync your next ethercat master clock cycle with this one.
+
+&gt;<i> Best regards,
+</I>&gt;<i>
+</I>&gt;<i> Sergi
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Soem-user mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">Soem-user at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">https://lists.berlios.de/mailman/listinfo/soem-user</A>
+</I>
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20131008/8f24b8e4/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20131008/8f24b8e4/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000185.html">[Soem-user] Dc synchronization
+</A></li>
+	<LI>Next message: <A HREF="000186.html">[Soem-user] Dc synchronization
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#187">[ date ]</a>
+              <a href="thread.html#187">[ thread ]</a>
+              <a href="subject.html#187">[ subject ]</a>
+              <a href="author.html#187">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

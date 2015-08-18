@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Using DC clock
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-June/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Using%20DC%20clock&In-Reply-To=%3C4FD0B8EC.5090306%40smfk.nl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000115.html">
+   <LINK REL="Next"  HREF="000117.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Using DC clock</H1>
+    <B>Arthur Ketels</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Using%20DC%20clock&In-Reply-To=%3C4FD0B8EC.5090306%40smfk.nl%3E"
+       TITLE="[Soem-user] Using DC clock">info at smfk.nl
+       </A><BR>
+    <I>Thu Jun  7 16:21:32 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000115.html">[Soem-user] Using DC clock
+</A></li>
+        <LI>Next message: <A HREF="000117.html">[Soem-user] Using DC clock
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#116">[ date ]</a>
+              <a href="thread.html#116">[ thread ]</a>
+              <a href="subject.html#116">[ subject ]</a>
+              <a href="author.html#116">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Op 6-6-2012 18:50, Luca Magnabosco schreef:
+&gt;<i>
+</I>&gt;<i> However, about the command sequence, I haven't understood what you 
+</I>&gt;<i> mean with &quot;activate process data transfer&quot; just after having started DC.
+</I>The function pair :
+int ec_send_processdata(void);
+int ec_receive_processdata(int timeout);
+
+I assume you have those in a rt-thread that is separate from the init 
+functions. In the demo applications the ec_send ec_receive pair is 
+activated in safe-op. You can change that to start in pre-op (but after 
+ec_config_map() has finished).
+
+&gt;<i> About &quot;map slaves&quot; with &quot;ec_config_map()&quot;, I have used the normal 
+</I>&gt;<i> command but I do it after activating sync0.
+</I>I think part of your issue is the time it takes for ec_config_map() to 
+finish. It can take a few hundred ms. The sync0 delay is fixed at 100ms. 
+So if the map function takes 200ms there are 100ms worth of sync0 events 
+in the slave for no PDO data. This will trigger the error. The 10ms you 
+added will not make any difference.
+
+You could however try to add 500ms or so and see if that works for you. 
+It is a quick and dirty solution but when it works, it works.
+&gt;<i>
+</I>&gt;<i> The sequence of orders that I have, and that is working with DC with 
+</I>&gt;<i> sync0 events every millisecond is:
+</I>&gt;<i> - ec_init()
+</I>&gt;<i> - discovery of slaves: ec_config_init()
+</I>&gt;<i> - pre-op
+</I>&gt;<i> - start DC: ec_configdc()
+</I>&gt;<i> - activate sync0
+</I>first sync0 event in the slave is in approx. 100ms.
+&gt;<i> - map slaves: ec_config_map()
+</I>&gt;<i> - safe-op
+</I>&gt;<i> - wait for all slaves to reach safe-op
+</I>now the PDO transfer starts. This can be more than the 100ms mentioned 
+above.
+&gt;<i> - op
+</I>&gt;<i> - wait for all slaves to reach op
+</I>&gt;<i> - do your important stuff..
+</I>&gt;<i>
+</I>&gt;<i> 2) The slave I have is working well with a sync0 every 1ms but when I 
+</I>&gt;<i> try to use a sync0 of 125us [that is the lower one that is permitted 
+</I>&gt;<i> with my slave] the counter counts to many sync0 events before the 
+</I>&gt;<i> first PDO and generate an alarm before I can reach operational.
+</I>You get 8 times more errors in the same amount of time then at 1ms. So 
+that makes sense.
+&gt;<i> There is, in your opinion, another solution? I don't understand why 
+</I>&gt;<i> using the shift I can' t avoid the alarm.
+</I>Like mentioned above your 10ms shift is not enough by far. You can check 
+exactly how much time your system takes to go from pre-op to safe_op by 
+checking you wireshark trace.
+
+The best way is to patch SOEM. Remove from ethercat config.c
+                 else
+                     segmentsize += diff;
+             }
+
+             ec_eeprom2pdi(slave); /* set Eeprom control to PDI */
+REMOVE    ---&gt;    ec_FPWRw(configadr, ECT_REG_ALCTL, 
+htoes(EC_STATE_SAFE_OP) , EC_TIMEOUTRET); /* set safeop status */ &lt;----
+
+             if (ec_slave[slave].blockLRW)
+                 ec_group[group].blockLRW++;
+             ec_group[group].Ebuscurrent += ec_slave[slave].Ebuscurrent;
+         }
+         if (BitPos)
+
+And then when you return from the ec_config_map() do:
+- activate sync0
+- start PDO data transfer
+- the transition to safe_op yourself in the usual way.
+
+Regards,
+Arthur Ketels.
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120607/853f68fb/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120607/853f68fb/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000115.html">[Soem-user] Using DC clock
+</A></li>
+	<LI>Next message: <A HREF="000117.html">[Soem-user] Using DC clock
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#116">[ date ]</a>
+              <a href="thread.html#116">[ thread ]</a>
+              <a href="subject.html#116">[ subject ]</a>
+              <a href="author.html#116">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

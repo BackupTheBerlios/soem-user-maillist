@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] First questions about SOEM
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2011-October/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20First%20questions%20about%20SOEM&In-Reply-To=%3C20111031195322.M88424%40etfbl.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000028.html">
+   <LINK REL="Next"  HREF="000030.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] First questions about SOEM</H1>
+    <B>Mladen Knezic</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20First%20questions%20about%20SOEM&In-Reply-To=%3C20111031195322.M88424%40etfbl.net%3E"
+       TITLE="[Soem-user] First questions about SOEM">mladen_knezic at etfbl.net
+       </A><BR>
+    <I>Mon Oct 31 21:01:41 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000028.html">[Soem-user] First questions about SOEM
+</A></li>
+        <LI>Next message: <A HREF="000030.html">[Soem-user] First questions about SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#29">[ date ]</a>
+              <a href="thread.html#29">[ thread ]</a>
+              <a href="subject.html#29">[ subject ]</a>
+              <a href="author.html#29">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Mon, 31 Oct 2011 20:27:36 +0100, Leopold Palomo Avellaneda wrote
+&gt;<i> Hi Mladen,
+</I>&gt;<i> 
+</I>&gt;<i> I reply to the list too:
+</I>&gt;<i> 
+</I>&gt;<i> A Dilluns 31 Octubre 2011, Mladen Knezic va escriure:1
+</I>&gt;<i> [....]
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; It seems like you have another NIC in your system (by default it should be
+</I>&gt;<i> &gt; eth0 if you have the only one interface).
+</I>&gt;<i> 
+</I>&gt;<i> The system has 4 nics. But the example has a parameter the nic you 
+</I>&gt;<i> have attached the ethercat device.
+</I>
+It is true that the example has a parameter that defines to which interface 
+the ethercat device is attached. I have asked just to make sure you have 
+attached the ethercat device to the right interface.
+
+&gt;<i> &gt; Have you double-checked you are
+</I>&gt;<i> &gt; using the right interface (some ifconfig should give you more 
+</I>information)?
+&gt;<i> 
+</I>&gt;<i> well, I have checked that eth1 is the device I want to use, so I 
+</I>&gt;<i> don't know in user mode what more to use.
+</I>
+This confirms my previous questions. So, you have attached the ethercat 
+device to the correct interface (i.e. eth1).
+
+&gt;<i> &gt; Any wireshark logs (in order to see if SOEM is sending some frames)?
+</I>&gt;<i> 
+</I>&gt;<i> No, I have not use wireshark. Should I to use to check it?
+</I>&gt;<i> &gt; Have
+</I>&gt;<i> &gt; you tried &quot;slaveinfo&quot; example? Is there any result?
+</I>
+It is not necessary. My intention was only to make sure that soem app is 
+communicating over the right interface (to make sure that it generates some 
+ethercat traffic on the eth1).
+ 
+&gt;<i> no. But, some time ago I tested ethercat master and it detected the device.
+</I>
+On the same interface? Which device? Slaveinfo example should show you 
+infromation about device attached to the interface. If it is not the case you 
+have either communicating over the wrong interface (not one that the ethercat 
+device is attached to) or something is definitely wrong with your system. :) 
+&gt;<i>From your last post I can see that soem successfully connects to the raw 
+</I>socket, but it does not &quot;see&quot; any device on the bus. From that, I can only 
+conclude that there is no attached ethercat devices on the interface you are 
+using.
+
+&gt;<i> Regards,
+</I>&gt;<i> 
+</I>&gt;<i> Leo
+</I>&gt;<i> 
+</I>&gt;<i> -- 
+</I>&gt;<i> --
+</I>&gt;<i> Linux User 152692     PGP: 0xF944807E
+</I>&gt;<i> Catalonia
+</I>&gt;<i> -------------------------------------
+</I>&gt;<i> A: Because it messes up the order in which people normally read text.
+</I>&gt;<i> Q: Why is top-posting such a bad thing?
+</I>&gt;<i> A: Top-posting.
+</I>&gt;<i> Q: What is the most annoying thing in e-mail?
+</I>
+Regards,
+
+--
+Mladen Knezic, MSc. E. E.
+Research and Teaching Assistant
+Faculty of Electrical Engineering
+Banja Luka, Bosnia and Herzegovina
+Web: www.etfbl.net
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000028.html">[Soem-user] First questions about SOEM
+</A></li>
+	<LI>Next message: <A HREF="000030.html">[Soem-user] First questions about SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#29">[ date ]</a>
+              <a href="thread.html#29">[ thread ]</a>
+              <a href="subject.html#29">[ subject ]</a>
+              <a href="author.html#29">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

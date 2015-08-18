@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Dc synchronization
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2013-October/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Dc%20synchronization&In-Reply-To=%3CCABrBNa0KNP7yM%3Df62w_aMEnvNiMm7LqdYyVDbZd9GH6XfQ-_jA%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000187.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Dc synchronization</H1>
+    <B>Sergi Ruiz</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Dc%20synchronization&In-Reply-To=%3CCABrBNa0KNP7yM%3Df62w_aMEnvNiMm7LqdYyVDbZd9GH6XfQ-_jA%40mail.gmail.com%3E"
+       TITLE="[Soem-user] Dc synchronization">sergi.ruiz06 at gmail.com
+       </A><BR>
+    <I>Tue Oct  8 11:17:27 CEST 2013</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000187.html">[Soem-user] Dc synchronization
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#185">[ date ]</a>
+              <a href="thread.html#185">[ thread ]</a>
+              <a href="subject.html#185">[ subject ]</a>
+              <a href="author.html#185">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>I'm working on controlling three EtherCAT servomotors using SOEM library. I
+want to use DC to synchronize outputs sent to motors, but I have some
+queries and I would be grateful if somebody could solve them.
+
+1) Following the code in the examples, I use ec_configdc() to set up
+distributed clocks, but afterwards, to compensate the drift of every local
+clock is it necessary that the master sends some other command? if so, this
+command has to be sent periodically or only once?
+
+2) My other question is about SYNC0. The master have to calculate and send
+the control commands of the servos before the SYNC0 event. So, how could I
+synchronize the master cycle with the SYNC0 event?
+
+Best regards,
+
+Sergi
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20131008/b5488632/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20131008/b5488632/attachment.html</A>&gt;
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000187.html">[Soem-user] Dc synchronization
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#185">[ date ]</a>
+              <a href="thread.html#185">[ thread ]</a>
+              <a href="subject.html#185">[ subject ]</a>
+              <a href="author.html#185">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

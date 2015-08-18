@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Getting started - How to access the process image?
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2010-February/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Getting%20started%20-%20How%20to%20access%20the%20process%20image%3F&In-Reply-To=%3CB8047DE361FF444D9134A1FC9F00274E%40asdbox%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000006.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Getting started - How to access the process image?</H1>
+    <B>Hugh Sparks</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Getting%20started%20-%20How%20to%20access%20the%20process%20image%3F&In-Reply-To=%3CB8047DE361FF444D9134A1FC9F00274E%40asdbox%3E"
+       TITLE="[Soem-user] Getting started - How to access the process image?">hugh at csparks.com
+       </A><BR>
+    <I>Thu Feb 25 23:40:34 CET 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000006.html">[Soem-user] SOEM-1.2.2 - Makefile problem
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#5">[ date ]</a>
+              <a href="thread.html#5">[ thread ]</a>
+              <a href="subject.html#5">[ subject ]</a>
+              <a href="author.html#5">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>This is a very basic question: I got the simple_test
+running with no problems. I have only the EK1100 and
+a EL4134 analog output on the rail. The EL4134 has
+four 16 bit fields in the process image.
+
+I modified the simple_test to see if I could put 
+4 static voltages out like this:
+
+...
+if (ec_slave[0].state == EC_STATE_OPERATIONAL )
+{   short *ptr = ec_slave[0].outputs ;
+    ptr[0] =  0x1000;
+    ptr[1] =  0x0000 ;
+    ptr[2] =  0x7FFF ;
+    ptr[3] =  0x3FFF ;
+    ec_send_processdata();
+    ec_receive_processdata(EC_TIMEOUTRET);
+}
+...
+
+Should I expect this to work? I'm not seeing any
+voltages on the output terminals...
+
+Thanks,
+
+Hugh Sparks, <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">hugh at csparks.com</A>
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20100225/84f6205d/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20100225/84f6205d/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000006.html">[Soem-user] SOEM-1.2.2 - Makefile problem
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#5">[ date ]</a>
+              <a href="thread.html#5">[ thread ]</a>
+              <a href="subject.html#5">[ subject ]</a>
+              <a href="author.html#5">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

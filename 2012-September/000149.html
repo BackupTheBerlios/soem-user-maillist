@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Help needed compiling SOEM
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-September/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Help%20needed%20compiling%20SOEM&In-Reply-To=%3CCAAE9pT1ixX_SUFxBdRuuWvBjO8ArWXtvBymYis%3DWwoXL2f0J2Q%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000148.html">
+   <LINK REL="Next"  HREF="000150.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Help needed compiling SOEM</H1>
+    <B>Ben Lewis</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Help%20needed%20compiling%20SOEM&In-Reply-To=%3CCAAE9pT1ixX_SUFxBdRuuWvBjO8ArWXtvBymYis%3DWwoXL2f0J2Q%40mail.gmail.com%3E"
+       TITLE="[Soem-user] Help needed compiling SOEM">egretengineering at gmail.com
+       </A><BR>
+    <I>Tue Sep 18 01:09:34 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000148.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+        <LI>Next message: <A HREF="000150.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#149">[ date ]</a>
+              <a href="thread.html#149">[ thread ]</a>
+              <a href="subject.html#149">[ subject ]</a>
+              <a href="author.html#149">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Arthur,
+
+Thanks for your reply.
+
+I can confirm that I have sys/socket.h present on my system.
+
+Installing build-essentials has not helped.
+
+I get the same result on Ubuntu and Debian.
+
+Any other suggestions I can try?
+
+Regards, Ben
+
+On 9/18/12, Arthur Ketels &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">arthur at smfk.nl</A>&gt; wrote:
+&gt;<i> Hi Ben,
+</I>&gt;<i>
+</I>&gt;<i> Op 17-9-2012 8:24, Ben Lewis schreef:
+</I>&gt;&gt;<i> When I try to compile SOEM I get the following errors:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">ben at debian</A>:~/soem$ source ./setup.sh linux
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">ben at debian</A>:~/soem$ make all
+</I>&gt;&gt;<i> --- Entering /home/ben/soem/osal
+</I>&gt;&gt;<i> --- Entering /home/ben/soem/osal/linux
+</I>&gt;&gt;<i> --- Create library libosal.a
+</I>&gt;&gt;<i> --- Leaving /home/ben/soem/osal/linux
+</I>&gt;&gt;<i> --- Leaving /home/ben/soem/osal
+</I>&gt;&gt;<i> --- Entering /home/ben/soem/oshw
+</I>&gt;&gt;<i> --- Entering /home/ben/soem/oshw/linux
+</I>&gt;&gt;<i> --- Compiling nicdrv.c
+</I>&gt;&gt;<i> nicdrv.c: In function &#8216;ec_setupnic&#8217;:
+</I>&gt;&gt;<i> nicdrv.c:213: error: &#8216;SOL_SOCKET&#8217; undeclared (first use in this function)
+</I>&gt;&gt;<i> nicdrv.c:213: error: (Each undeclared identifier is reported only once
+</I>&gt;&gt;<i> nicdrv.c:213: error: for each function it appears in.)
+</I>&gt;&gt;<i> nicdrv.c:213: error: &#8216;SO_RCVTIMEO&#8217; undeclared (first use in this
+</I>&gt;&gt;<i> function)
+</I>&gt;&gt;<i> nicdrv.c:214: error: &#8216;SO_SNDTIMEO&#8217; undeclared (first use in this
+</I>&gt;&gt;<i> function)
+</I>&gt;&gt;<i> nicdrv.c:216: error: &#8216;SO_DONTROUTE&#8217; undeclared (first use in this
+</I>&gt;&gt;<i> function)
+</I>&gt;&gt;<i> make[2]: *** [obj/linux/nicdrv.o] Error 1
+</I>&gt;&gt;<i> make[1]: *** [linux] Error 2
+</I>&gt;&gt;<i> make: *** [oshw] Error 2
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">ben at debian</A>:~/soem$
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I'm using version 1.2.8 of SOEM.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Is anybody able to point me in the right direction to solve this problem?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Regards, Ben
+</I>&gt;&gt;<i>
+</I>&gt;<i> Please check your sys/socket.h
+</I>&gt;<i> It should be defined there. Is just standard linux stuff. You could
+</I>&gt;<i> check if you have the build-essentials package installed on your system.
+</I>&gt;<i>
+</I>&gt;<i> Regards,
+</I>&gt;<i> Arthur
+</I>&gt;<i>
+</I></PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000148.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+	<LI>Next message: <A HREF="000150.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#149">[ date ]</a>
+              <a href="thread.html#149">[ thread ]</a>
+              <a href="subject.html#149">[ subject ]</a>
+              <a href="author.html#149">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

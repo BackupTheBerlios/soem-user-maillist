@@ -1,0 +1,143 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] FoE problems and solutions
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-September/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20FoE%20problems%20and%20solutions&In-Reply-To=%3C20120927085909.117370%40gmx.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000158.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] FoE problems and solutions</H1>
+    <B>Martin Pfister</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20FoE%20problems%20and%20solutions&In-Reply-To=%3C20120927085909.117370%40gmx.net%3E"
+       TITLE="[Soem-user] FoE problems and solutions">martin.pfister at gmx.net
+       </A><BR>
+    <I>Thu Sep 27 10:59:09 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000158.html">[Soem-user] Use the Master as DC reference clock
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#159">[ date ]</a>
+              <a href="thread.html#159">[ thread ]</a>
+              <a href="subject.html#159">[ subject ]</a>
+              <a href="author.html#159">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi everyone
+
+I'd like to share some solutions with you. They address problems I have encountered with different slave implementations, mostly with the FoE protocol. However, I'm not sure if my suggestions match any standards or not - they are as good or as bad as my slaves, since everything works well after these changes.
+
+FoE
+===
+
+1. This is definitely a bug: I use SOEM on a big endian system. In ec_FOEwrite there is a code line &quot;htoel(++sendpacket)&quot;. But since htoel is a macro and not a function this ends in increasing sendpacket four times...
+
+2. SOEM's ec_FOEwrite disregards BUSY OpCodes from the slave. I added some basic functionality to re-send the data after a BUSY code. You could even extend functionality by evaluating the data field of the BUSY message (percentage/entire).
+
+3. I have a slave that needs an &quot;empty&quot; frame at the end of a Firmware download, otherwise the process is not correctly finished. So I allowed to send a frame even if tsize is zero. 
+
+
+Alias
+=====
+
+4. I work with aliases, there seems to be a problem with that on big endian systems. It helped to apply the etohs macro on the alias address.
+
+
+******************
+
+ethercatfoe.c:
+@@ -266,9 +266,19 @@
+             /* slave response should be FoE */
+             if ((aFOEp-&gt;MbxHeader.mbxtype &amp; 0x0f) == ECT_MBXT_FOE)
+             {
+-               if(aFOEp-&gt;OpCode == ECT_FOE_ACK)
++               if ((aFOEp-&gt;OpCode == ECT_FOE_ACK) || (aFOEp-&gt;OpCode == ECT_FOE_BUSY))
+                {
+-                  packetnumber = etohl(aFOEp-&gt;PacketNumber);
++                  if (aFOEp-&gt;OpCode == ECT_FOE_ACK)
++                  {
++                     packetnumber = etohl(aFOEp-&gt;PacketNumber);
++                  }
++                  else /* if (aFOEp-&gt;OpCode == ECT_FOE_BUSY) */
++                  {
++                     // restore values for re-transmission
++                     psize += segmentdata;
++                     p -= segmentdata;
++                     --sendpacket;
++                  }
+                   if (packetnumber == sendpacket)
+                   {
+                      tsize = psize;
+@@ -276,7 +286,7 @@
+                      {
+                         tsize = maxdata;
+                      }
+-                     if(tsize)
++                     if(tsize &gt;= 0)
+                      {
+                         worktodo = TRUE; 
+                         segmentdata = tsize;
+@@ -289,7 +299,8 @@
+                         ec_slave[slave].mbx_cnt = cnt;
+                         FOEp-&gt;MbxHeader.mbxtype = ECT_MBXT_FOE + (cnt &lt;&lt; 4); /* FoE */
+                         FOEp-&gt;OpCode = ECT_FOE_DATA;
+-                        FOEp-&gt;PacketNumber = htoel(++sendpacket);
++                        ++sendpacket;
++                        FOEp-&gt;PacketNumber = htoel(sendpacket);
+                         memcpy(&amp;FOEp-&gt;Data[0], p, segmentdata);
+                         p += segmentdata;
+                         /* send FoE data to slave */
+
+
+ethercatconfig.c:
+         ec_APWRw(ADPh, ECT_REG_DLCTL, htoes(b), EC_TIMEOUTRET); /* set non ecat frame behaviour */
+         configadr = etohs(ec_APRDw(ADPh, ECT_REG_STADR, EC_TIMEOUTRET));
+         ec_slave[slave].configadr = configadr;
+         ec_FPRD(configadr, ECT_REG_ALIAS, sizeof(ec_slave[slave].aliasadr), &amp;ec_slave[slave].aliasadr, EC_TIMEOUTRET);
+         ec_FPRD(configadr, ECT_REG_EEPSTAT, sizeof(estat), &amp;estat, EC_TIMEOUTRET);
+         estat = etohs(estat);
++        ec_slave[slave].aliasadr = etohs(ec_slave[slave].aliasadr);
+         if (estat &amp; EC_ESTAT_R64) /* check if slave can read 8 byte chunks */
+         {
+            ec_slave[slave].eep_8byte = 1;
+         }
+
+		 
+		 
+Best regards,
+Martin	
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000158.html">[Soem-user] Use the Master as DC reference clock
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#159">[ date ]</a>
+              <a href="thread.html#159">[ thread ]</a>
+              <a href="subject.html#159">[ subject ]</a>
+              <a href="author.html#159">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] BRD frames treated as errors by ET1100
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-January/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20BRD%20frames%20treated%20as%20errors%20by%20ET1100&In-Reply-To=%3C1325709800.93401.YahooMailNeo%40web29603.mail.ird.yahoo.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000054.html">
+   <LINK REL="Next"  HREF="000056.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] BRD frames treated as errors by ET1100</H1>
+    <B>rocco brandi</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20BRD%20frames%20treated%20as%20errors%20by%20ET1100&In-Reply-To=%3C1325709800.93401.YahooMailNeo%40web29603.mail.ird.yahoo.com%3E"
+       TITLE="[Soem-user] BRD frames treated as errors by ET1100">viccio75 at yahoo.it
+       </A><BR>
+    <I>Wed Jan  4 21:43:20 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000054.html">[Soem-user] BRD frames treated as errors by ET1100
+</A></li>
+        <LI>Next message: <A HREF="000056.html">[Soem-user] BRD frames treated as errors by ET1100
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#55">[ date ]</a>
+              <a href="thread.html#55">[ thread ]</a>
+              <a href="subject.html#55">[ subject ]</a>
+              <a href="author.html#55">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>it could be a problem of padding. I don't know why, but Wireshark can &quot;force&quot; small packets going in and out; when wireshark is shut down, packets less then 64 bytes are lost.
+
+I solved in this way: when I'm creating a ethernet packet, I put the data field lenght as max(60,datalength). so my data flied is ALWAYS at least 60 bytes length. the extra, junk bytes does not create any problem
+
+Rocco ^_^
+
+
+
+________________________________
+ Da: Mattias Ekstr&#246;m &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">mattias.ekstrom at addiva.se</A>&gt;
+A: <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user at lists.berlios.de</A> 
+Inviato: Mercoled&#236; 4 Gennaio 2012 16:39
+Oggetto: [Soem-user] BRD frames treated as errors by ET1100
+ 
+Hi, I'm having some trouble getting my ethercat system running.
+
+At the moment I'm just trying to talk between a micro controller
+and a ET1100 chip, they are connected directly MAC-to-MII-port
+as described in the documentation.
+
+I have an oscilloscope so I have confirmed that data is actually
+going out on the lines. I also see the ECAT Processing Unit Error
+Counter increase by the same amount as the number of packets I
+send. I've also verified that the port is considered open and
+configured in the proper mode on the ethercat chip.
+
+What I can't figure out is why the packets get treated as errors
+by the ET1100. As both fields of the RX Error Counter remain at 0
+(although as there is no PHY the high byte should always remain
+at zero?) I'm starting to think that the packets arrive just fine
+as far as ethernet goes, but something is wrong with the ethercat
+header and datagrams. I'm using SOEM 1.2.5 for this and I'm just
+the slaveinfo.c example.
+
+What I'm seeing in Wireshark is that the ethernet driver sends 3
+frames that appear to be correct, apart from one thing that
+confuses me. They lack any padding and are only 30 bytes in length,
+each. As far as I can see the ethercat protocol requires packets
+to be padded to a minimum of 64 bytes. Is this correct? Could this
+be the source of my troubles?
+
+Any direction would be appreciated!
+
+Regard,
+
+Mattias Ekstr&#246;m
+
+
+
+
+
+_______________________________________________
+Soem-user mailing list
+<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">Soem-user at lists.berlios.de</A>
+<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">https://lists.berlios.de/mailman/listinfo/soem-user</A>
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120104/b05f5011/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120104/b05f5011/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000054.html">[Soem-user] BRD frames treated as errors by ET1100
+</A></li>
+	<LI>Next message: <A HREF="000056.html">[Soem-user] BRD frames treated as errors by ET1100
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#55">[ date ]</a>
+              <a href="thread.html#55">[ thread ]</a>
+              <a href="subject.html#55">[ subject ]</a>
+              <a href="author.html#55">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

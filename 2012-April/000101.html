@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] TxPDO assigment results in Unsupported access to an object
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-April/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20TxPDO%20assigment%20results%20in%20Unsupported%20access%20to%20an%0A%20object&In-Reply-To=%3C4F970C6B.5000600%40smfk.nl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000100.html">
+   <LINK REL="Next"  HREF="000102.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] TxPDO assigment results in Unsupported access to an object</H1>
+    <B>Arthur Ketels</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20TxPDO%20assigment%20results%20in%20Unsupported%20access%20to%20an%0A%20object&In-Reply-To=%3C4F970C6B.5000600%40smfk.nl%3E"
+       TITLE="[Soem-user] TxPDO assigment results in Unsupported access to an object">arthur at smfk.nl
+       </A><BR>
+    <I>Tue Apr 24 22:26:19 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000100.html">[Soem-user] TxPDO assigment results in Unsupported access to an	object
+</A></li>
+        <LI>Next message: <A HREF="000102.html">[Soem-user] TxPDO assigment results in Unsupported access to an	object
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#101">[ date ]</a>
+              <a href="thread.html#101">[ thread ]</a>
+              <a href="subject.html#101">[ subject ]</a>
+              <a href="author.html#101">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello Ruben,
+
+Op 24-4-2012 11:37, Ruben Smits schreef:
+&gt;<i> Hi all,
+</I>&gt;<i>
+</I>&gt;<i> I'm trying to interface with a Beckhoff EL2521
+</I>..
+&gt;<i>              for (int m_slave_nr =; i&lt;= 3; i++)
+</I>Ehh, perhaps a type with &quot;i&quot;?
+&gt;<i> The PDO setting of 0x1c12 seems to work fine but the setting of 0x1c13
+</I>&gt;<i> apparently fails (reading is out using ec_SDOread however shows the
+</I>&gt;<i> correct value):
+</I>The method looks ok. Reading back confirms this.
+&gt;<i>
+</I>&gt;<i> I get the following errors after the ec_config_map:
+</I>&gt;<i> Time:1335259239.481 SDO slave:2 index:1a01.00 error:06010000
+</I>&gt;<i> Unsupported access to an object
+</I>&gt;<i> Time:1335259239.482 SDO slave:2 index:1a02.00 error:06010000
+</I>&gt;<i> Unsupported access to an object
+</I>&gt;<i> Time:1335259239.487 SDO slave:3 index:1a01.00 error:06010000
+</I>&gt;<i> Unsupported access to an object
+</I>&gt;<i> Time:1335259239.487 SDO slave:3 index:1a02.00 error:06010000
+</I>&gt;<i> Unsupported access to an object
+</I>Seems like a specific eeprom issue I encountered a few times with 
+Beckhoff slaves. The Complete access bit is set in the eeprom and the 
+slave clearly does not support it.
+
+See the code snippet from ethercatconfig,c:
+                 if (ec_slave[slave].mbx_proto &amp; ECT_MBXPROT_COE) /* has 
+CoE */
+                 {
+                     if (ec_slave[slave].CoEdetails &amp; ECT_COEDET_SDOCA) 
+/* has Complete Access */
+                         /* read PDO mapping via CoE and use Complete 
+Access */
+                         rval = ec_readPDOmapCA(slave, &amp;Osize, &amp;Isize);
+                     else
+                         /* read PDO mapping via CoE */
+                         rval = ec_readPDOmap(slave, &amp;Osize, &amp;Isize);
+                     EC_PRINT(&quot;  CoE Osize:%d Isize:%d\n&quot;, Osize, Isize);
+                 }
+If SOEM detects complete access in the SII then it will use that for 
+mapping. It is much more efficient. However if the bit is set when the 
+slave firmware does not support it, the result is the printed error message.
+
+To check this you can clear the bit after ec_config()
+ec_slave[n].CoEdetails &amp;= ~ECT_COEDET_SDOCA;
+
+And if this is the case, complain with Beckhoff and request an updated 
+eeprom file. If not then send me a wirshark trace.
+
+Regards,
+Arthur Ketels.
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000100.html">[Soem-user] TxPDO assigment results in Unsupported access to an	object
+</A></li>
+	<LI>Next message: <A HREF="000102.html">[Soem-user] TxPDO assigment results in Unsupported access to an	object
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#101">[ date ]</a>
+              <a href="thread.html#101">[ thread ]</a>
+              <a href="subject.html#101">[ subject ]</a>
+              <a href="author.html#101">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

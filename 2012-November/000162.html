@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] PB with SDO read
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-November/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20PB%20with%20SDO%20read&In-Reply-To=%3C50B4E374.5010404%40smfk.nl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000161.html">
+   <LINK REL="Next"  HREF="000164.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] PB with SDO read</H1>
+    <B>Arthur Ketels</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20PB%20with%20SDO%20read&In-Reply-To=%3C50B4E374.5010404%40smfk.nl%3E"
+       TITLE="[Soem-user] PB with SDO read">info at smfk.nl
+       </A><BR>
+    <I>Tue Nov 27 16:59:48 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000161.html">[Soem-user] PB with SDO read
+</A></li>
+        <LI>Next message: <A HREF="000164.html">[Soem-user] PB with SDO read
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#162">[ date ]</a>
+              <a href="thread.html#162">[ thread ]</a>
+              <a href="subject.html#162">[ subject ]</a>
+              <a href="author.html#162">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Op 27-11-2012 10:24, Philippe Meynard schreef:
+&gt;<i>
+</I>&gt;<i> Hi,
+</I>&gt;<i>
+</I>&gt;<i> I use EK1100+EL1018+EL2004+EL6001.
+</I>&gt;<i>
+</I>&gt;<i> I have no problem with EL1018+EL2004. I can activate Input and Output 
+</I>&gt;<i> without problem. But the serial output looks be disable. SDO read 
+</I>&gt;<i> doesn't work !
+</I>&gt;<i>
+</I>&gt;<i> I did :
+</I>&gt;<i>
+</I>&gt;<i> ob=0;
+</I>&gt;<i>
+</I>&gt;<i>       os=sizeof(ob2); ob2=0;
+</I>&gt;<i>
+</I>&gt;<i> ec_SDOread(4,0x4073,00,FALSE,&amp;os,&amp;ob2,EC_TIMEOUTRXM);
+</I>&gt;<i>
+</I>&gt;<i> it should have in ob2 the value 6 , it's the default value. But I have 
+</I>&gt;<i> already 0.
+</I>&gt;<i>
+</I>&gt;<i> I trace the problem and I discovered in SDO-read at the line :
+</I>&gt;<i>
+</I>&gt;<i> /* slave response should be CoE, SDO response and the correct index */
+</I>&gt;<i>
+</I>&gt;<i> if (((aSDOp-&gt;MbxHeader.mbxtype &amp; 0x0f) == ECT_MBXT_COE) &amp;&amp;
+</I>&gt;<i>
+</I>&gt;<i>           ((etohs(aSDOp-&gt;CANOpen) &gt;&gt; 12) == ECT_COES_SDORES) &amp;&amp;
+</I>&gt;<i>
+</I>&gt;<i> (aSDOp-&gt;Index == SDOp-&gt;Index))
+</I>&gt;<i>
+</I>&gt;<i> ((etohs(aSDOp-&gt;CANOpen) &gt;&gt; 12) == ECT_COES_SDORES) is in fact == 
+</I>&gt;<i> ECT_COES_SDOREQ.
+</I>&gt;<i>
+</I>&gt;<i> I test SDO before and after ec_config_map but it always the same Problem.
+</I>&gt;<i>
+</I>&gt;<i> Any suggestions ?
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> *Philippe Meynard*
+</I>&gt;<i>
+</I>
+It looks like an error in the slave firmware. But to be sure can you 
+send me a (zipped) wireshark trace of the master slave communication?
+Also to be sure you capture all slave error responses do :
+while(EcatError)  {  printf(&quot;%s&quot;, ec_elist2string());  }
+after a SDOread.
+
+Arthur Ketels
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20121127/37e2b6d7/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20121127/37e2b6d7/attachment.html</A>&gt;
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000161.html">[Soem-user] PB with SDO read
+</A></li>
+	<LI>Next message: <A HREF="000164.html">[Soem-user] PB with SDO read
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#162">[ date ]</a>
+              <a href="thread.html#162">[ thread ]</a>
+              <a href="subject.html#162">[ subject ]</a>
+              <a href="author.html#162">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

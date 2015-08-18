@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Help needed compiling SOEM
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-September/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Help%20needed%20compiling%20SOEM&In-Reply-To=%3C505913EA.5020600%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000156.html">
+   <LINK REL="Next"  HREF="000160.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Help needed compiling SOEM</H1>
+    <B>Ben Lewis</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Help%20needed%20compiling%20SOEM&In-Reply-To=%3C505913EA.5020600%40gmail.com%3E"
+       TITLE="[Soem-user] Help needed compiling SOEM">egretengineering at gmail.com
+       </A><BR>
+    <I>Wed Sep 19 02:38:02 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000156.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+        <LI>Next message: <A HREF="000160.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#157">[ date ]</a>
+              <a href="thread.html#157">[ thread ]</a>
+              <a href="subject.html#157">[ subject ]</a>
+              <a href="author.html#157">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On 18/09/2012 8:53 PM, Ben Lewis wrote:
+&gt;<i> On 18/09/2012 6:34 PM, Arthur Ketels wrote:
+</I>&gt;&gt;<i> Hi Ben
+</I>&gt;&gt;<i> Op 18-9-2012 1:09, Ben Lewis schreef:
+</I>&gt;&gt;&gt;<i> Hi Arthur,
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Thanks for your reply.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> I can confirm that I have sys/socket.h present on my system.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Installing build-essentials has not helped.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> I get the same result on Ubuntu and Debian.
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Any other suggestions I can try?
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> Regards, Ben
+</I>&gt;&gt;<i> No clue what is wrong with your set up. Most people just simply download and build without issues.
+</I>&gt;&gt;<i> I had a look at one of my PC's, running Ubuntu 12 64bit.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> The call chain for socket.h is:
+</I>&gt;&gt;<i> /usr/include/x68_64-linux-gnu/sys/socket.h
+</I>&gt;&gt;<i> /usr/include/x68_64-linux-gnu/bits/socket.h
+</I>&gt;&gt;<i> /usr/include/x68_64-linux-gnu/asm/socket.h
+</I>&gt;&gt;<i> /usr/include/asm-generic/socket.h
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> The last file has the actual definitions your set-up complains about.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> build-essential should do the trick, but you can also reinstall glibc6 and glibc6-dev.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Regards, Arthur.
+</I>&gt;<i>
+</I>&gt;<i> Interesting...
+</I>&gt;<i>
+</I>&gt;<i> On both my Debian and Ubuntu installations I'm missing the usr/include/asm directory.
+</I>&gt;<i>
+</I>&gt;<i> It looks like it is required because line 40 of usr/include/sys/socket.h includes &lt;bits/socket.h&gt;, 
+</I>&gt;<i> which in turn includes &lt;asm/socket.h&gt; on line 366. However, I am missing this file (and entire 
+</I>&gt;<i> directory).
+</I>&gt;<i>
+</I>&gt;<i> This might be related to this bug <A HREF="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/373214">https://bugs.launchpad.net/ubuntu/+source/linux/+bug/373214</A>
+</I>&gt;<i>
+</I>&gt;<i> I will update my installation and report back.
+</I>&gt;<i>
+</I>&gt;<i> Thanks for this pointer
+</I>&gt;<i>
+</I>&gt;<i> Ben
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>I upgraded to Ubuntu 12.04 LTS and SOEM now compiles.
+
+Unfortunately I need SOEM on my Debian box. I will try a fresh install of Debian and report back.
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000156.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+	<LI>Next message: <A HREF="000160.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#157">[ date ]</a>
+              <a href="thread.html#157">[ thread ]</a>
+              <a href="subject.html#157">[ subject ]</a>
+              <a href="author.html#157">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

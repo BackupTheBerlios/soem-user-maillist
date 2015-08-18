@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] SOEM error after upgrade to ROS Electric
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-January/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20SOEM%20error%20after%20upgrade%20to%20ROS%20Electric&In-Reply-To=%3C1DCA9ADB91A81D46A47D0928C54B2088070735%40ICTS-S-MBX3.luna.kuleuven.be%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000057.html">
+   <LINK REL="Next"  HREF="000059.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] SOEM error after upgrade to ROS Electric</H1>
+    <B>Ruben Smits</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20SOEM%20error%20after%20upgrade%20to%20ROS%20Electric&In-Reply-To=%3C1DCA9ADB91A81D46A47D0928C54B2088070735%40ICTS-S-MBX3.luna.kuleuven.be%3E"
+       TITLE="[Soem-user] SOEM error after upgrade to ROS Electric">Ruben.Smits at mech.kuleuven.be
+       </A><BR>
+    <I>Wed Jan 18 09:07:57 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000057.html">[Soem-user] SOEM error after upgrade to ROS Electric
+</A></li>
+        <LI>Next message: <A HREF="000059.html">[Soem-user] SOEM error after upgrade to ROS Electric
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#58">[ date ]</a>
+              <a href="thread.html#58">[ thread ]</a>
+              <a href="subject.html#58">[ subject ]</a>
+              <a href="author.html#58">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Did you execute the setcap routine for the newly installed deployer/rttlua?
+
+Ruben
+--
+New mail adress: <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">ruben at intermodalics.eu</A>
+
+________________________________________
+From: <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user-bounces at lists.berlios.de</A> [<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user-bounces at lists.berlios.de</A>] on behalf of Ian Sherman [<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">ian.j.sherman at gmail.com</A>]
+Sent: Tuesday, January 17, 2012 19:16
+To: <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user at lists.berlios.de</A>
+Subject: [Soem-user] SOEM error after upgrade to ROS Electric
+
+[cross-posted to Orocos forums]
+
+After upgrade to ROS Electric, SoemMaster.configure() is failing with
+the following error:
+
+-------------------------
+Deployer [S]&gt; SoemMaster.configure()
+creation of socket failed:-1
+16.285 [ ERROR  ][SoemMaster] Could not initialize master on ecat0
+ = false
+-------------------------
+
+slaveinfo and simple_test, however, work fine:
+
+-------------------------
+Starting slaveinfo
+ec_init on ecat0 succeeded.
+3 slaves found and configured.
+...
+-------------------------
+
+I am using the electric branch of SOEM from
+<A HREF="http://git.mech.kuleuven.be/robotics/soem.git">http://git.mech.kuleuven.be/robotics/soem.git</A>
+
+Any idea what's going on, or how best to troubleshoot?
+
+Thanks,
+Ian
+_______________________________________________
+Soem-user mailing list
+<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">Soem-user at lists.berlios.de</A>
+<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">https://lists.berlios.de/mailman/listinfo/soem-user</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000057.html">[Soem-user] SOEM error after upgrade to ROS Electric
+</A></li>
+	<LI>Next message: <A HREF="000059.html">[Soem-user] SOEM error after upgrade to ROS Electric
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#58">[ date ]</a>
+              <a href="thread.html#58">[ thread ]</a>
+              <a href="subject.html#58">[ subject ]</a>
+              <a href="author.html#58">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

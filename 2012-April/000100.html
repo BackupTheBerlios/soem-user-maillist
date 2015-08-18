@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] TxPDO assigment results in Unsupported access to an	object
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-April/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20TxPDO%20assigment%20results%20in%20Unsupported%20access%20to%20an%0A%09object&In-Reply-To=%3CCAN8Phbk2yfECv8h_k1HKfzLkMT869jjp3ep9jdqWUM0JJc4htg%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000099.html">
+   <LINK REL="Next"  HREF="000101.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] TxPDO assigment results in Unsupported access to an	object</H1>
+    <B>Ruben Smits</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20TxPDO%20assigment%20results%20in%20Unsupported%20access%20to%20an%0A%09object&In-Reply-To=%3CCAN8Phbk2yfECv8h_k1HKfzLkMT869jjp3ep9jdqWUM0JJc4htg%40mail.gmail.com%3E"
+       TITLE="[Soem-user] TxPDO assigment results in Unsupported access to an	object">ruben.smits at intermodalics.eu
+       </A><BR>
+    <I>Tue Apr 24 11:37:58 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000099.html">[Soem-user] sdo_write abort
+</A></li>
+        <LI>Next message: <A HREF="000101.html">[Soem-user] TxPDO assigment results in Unsupported access to an object
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#100">[ date ]</a>
+              <a href="thread.html#100">[ thread ]</a>
+              <a href="subject.html#100">[ subject ]</a>
+              <a href="author.html#100">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi all,
+
+I'm trying to interface with a Beckhoff EL2521
+(<A HREF="http://beckhoff.com/english.asp?ethercat/el2521.htm?id=1989825877">http://beckhoff.com/english.asp?ethercat/el2521.htm?id=1989825877</A>),
+
+I succeeded in getting in the desired working condition using TwinCAT,
+but now I would like to do the same with SOEM using the following
+code:
+
+if (ec_init(m_ifname.c_str()) &gt; 0)
+    {
+        log(Info) &lt;&lt; &quot;ec_init on &quot; &lt;&lt; m_ifname &lt;&lt; &quot; succeeded.&quot; &lt;&lt; endlog();
+
+        //Initialise default configuration, using the default config
+table (see ethercatconfiglist.h)
+        if (ec_config_init(FALSE) &gt; 0)
+        {
+            log(Info) &lt;&lt; ec_slavecount &lt;&lt; &quot; slaves found and configured.&quot;
+                    &lt;&lt; endlog();
+            log(Info) &lt;&lt; &quot;Request pre-operational state for all slaves&quot;
+                    &lt;&lt; endlog();
+            ec_slave[0].state = EC_STATE_PRE_OP;
+            ec_writestate(0);
+            // wait for all slaves to reach PRE_OP state
+            ec_statecheck(0, EC_STATE_PRE_OP, EC_TIMEOUTSTATE);
+
+            for (int m_slave_nr = 2; i &lt;= 3; i++)
+            {
+            //Set module into encoder mode
+            int val;
+            val=2;
+            int os = 1;
+            ec_SDOwrite(m_slave_nr,0x8000,0x0e,false, os,&amp;val,EC_TIMEOUTRXM);
+            //Set sign representation active
+            val=FALSE;
+            ec_SDOwrite(m_slave_nr,0x8000,0x04,false, os,&amp;val,EC_TIMEOUTRXM);
+
+            //Enable the right pdo's
+            uint8 RxPDO_000=0;
+            os=sizeof(RxPDO_000);
+            ec_SDOwrite(m_slave_nr,0x1c12,0x00,false,
+os,&amp;RxPDO_000,EC_TIMEOUTRXM);
+            uint16 RxPDO_002=0x1601;
+            os=sizeof(RxPDO_002);
+            ec_SDOwrite(m_slave_nr,0x1c12,0x01,false,
+os,&amp;RxPDO_002,EC_TIMEOUTRXM);
+            RxPDO_002=0x1604;
+            os=sizeof(RxPDO_002);
+            ec_SDOwrite(m_slave_nr,0x1c12,0x02,false,
+os,&amp;RxPDO_002,EC_TIMEOUTRXM);
+            RxPDO_002=0x1602;
+            os=sizeof(RxPDO_002);
+            ec_SDOwrite(m_slave_nr,0x1c12,0x03,false,
+os,&amp;RxPDO_002,EC_TIMEOUTRXM);
+            RxPDO_000=3;
+            os=sizeof(RxPDO_000);
+            ec_SDOwrite(m_slave_nr,0x1c12,0x00,false,
+os,&amp;RxPDO_000,EC_TIMEOUTRXM);
+            uint8 TxPDO_000=0;
+            os=sizeof(TxPDO_000);
+            ec_SDOwrite(m_slave_nr,0x1c13,0x00,false,
+os,&amp;TxPDO_000,EC_TIMEOUTRXM);
+            uint16 TxPDO_002=0x1a01;
+            os=sizeof(TxPDO_002);
+            ec_SDOwrite(m_slave_nr,0x1c13,0x01,false,os,&amp;TxPDO_002,EC_TIMEOUTRXM);
+            TxPDO_002=0x1a02;
+            ec_SDOwrite(m_slave_nr,0x1c13,0x02,false,os,&amp;TxPDO_002,EC_TIMEOUTRXM);
+            TxPDO_000=2;
+            os=sizeof(TxPDO_000);
+            ec_SDOwrite(m_slave_nr,0x1c13,0x00,false,
+os,&amp;TxPDO_000,EC_TIMEOUTRXM);
+           }
+
+            ec_config_map(&amp;m_IOmap);
+            while (EcatError)
+                {
+                    log(Error) &lt;&lt; ec_elist2string() &lt;&lt; endlog();
+                }
+             log(Info) &lt;&lt; &quot;Request safe-operational state for all
+slaves&quot; &lt;&lt; endlog();
+            ec_slave[0].state = EC_STATE_SAFE_OP;
+            ec_writestate(0);
+            // wait for all slaves to reach SAFE_OP state
+            ec_statecheck(0, EC_STATE_SAFE_OP, EC_TIMEOUTSTATE);
+
+            etc.
+
+
+The PDO setting of 0x1c12 seems to work fine but the setting of 0x1c13
+apparently fails (reading is out using ec_SDOread however shows the
+correct value):
+
+I get the following errors after the ec_config_map:
+Time:1335259239.481 SDO slave:2 index:1a01.00 error:06010000
+Unsupported access to an object
+Time:1335259239.482 SDO slave:2 index:1a02.00 error:06010000
+Unsupported access to an object
+Time:1335259239.487 SDO slave:3 index:1a01.00 error:06010000
+Unsupported access to an object
+Time:1335259239.487 SDO slave:3 index:1a02.00 error:06010000
+Unsupported access to an object
+
+And I am unable to got got to SAFEOP:
+Slave 2 State= 12 StatusCode=30 : Invalid Input Configuration
+Slave 3 State= 12 StatusCode=30 : Invalid Input Configuration
+
+
+Does anyone have any idea what I'm doing wrong. According to previous
+messages on this list my workflow should be correct.
+
+
+Ruben
+-- 
+Ruben Smits, Phd
+Chief Technology Officer
+Intermodalics BVBA
++32479511786
+www.intermodalics.eu
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000099.html">[Soem-user] sdo_write abort
+</A></li>
+	<LI>Next message: <A HREF="000101.html">[Soem-user] TxPDO assigment results in Unsupported access to an object
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#100">[ date ]</a>
+              <a href="thread.html#100">[ thread ]</a>
+              <a href="subject.html#100">[ subject ]</a>
+              <a href="author.html#100">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] SOEM buffering and data consistency issues
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-August/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20SOEM%20buffering%20and%20data%20consistency%20issues&In-Reply-To=%3CCAGmM2K54wJKNcjPBgS%3D5MCOPk5ukBwAPR1W-Hmk5n7DkP06bPg%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000139.html">
+   <LINK REL="Next"  HREF="000145.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] SOEM buffering and data consistency issues</H1>
+    <B>Johnathan Van Why</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20SOEM%20buffering%20and%20data%20consistency%20issues&In-Reply-To=%3CCAGmM2K54wJKNcjPBgS%3D5MCOPk5ukBwAPR1W-Hmk5n7DkP06bPg%40mail.gmail.com%3E"
+       TITLE="[Soem-user] SOEM buffering and data consistency issues">jrvanwhy at gmail.com
+       </A><BR>
+    <I>Sat Aug  4 00:35:40 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000139.html">[Soem-user] Fwd:  SOEM buffering and data consistency issues
+</A></li>
+        <LI>Next message: <A HREF="000145.html">[Soem-user] SOEM buffering and data consistency issues
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#140">[ date ]</a>
+              <a href="thread.html#140">[ thread ]</a>
+              <a href="subject.html#140">[ subject ]</a>
+              <a href="author.html#140">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Arthur,
+
+I have now confirmed that the data corruption only occurs when
+ec_receive_processdata is called. As long as we count separately and
+always assign a correct value into ec_slave[index].outputs[0], the
+slave receives the correct value. Also, the data sent by the slave to
+the master is always correct.
+
+If there is anything you want us to test, then please let us know.
+Also, all of our code is public -- if you wish, I can rig up a demo
+for you (unfortunately, it depends on ROS and Orocos, so you'll have
+to install those (we have instructions ;)) that demonstrates the
+issue.
+
+Thank you for your support,
+Johnathan Van Why
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000139.html">[Soem-user] Fwd:  SOEM buffering and data consistency issues
+</A></li>
+	<LI>Next message: <A HREF="000145.html">[Soem-user] SOEM buffering and data consistency issues
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#140">[ date ]</a>
+              <a href="thread.html#140">[ thread ]</a>
+              <a href="subject.html#140">[ subject ]</a>
+              <a href="author.html#140">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

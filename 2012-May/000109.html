@@ -1,0 +1,243 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Using DC clock
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-May/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Using%20DC%20clock&In-Reply-To=%3CCAC4gz48MzhCEe%2BkuUgtdWKUGmR7hGng%3Do55AA%2BpoC6DR9tjY%3DQ%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000108.html">
+   <LINK REL="Next"  HREF="000110.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Using DC clock</H1>
+    <B>Luca Magnabosco</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Using%20DC%20clock&In-Reply-To=%3CCAC4gz48MzhCEe%2BkuUgtdWKUGmR7hGng%3Do55AA%2BpoC6DR9tjY%3DQ%40mail.gmail.com%3E"
+       TITLE="[Soem-user] Using DC clock">magnabosco.luca at gmail.com
+       </A><BR>
+    <I>Mon May 28 20:13:18 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000108.html">[Soem-user] Why an SDOread seem to let output PDOs working well?
+</A></li>
+        <LI>Next message: <A HREF="000110.html">[Soem-user] Using DC clock
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#109">[ date ]</a>
+              <a href="thread.html#109">[ thread ]</a>
+              <a href="subject.html#109">[ subject ]</a>
+              <a href="author.html#109">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi all,
+I'm using three servo-drivers with etherCAT module. I'm facing a problem
+when I want to use dc clock synchronisation:
+1) Do I need to synchronise ec_send_processdata() and
+ec_receive_processdata() with the sync0 cycle in a PI way (like shown in
+ebox.c) even if the cycle where they are is periodical with a fix and &quot;well
+determined period&quot;?
+2)Maybe because of a not well done setting of the shift times my slaves
+seem to receive the PDOs but I can't receive their answers in
+ec_slave[i].inputs. Any hint?
+3)To solve the problem of point 2 another user with the same drivers has
+written a different version of ec_send_processdata() that I will attach.
+   With this modification the drivers seem to work, anyway I don't know if
+the problem is caused by bad synchronisation or by this kind of slaves.
+   I haven't understand yet if this modification can affect the
+communication in a bad way with other drivers or if it can be generally
+useful.
+
+int ec_send_processdata_group(uint8 group)
+{
+    uint32 LogAdr;
+    uint16 w1, w2;
+	int length, sublength;
+    uint8 idx;
+    int wkc;
+	BYTE* data;
+    boolean first=FALSE;
+	uint16 currentsegment = 0;
+    //--------ECAT
+    int firstInDatagram=TRUE;
+    int moreOutDatagrams =TRUE;
+    //--------ECAT
+
+    wkc = 0;
+	if(ec_group[group].hasdc)
+        first = TRUE;
+	length = ec_group[group].Obytes + ec_group[group].Ibytes;
+	LogAdr = ec_group[group].logstartaddr;
+    if (length)
+    {	
+		if(!group)
+		{
+        ec_idxstack.pushed = 0;
+        ec_idxstack.pulled = 0;
+		}
+        wkc = 1;
+        /* LRW blocked by one or more slaves ? */
+		if (ec_group[group].blockLRW)
+        {
+            /* if inputs available generate LRD */
+			if(ec_group[group].Ibytes)
+            {
+				currentsegment = ec_group[group].Isegment;
+				data=ec_group[group].inputs;
+				length = ec_group[group].Ibytes;
+				LogAdr += ec_group[group].Obytes;
+                /* segment transfer if needed */
+                do
+                {			
+					if(currentsegment == ec_group[group].Isegment)
+						sublength = ec_group[group].IOsegment[currentsegment++] -
+ec_group[group].Ioffset;
+					else
+						sublength = ec_group[group].IOsegment[currentsegment++];
+                    /* get new index */
+                    idx = ec_getindex();
+                    w1 = LO_WORD(LogAdr);
+                    w2 = HI_WORD(LogAdr);
+                    //--------ECAT
+
+                    if(firstInDatagram) {
+                        ec_setupdatagram(&amp;ec_txbuf[idx], EC_CMD_LRD,
+idx, w1, w2, sublength, data);
+                        first = FALSE;
+                    }
+
+                    else
+                        ec_adddatagram(&amp;ec_txbuf[idx], EC_CMD_LRD,
+idx, TRUE, w1, w2, sublength, data);
+                    /* send frame */
+                    //--------ECAT
+                    //ec_outframe_red(idx);  //commented
+                    //--------ECAT
+                    /* push index and data pointer on stack */
+                    ec_pushindex(idx, data, sublength);
+                    //--------ECAT
+                    //ec_DCl=sublength;
+                    //--------ECAT
+                    length -= sublength;
+                    LogAdr += sublength;
+                    data += sublength;
+				} while (length &amp;&amp; (currentsegment &lt; ec_group[group].nsegments));	
+            }	
+            /* if outputs available generate LWR */
+			if(ec_group[group].Obytes)
+            {
+				data=ec_group[group].outputs;
+				length = ec_group[group].Obytes;
+			    LogAdr = ec_group[group].logstartaddr;
+				currentsegment = 0;
+                /* segment transfer if needed */
+                do
+                {			
+					sublength = ec_group[group].IOsegment[currentsegment++];
+					if((length - sublength) &lt; 0)
+                    sublength = length;
+                    /* get new index */
+                    //-------ECAT
+                    //idx = ec_getindex(); //IN ORIGINE SCOMMENTATA
+                    //-------ECAT
+                    w1 = LO_WORD(LogAdr);
+                    w2 = HI_WORD(LogAdr);
+                    //--------ECAT
+                    //ec_setupdatagram(&amp;ec_txbuf[idx], EC_CMD_LWR,
+idx, w1, w2, sublength, data);   //changedto use adddatagram
+
+
+                    if((length - sublength) &lt;= 0)
+                        moreOutDatagrams=FALSE;
+                    ec_adddatagram(&amp;ec_txbuf[idx], EC_CMD_LWR, idx,
+moreOutDatagrams, w1, w2, sublength, data);
+                    //--------ECAT
+                    /* send frame */
+                    ec_outframe_red(idx);
+                    //--------ECAT
+                    /* push index and data pointer on stack */
+                    //ec_pushindex(idx, data, sublength);  //IN
+ORIGINE SCOMMENTATA
+                    ec_DCl=sublength;
+                    //--------ECAT
+                    length -= sublength;
+                    LogAdr += sublength;
+                    data += sublength;
+				} while (length &amp;&amp; (currentsegment &lt; ec_group[group].nsegments));	
+            }
+        }
+        /* LRW can be used */
+        else
+        {	
+			if (ec_group[group].Obytes)
+				data=ec_group[group].outputs;
+            else
+				data=ec_group[group].inputs;
+            /* segment transfer if needed */
+            do
+            {			
+				sublength = ec_group[group].IOsegment[currentsegment++];
+                /* get new index */
+                idx = ec_getindex();
+                w1 = LO_WORD(LogAdr);
+                w2 = HI_WORD(LogAdr);
+                ec_setupdatagram(&amp;ec_txbuf[idx], EC_CMD_LRW, idx, w1,
+w2, sublength, data);
+                if(first)
+                {
+                    ec_DCl = sublength;
+                    /* FPRMW in second datagram */
+                    ec_DCtO = ec_adddatagram(&amp;ec_txbuf[idx],
+EC_CMD_FRMW, idx, FALSE,
+											 ec_slave[ec_group[group].DCnext].configadr,
+                        ECT_REG_DCSYSTIME, sizeof(ec_DCtime), &amp;ec_DCtime);
+                    first = FALSE;
+                }					
+                /* send frame */
+                ec_outframe_red(idx);
+                /* push index and data pointer on stack */
+                //ec_pushindex(idx, data, sublength);
+                length -= sublength;
+                LogAdr += sublength;
+                data += sublength;
+			} while (length &amp;&amp; (currentsegment &lt; ec_group[group].nsegments));	
+        }	
+    }	
+
+    return wkc;
+}
+
+
+Luca
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120528/29bbbfc6/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120528/29bbbfc6/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000108.html">[Soem-user] Why an SDOread seem to let output PDOs working well?
+</A></li>
+	<LI>Next message: <A HREF="000110.html">[Soem-user] Using DC clock
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#109">[ date ]</a>
+              <a href="thread.html#109">[ thread ]</a>
+              <a href="subject.html#109">[ subject ]</a>
+              <a href="author.html#109">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

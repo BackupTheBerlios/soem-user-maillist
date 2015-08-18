@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] How to reset the sync manager watchdog / error flag
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-May/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20How%20to%20reset%20the%20sync%20manager%20watchdog%20/%20error%20flag&In-Reply-To=%3CCACRhLDmxbHDQDwunuWzEz3ftm5AdtwH%3DhAo1LnFXG31mpwM1ag%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000104.html">
+   <LINK REL="Next"  HREF="000106.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] How to reset the sync manager watchdog / error flag</H1>
+    <B>Thomas Kr&#252;ger</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20How%20to%20reset%20the%20sync%20manager%20watchdog%20/%20error%20flag&In-Reply-To=%3CCACRhLDmxbHDQDwunuWzEz3ftm5AdtwH%3DhAo1LnFXG31mpwM1ag%40mail.gmail.com%3E"
+       TITLE="[Soem-user] How to reset the sync manager watchdog / error flag">thomas.krueger.home at googlemail.com
+       </A><BR>
+    <I>Mon May  7 17:47:36 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000104.html">[Soem-user] XML configuration tool completed!!
+</A></li>
+        <LI>Next message: <A HREF="000106.html">[Soem-user] Why an SDOread seem to let output PDOs working well?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#105">[ date ]</a>
+              <a href="thread.html#105">[ thread ]</a>
+              <a href="subject.html#105">[ subject ]</a>
+              <a href="author.html#105">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi everyone,
+
+I have an issue with a Slave to go in Operational State. When I try I
+get the following error while checking the State:
+
+- Not all Slaves reached Operational state.
+- Slave 1 State=0x14 StatusCode=0x001b : Sync manager watchdog
+
+The Slave is a Motor Driver From Elmo, which is working great with TwinCAT.
+I got this error with the basic example of SOEM. I also get it while
+using my own XML parser for the configuration file (I go from state to
+state using the Inits Commands).
+My workaround for the moment is to use TwinCAT to create am XML file
+with the watchdog deactivated. Then I can go to Operational without
+errors.
+
+I tried sending read requests (FPRD on 0x1900 every 100ms like
+TwinCAT) continuously to the Slave (after preoperational)  in a
+separate Real Time Thread but nothing changes.
+I get the following results from the watchdog registers:
+Sync Manager Watchdog : 0x0420  		=&gt; 0x03e8
+Sync Manager Watchdog status: 0x0440		=&gt; 0x0000
+Sync Manager Watchdog counter: 0x0442	=&gt; 0x10
+
+I am not sure what is happening, How should I reset the watchdog? Or
+reset the Error flag?
+
+Thanks for any help you can provide!
+Regards,
+Thomas
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000104.html">[Soem-user] XML configuration tool completed!!
+</A></li>
+	<LI>Next message: <A HREF="000106.html">[Soem-user] Why an SDOread seem to let output PDOs working well?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#105">[ date ]</a>
+              <a href="thread.html#105">[ thread ]</a>
+              <a href="subject.html#105">[ subject ]</a>
+              <a href="author.html#105">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

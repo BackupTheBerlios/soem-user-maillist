@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] TxPDO Assign Settings
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2010-April/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20TxPDO%20Assign%20Settings&In-Reply-To=%3C4BD032E8.70803%40smfk.nl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000008.html">
+   <LINK REL="Next"  HREF="000010.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] TxPDO Assign Settings</H1>
+    <B>Arthur Ketels</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20TxPDO%20Assign%20Settings&In-Reply-To=%3C4BD032E8.70803%40smfk.nl%3E"
+       TITLE="[Soem-user] TxPDO Assign Settings">info at smfk.nl
+       </A><BR>
+    <I>Thu Apr 22 13:28:40 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000008.html">[Soem-user] TxPDO Assign Settings
+</A></li>
+        <LI>Next message: <A HREF="000010.html">[Soem-user] Getting the AX5112 to work
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#9">[ date ]</a>
+              <a href="thread.html#9">[ thread ]</a>
+              <a href="subject.html#9">[ subject ]</a>
+              <a href="author.html#9">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>You can not just simply change the PDO mapping of a slave, there are 
+conditions.
+a) Mapping changes are only allowed in pre-op mode
+b) In order for the master to use the new mapping it has to be done 
+before ec_config_map()
+c) First change 0x1C13 SI:00 to 0 then update SI:nn, then change SI:00 
+to the actual number of mapping objects, in this case 2.
+
+See code snippet below:
+
+        if ( ec_config_init(FALSE) &gt; 0 )
+         {
+             printf(&quot;%d slaves found and configured.\n&quot;,ec_slavecount);
+
+             // Do your specific slave reconfiguration here
+             // We are now in pre-op mode, only now the PDO mappings can 
+be changed
+
+                 // Change number of inputs
+                 TxPDO_000=0;
+                 int os=sizeof(TxPDO_000);
+                 ec_SDOwrite(8,0x1C13,00,FALSE,os,&amp;TxPDO_000,EC_TIMEOUTRXM);
+
+                 while(EcatError) printf(&quot;%s&quot;, ec_elist2string());
+
+                 // Add input assignment
+                 TxPDO_002=0x1A02;
+                 os=sizeof(TxPDO_002);
+                 ec_SDOwrite(8,0x1C13,02,FALSE,os,&amp;TxPDO_002,EC_TIMEOUTRXM);
+
+                 // if the write resulted in an error print the message(s)
+                 while(EcatError) printf(&quot;%s&quot;, ec_elist2string());
+
+                 // Verify change
+                 TxPDO_002=0;
+                 os=sizeof(TxPDO_002);
+                 
+ec_SDOread(8,0x1C13,02,FALSE,&amp;os,&amp;TxPDO_002,EC_TIMEOUTRXM);
+
+                 // Change number of inputs
+                 TxPDO_000=2;
+                 int os=sizeof(TxPDO_000);
+                 ec_SDOwrite(8,0x1C13,00,FALSE,os,&amp;TxPDO_000,EC_TIMEOUTRXM);
+
+                 while(EcatError) printf(&quot;%s&quot;, ec_elist2string());
+
+                 // Verify change
+                 TxPDO_000=0;
+                 os=sizeof(TxPDO_000);
+                 
+ec_SDOread(8,0x1C13,00,FALSE,&amp;os,&amp;TxPDO_000,EC_TIMEOUTRXM);
+
+             // End of specific slave configuration
+             // ec_config_map() now maps all slaves to the IOmap buffer
+
+             ec_config_map(&amp;IOmap);
+
+             printf(&quot;Slaves mapped, state to SAFE_OP.\n&quot;);
+             /* wait for all slaves to reach SAFE_OP state */
+             ec_statecheck(0, EC_STATE_SAFE_OP,  EC_TIMEOUTSTATE);
+
+         // all other stuff to follow.......
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000008.html">[Soem-user] TxPDO Assign Settings
+</A></li>
+	<LI>Next message: <A HREF="000010.html">[Soem-user] Getting the AX5112 to work
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#9">[ date ]</a>
+              <a href="thread.html#9">[ thread ]</a>
+              <a href="subject.html#9">[ subject ]</a>
+              <a href="author.html#9">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

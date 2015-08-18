@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] SOEM buffering and data consistency issues
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-July/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20SOEM%20buffering%20and%20data%20consistency%20issues&In-Reply-To=%3C5017CA76.4000604%40smfk.nl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000134.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] SOEM buffering and data consistency issues</H1>
+    <B>Arthur Ketels</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20SOEM%20buffering%20and%20data%20consistency%20issues&In-Reply-To=%3C5017CA76.4000604%40smfk.nl%3E"
+       TITLE="[Soem-user] SOEM buffering and data consistency issues">info at smfk.nl
+       </A><BR>
+    <I>Tue Jul 31 14:07:18 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000134.html">[Soem-user] SOEM buffering and data consistency issues
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#135">[ date ]</a>
+              <a href="thread.html#135">[ thread ]</a>
+              <a href="subject.html#135">[ subject ]</a>
+              <a href="author.html#135">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Op 30-7-2012 22:13, Johnathan Van Why schreef:
+
+&gt;<i> We are implementing a 1kHz robot control system using SOEM.
+</I>&gt;<i>
+</I>&gt;<i> We are having issues with data consistency. In our case, our first
+</I>&gt;<i> RxPDO is a UINT8, and we are attempting to create a counter in this
+</I>&gt;<i> PDO. Our final system will run within Orocos, but we've verified these
+</I>&gt;<i> issues without using Orocos.
+</I>&gt;<i>
+</I>&gt;<i> To execute this increment, we are using the following code (right
+</I>&gt;<i> before ec_send_processdata()):
+</I>&gt;<i>
+</I>&gt;<i> (ec_slave[1].outputs[0])++;
+</I>It works but it is not a nice coding practice.
+First off all .outputs is defined as
+uint8 *outputs
+So you should do (*ec_slave[1].outputs)++;
+And better to use:
+uint8 *myslaveoutput;
+
+myslaveoutput = ec_slave[1].outputs;
+
+(*myslaveoutput)++;
+
+&gt;<i>
+</I>&gt;<i> However, although it starts off working fine, after some indeterminate
+</I>&gt;<i> amount of time it will begin counting incorrectly.
+</I>It does look as a network layer problem. If the NIC can't output the 
+data as fast as SOEM is inserting it in the socket buffers, there will 
+be packets dropped. Make a wireshark trace and make sure the packet 
+timing is correct. The tx and rx latency of a packet should not be more 
+than 100us combined. If it is more then you probably have interrupt 
+mitigation on. With tools like ethtool you can inspect and set the nic 
+configuration parameters. The drvcomment.txt file in the SOEM 
+distribution gives an example. Unfortunately the settings are different 
+for all drivers.
+
+&gt;<i> Further, if we disconnect the EtherCAT slave for a couple of seconds,
+</I>&gt;<i> then on reconnect it will send out packets as fast as possible, as if
+</I>&gt;<i> the data is being buffered somewhere. Does SOEM do this, or does this
+</I>&gt;<i> occur within the kernel? During the disconnection, our code continues
+</I>&gt;<i> running at 1 kHz and it does not speed up when connection is
+</I>&gt;<i> re-established.
+</I>SOEM does not buffer any data. The socket layer can, and does. How much 
+buffer depends on numerous factors, but a few MB is not an exception. 
+Because EtherCAT is balanced it must receive one packet for every packet 
+transmitted. SOEM makes a RAW packet and tries to deliver to the socket. 
+If this does not succeed SOEM just continues and sees this via the 
+timeout mechanism. If the the socket accepts the packet SOEM stores it 
+in a small buffer (default 16 entries) to compare against incoming 
+packets. If the index of a received packet matches one in the Tx buffer 
+the data is paired. When the socket buffer is lager than the maximum 
+index count (16) then possibly the incoming packet is matched against 
+the wrong tx packed.
+
+So to prevent this issue,
+1. make sure the NIC driver is set correctly so it can keep up with the 
+speed.
+2. do not send packets when the link is down
+3. make the socket buffers as small as possible
+
+Arthur
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000134.html">[Soem-user] SOEM buffering and data consistency issues
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#135">[ date ]</a>
+              <a href="thread.html#135">[ thread ]</a>
+              <a href="subject.html#135">[ subject ]</a>
+              <a href="author.html#135">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

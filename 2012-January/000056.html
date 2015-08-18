@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] BRD frames treated as errors by ET1100
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-January/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20BRD%20frames%20treated%20as%20errors%20by%20ET1100&In-Reply-To=%3C3c1331cc48e2b168e293e617c36c8296%40addiva.se%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000055.html">
+   <LINK REL="Next"  HREF="000057.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] BRD frames treated as errors by ET1100</H1>
+    <B>Mattias Ekstr&#246;m</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20BRD%20frames%20treated%20as%20errors%20by%20ET1100&In-Reply-To=%3C3c1331cc48e2b168e293e617c36c8296%40addiva.se%3E"
+       TITLE="[Soem-user] BRD frames treated as errors by ET1100">mattias.ekstrom at addiva.se
+       </A><BR>
+    <I>Thu Jan  5 09:14:13 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000055.html">[Soem-user] BRD frames treated as errors by ET1100
+</A></li>
+        <LI>Next message: <A HREF="000057.html">[Soem-user] SOEM error after upgrade to ROS Electric
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#56">[ date ]</a>
+              <a href="thread.html#56">[ thread ]</a>
+              <a href="subject.html#56">[ subject ]</a>
+              <a href="author.html#56">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE> On Wed, 4 Jan 2012 20:43:20 +0000 (GMT), rocco brandi wrote:
+
+&gt;<i> it could be a problem of padding. I don't know why, but Wireshark can
+</I>&gt;<i> &quot;force&quot; small packets going in and out; when wireshark is shut down,
+</I>&gt;<i> packets less then 64 bytes are lost.
+</I>&gt;<i>
+</I>&gt;<i> I solved in this way: when I'm creating a ethernet packet, I put the 
+</I>&gt;<i> data
+</I>&gt;<i> field lenght as max(60,datalength). so my data flied is ALWAYS at 
+</I>&gt;<i> least
+</I>&gt;<i> 60 bytes length. the extra, junk bytes does not create any problem
+</I>&gt;<i>
+</I>&gt;<i> Rocco ^_^
+</I>&gt;<i>
+</I>&gt;<i> -------------------------
+</I>&gt;<i> DA: Mattias Ekstr&#246;m
+</I>&gt;<i> A: <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user at lists.berlios.de</A>
+</I>&gt;<i> INVIATO: Mercoled&#236; 4 Gennaio 2012 16:39
+</I>&gt;<i> OGGETTO: [Soem-user] BRD frames treated as errors by ET1100
+</I>&gt;<i>
+</I>&gt;<i> Hi, I'm having some trouble getting my ethercat system running.
+</I>&gt;<i>
+</I>&gt;<i> At the moment I'm just trying to talk between a micro controller
+</I>&gt;<i> and a ET1100 chip, they are connected directly MAC-to-MII-port
+</I>&gt;<i> as described in the documentation.
+</I>&gt;<i>
+</I>&gt;<i> I have an oscilloscope so I have confirmed that data is actually
+</I>&gt;<i> going out on the lines. I also see the ECAT Processing Unit Error
+</I>&gt;<i> Counter increase by the same amount as the number of packets I
+</I>&gt;<i> send. I've also verified that the port is considered open and
+</I>&gt;<i> configured in the proper mode on the ethercat chip.
+</I>&gt;<i>
+</I>&gt;<i> What I can't figure out is why the packets get treated as errors
+</I>&gt;<i> by the ET1100. As both fields of the RX Error Counter remain at 0
+</I>&gt;<i> (although as there is no PHY the high byte should always remain
+</I>&gt;<i> at zero?) I'm starting to think that the packets arrive just fine
+</I>&gt;<i> as far as ethernet goes, but something is wrong with the ethercat
+</I>&gt;<i> header and datagrams. I'm using SOEM 1.2.5 for this and I'm just
+</I>&gt;<i> the slaveinfo.c example.
+</I>&gt;<i>
+</I>&gt;<i> What I'm seeing in Wireshark is that the ethernet driver sends 3
+</I>&gt;<i> frames that appear to be correct, apart from one thing that
+</I>&gt;<i> confuses me. They lack any padding and are only 30 bytes in length,
+</I>&gt;<i> each. As far as I can see the ethercat protocol requires packets
+</I>&gt;<i> to be padded to a minimum of 64 bytes. Is this correct? Could this
+</I>&gt;<i> be the source of my troubles?
+</I>&gt;<i>
+</I>&gt;<i> Any direction would be appreciated!
+</I>&gt;<i>
+</I>&gt;<i> Regard,
+</I>&gt;<i>
+</I>&gt;<i> Mattias Ekstr&#246;m
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Soem-user mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">Soem-user at lists.berlios.de</A> [1]
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">https://lists.berlios.de/mailman/listinfo/soem-user</A> [2]
+</I>
+ I think I've found the problem, it seems to be padding as you say. But,
+ apparently it's a bug in the davinci_emac driver in how it handles
+ padding too short packets. It's fixed in newer versions of the linux
+ kernel but our firmware supplier's current release uses an old version.
+
+ I've confirmed that data goes out when not running wireshark so I don't
+ think it's part of the problem. What I'm unsure about is how the short
+ packets are handled in the ET1100, but I guess that's a question better
+ directed at Beckhoff.
+
+ Regards,
+ Mattias Ekstr&#246;m
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000055.html">[Soem-user] BRD frames treated as errors by ET1100
+</A></li>
+	<LI>Next message: <A HREF="000057.html">[Soem-user] SOEM error after upgrade to ROS Electric
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#56">[ date ]</a>
+              <a href="thread.html#56">[ thread ]</a>
+              <a href="subject.html#56">[ subject ]</a>
+              <a href="author.html#56">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

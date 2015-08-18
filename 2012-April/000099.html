@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] sdo_write abort
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-April/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20sdo_write%20abort&In-Reply-To=%3C1334054497.48101.YahooMailNeo%40web29604.mail.ird.yahoo.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000098.html">
+   <LINK REL="Next"  HREF="000100.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] sdo_write abort</H1>
+    <B>rocco brandi</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20sdo_write%20abort&In-Reply-To=%3C1334054497.48101.YahooMailNeo%40web29604.mail.ird.yahoo.com%3E"
+       TITLE="[Soem-user] sdo_write abort">viccio75 at yahoo.it
+       </A><BR>
+    <I>Tue Apr 10 12:41:37 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000098.html">[Soem-user] sdo_write abort
+</A></li>
+        <LI>Next message: <A HREF="000100.html">[Soem-user] TxPDO assigment results in Unsupported access to an	object
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#99">[ date ]</a>
+              <a href="thread.html#99">[ thread ]</a>
+              <a href="subject.html#99">[ subject ]</a>
+              <a href="author.html#99">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>thanks a lot for your incredible help, Arthur!
+
+so, I will wait for the new release of SOEM, meanwhile I'll work on other 
+aspects of the configuration tool, like the configuration of the Process Image according to the ENI XML file.
+
+by the way: do you have an idea when the new version of SOEM will be released? what are the main changes?
+
+Thank you again
+Rocco ^_^
+
+
+________________________________
+ Da: Arthur Ketels &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">info at smfk.nl</A>&gt;
+A: rocco brandi &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">viccio75 at yahoo.it</A>&gt; 
+Cc: SOEM &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user at lists.berlios.de</A>&gt; 
+Inviato: Marted&#236; 10 Aprile 2012 11:58
+Oggetto: Re: sdo_write abort
+ 
+
+Hi Rocco,
+
+Op 10-4-2012 10:58, rocco brandi schreef: 
+here I am again!
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>so, I've made some progress.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>first of all, the invalid length response is a problem of wireshark, because in the header it finds a length&lt;0x0A;
+</I>&gt;<i>second, the abort when I try to write at 0x1C12:1 is due to the swap of the data;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>now I'm facing the last (I hope!) problem: when I try to write the PDO count, I receive the following error (as you can see in wireshark cap):
+</I>&gt;<i>&quot;value of parameter to high&quot; (abort code 0x06090031)
+</I>&gt;<i>(ignore the second abort, it depends on my code)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>comparing to the wireshark capture from TwinCAT, I've noticed that my sdo is a byte longer
+</I>SOEM sends a &quot;normal&quot; SDO transfer. TwinCAT uses an &quot;expedited&quot; transfer. If you dig deeper into the wireshark trace you will notice the subtle differences.
+
+Anyway it seems we have another Beckhoff slave that will fail the
+    slave conformance test. All slaves should accept both expedited and
+    normal transfers. The work around is to make a special SDOwrite with
+    expedited transfer type. The new to be released SOEM has expedited
+    SDO functions (but for other reasons).
+
+Arthur
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120410/4bb0a9ed/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120410/4bb0a9ed/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000098.html">[Soem-user] sdo_write abort
+</A></li>
+	<LI>Next message: <A HREF="000100.html">[Soem-user] TxPDO assigment results in Unsupported access to an	object
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#99">[ date ]</a>
+              <a href="thread.html#99">[ thread ]</a>
+              <a href="subject.html#99">[ subject ]</a>
+              <a href="author.html#99">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

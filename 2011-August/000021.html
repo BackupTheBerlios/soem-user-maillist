@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] problem while compiling
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2011-August/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20problem%20while%20compiling&In-Reply-To=%3C1314017238.28809.YahooMailClassic%40web29604.mail.ird.yahoo.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000020.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] problem while compiling</H1>
+    <B>rocco brandi</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20problem%20while%20compiling&In-Reply-To=%3C1314017238.28809.YahooMailClassic%40web29604.mail.ird.yahoo.com%3E"
+       TITLE="[Soem-user] problem while compiling">viccio75 at yahoo.it
+       </A><BR>
+    <I>Mon Aug 22 14:47:18 CEST 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000020.html">[Soem-user] SDOwrite not working
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#21">[ date ]</a>
+              <a href="thread.html#21">[ thread ]</a>
+              <a href="subject.html#21">[ subject ]</a>
+              <a href="author.html#21">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi everyone!
+&#160;
+I have a NETX500 microcontroller by Hilscher and the Hitex development tools HITOP53 that uses the GNU C compiler for ARM.
+&#160;
+I'm trying to compile the Simple Open EtherCAT Master, but when compile ebox.c I recive the following error&amp;warnings:
+&#160;
+error: syntax error before 'cond'
+warning: type defaults to 'int' in declaration of 'cond'
+error: 'PTHREAD_COND_INITIALIZER' undeclared here (not in a function)
+warning: data definition has no type or storage class
+error: syntax error before 'mutex'
+warning: type defaults to 'int' in declaration of 'mutex'
+error: 'PTHREAD_MUTEX_INITIALIZER' undeclared here (not in a function)
+warning: data definition has no type or storage class
+warning: implicit declaration of function 'usleep'
+warning: implicit declaration of function 'pthread_mutex_lock'
+warning: implicit declaration of function 'pthread_cond_timedwait'
+warning: implicit declaration of function 'sched_setscheduler'
+warning: implicit declaration of function 'pthread_create'
+warning: implicit declaration of function 'pthread_setschedparam'
+&#160;
+it seems to me that the files pthread.h and type.h&#160;are not been included, although there&#160;are directive
+&#160;
+#include &lt;pthread.h&gt;
+#include &lt;types.h&gt;
+&#160;
+are present and I can see these file in the directory GnuToolPackageArm\arm-hitex-elf
+&#160;
+any suggestions?
+&#160;
+Thanks a lot,
+Rocco
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20110822/e1825cca/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20110822/e1825cca/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000020.html">[Soem-user] SDOwrite not working
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#21">[ date ]</a>
+              <a href="thread.html#21">[ thread ]</a>
+              <a href="subject.html#21">[ subject ]</a>
+              <a href="author.html#21">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

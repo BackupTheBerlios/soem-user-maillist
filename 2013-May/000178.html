@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Patch to 1.3.0
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2013-May/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Patch%20to%201.3.0&In-Reply-To=%3C201305242329.11043.leo%40alaxarxa.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000177.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Patch to 1.3.0</H1>
+    <B>Leopold Palomo Avellaneda</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Patch%20to%201.3.0&In-Reply-To=%3C201305242329.11043.leo%40alaxarxa.net%3E"
+       TITLE="[Soem-user] Patch to 1.3.0">leo at alaxarxa.net
+       </A><BR>
+    <I>Fri May 24 23:29:10 CEST 2013</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000177.html">[Soem-user] Error compiling soem 1.3.0
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#178">[ date ]</a>
+              <a href="thread.html#178">[ thread ]</a>
+              <a href="subject.html#178">[ subject ]</a>
+              <a href="author.html#178">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+I send a patch to soem1.3.0 that:
+
+- add a CMakeLists.txt to compile soem
+- solve a compiler warning in the red_test program that:
+warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+
+The CMakeLists provides a way to compile soem that generates two libraries: 
+one static and another dynamic. 
+
+The CMakeLists should be multiplatform, but I don't think that works on a 
+windows target. The code depends on a binary code wpcap. It could be possible 
+to delete or make it as optional?
+
+what is the rtk platform?
+
+Another aspect that I have though is who to install it. I think that soem 
+should be installed under include/soem and maybe just one unique header 
+(soem.h ?) that maybe include the others ether*.h. So, the users (programmers) 
+that would like to use soem, with just with one #include &lt;soem/soem.h&gt; and 
+link against -lsoem should be sufficient.
+
+What do you think?
+
+Regards,
+
+Leopold
+
+-- 
+--
+Linux User 152692
+Catalonia
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: diff_original_1.3.0
+Type: text/x-patch
+Size: 13067 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20130524/5c99a1d6/attachment.bin">https://lists.berlios.de/pipermail/soem-user/attachments/20130524/5c99a1d6/attachment.bin</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000177.html">[Soem-user] Error compiling soem 1.3.0
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#178">[ date ]</a>
+              <a href="thread.html#178">[ thread ]</a>
+              <a href="subject.html#178">[ subject ]</a>
+              <a href="author.html#178">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

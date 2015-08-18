@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Fwd:  SOEM buffering and data consistency issues
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-August/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Fwd%3A%20%20SOEM%20buffering%20and%20data%20consistency%20issues&In-Reply-To=%3CCAGmM2K4Cc5gfB5BL2Eu9kjnT4ppb72gN1LGc3kL88F367%2BG8DA%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000138.html">
+   <LINK REL="Next"  HREF="000140.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Fwd:  SOEM buffering and data consistency issues</H1>
+    <B>Johnathan Van Why</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Fwd%3A%20%20SOEM%20buffering%20and%20data%20consistency%20issues&In-Reply-To=%3CCAGmM2K4Cc5gfB5BL2Eu9kjnT4ppb72gN1LGc3kL88F367%2BG8DA%40mail.gmail.com%3E"
+       TITLE="[Soem-user] Fwd:  SOEM buffering and data consistency issues">jrvanwhy at gmail.com
+       </A><BR>
+    <I>Fri Aug  3 02:52:45 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000138.html">[Soem-user] new version of XML configuration tool
+</A></li>
+        <LI>Next message: <A HREF="000140.html">[Soem-user] SOEM buffering and data consistency issues
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#139">[ date ]</a>
+              <a href="thread.html#139">[ thread ]</a>
+              <a href="subject.html#139">[ subject ]</a>
+              <a href="author.html#139">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Forwarding this message to the mailing list because I accidentally
+replied directly to Arthur.
+
+
+---------- Forwarded message ----------
+From: Johnathan Van Why &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">jrvanwhy at gmail.com</A>&gt;
+Date: Tue, Jul 31, 2012 at 5:40 AM
+Subject: Re: [Soem-user] SOEM buffering and data consistency issues
+To: Arthur Ketels &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">info at smfk.nl</A>&gt;
+
+
+&gt;<i> It works but it is not a nice coding practice.
+</I>
+I'm aware. For now, we're doing it just to keep it simple... in
+practice, I have a template that allows me to go through all our pdos
+and assign their addresses in memory to pointers. It's even cleaner
+that way.
+
+
+&gt;&gt;<i> However, although it starts off working fine, after some indeterminate
+</I>&gt;&gt;<i> amount of time it will begin counting incorrectly.
+</I>&gt;<i>
+</I>&gt;<i> It does look as a network layer problem. If the NIC can't output the data as
+</I>&gt;<i> fast as SOEM is inserting it in the socket buffers, there will be packets
+</I>&gt;<i> dropped. Make a wireshark trace and make sure the packet timing is correct.
+</I>&gt;<i> The tx and rx latency of a packet should not be more than 100us combined. If
+</I>&gt;<i> it is more then you probably have interrupt mitigation on. With tools like
+</I>&gt;<i> ethtool you can inspect and set the nic configuration parameters. The
+</I>&gt;<i> drvcomment.txt file in the SOEM distribution gives an example. Unfortunately
+</I>&gt;<i> the settings are different for all drivers.
+</I>
+We did find how long the receive was taking to be oddly long. On a
+different computer (the computer we use on the robot), that latency is
+&lt;100us... on my new devel machine, it is closer to 300us. I will take
+a look at reconfiguring those settings.
+
+However, I am still curious how driver configuration issues could
+corrupt our process data. Shouldn't these settings just slow our
+communication down?
+
+&gt;<i> SOEM does not buffer any data. The socket layer can, and does. How much
+</I>&gt;<i> buffer depends on numerous factors, but a few MB is not an exception.
+</I>&gt;<i> Because EtherCAT is balanced it must receive one packet for every packet
+</I>&gt;<i> transmitted. SOEM makes a RAW packet and tries to deliver to the socket. If
+</I>&gt;<i> this does not succeed SOEM just continues and sees this via the timeout
+</I>&gt;<i> mechanism. If the the socket accepts the packet SOEM stores it in a small
+</I>&gt;<i> buffer (default 16 entries) to compare against incoming packets. If the
+</I>&gt;<i> index of a received packet matches one in the Tx buffer the data is paired.
+</I>&gt;<i> When the socket buffer is lager than the maximum index count (16) then
+</I>&gt;<i> possibly the incoming packet is matched against the wrong tx packed.
+</I>&gt;<i>
+</I>&gt;<i> So to prevent this issue,
+</I>&gt;<i> 1. make sure the NIC driver is set correctly so it can keep up with the
+</I>&gt;<i> speed.
+</I>&gt;<i> 2. do not send packets when the link is down
+</I>
+Not a concern in production... if the link goes down, the emergency
+stop will activate in less than three ms.
+
+&gt;<i> 3. make the socket buffers as small as possible
+</I>
+Will try that, along with your other suggestions.
+
+Thank you for your response,
+Johnathan Van Why
+Dynamic Robotics Laboratory
+Oregon State University
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000138.html">[Soem-user] new version of XML configuration tool
+</A></li>
+	<LI>Next message: <A HREF="000140.html">[Soem-user] SOEM buffering and data consistency issues
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#139">[ date ]</a>
+              <a href="thread.html#139">[ thread ]</a>
+              <a href="subject.html#139">[ subject ]</a>
+              <a href="author.html#139">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

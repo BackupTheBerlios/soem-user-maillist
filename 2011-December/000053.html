@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Basic Questions
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2011-December/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Basic%20Questions&In-Reply-To=%3C11131199.Fgc17WsiTP%40rsmits-laptop%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000047.html">
+   <LINK REL="Next"  HREF="000048.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Basic Questions</H1>
+    <B>Ruben Smits</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Basic%20Questions&In-Reply-To=%3C11131199.Fgc17WsiTP%40rsmits-laptop%3E"
+       TITLE="[Soem-user] Basic Questions">ruben.smits at mech.kuleuven.be
+       </A><BR>
+    <I>Thu Dec 15 12:06:15 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000047.html">[Soem-user] Basic Questions
+</A></li>
+        <LI>Next message: <A HREF="000048.html">[Soem-user] Basic Questions
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#53">[ date ]</a>
+              <a href="thread.html#53">[ thread ]</a>
+              <a href="subject.html#53">[ subject ]</a>
+              <a href="author.html#53">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Wednesday 07 December 2011 15:20:55 Andrew Crosland wrote:
+&gt;<i> Hi,
+</I>&gt;<i> 
+</I>&gt;<i> I have just discovered SOEM. I have used TwinCAT a little but have found the
+</I>&gt;<i> system restriction frustrating (32 bit OS only, particular Intel NIC). All
+</I>&gt;<i> our machines are 64-bit with a variety of hardware.
+</I>&gt;<i> 
+</I>&gt;<i> On the device side I am developing reference designs using the Beckhoff
+</I>&gt;<i> ET1810 slave controller for Altera FPGA. I am looking for solutions for a
+</I>&gt;<i> master to connect to these slaves.
+</I>&gt;<i> 
+</I>&gt;<i> I have a few questions.
+</I>&gt;<i> 
+</I>&gt;<i> I seems that SOEM is much more forgiving and will run on a range of hardware
+</I>&gt;<i> so long as it runs Linux, is that correct?
+</I>&gt;<i> 
+</I>&gt;<i> Will it work with any NIC (within reason)?
+</I>&gt;<i> 
+</I>&gt;<i> Is some realtime flavour of Linux essential?
+</I>&gt;<i> 
+</I>&gt;<i> Does SOEM support real time operation of the network like TwinCAT?  I
+</I>&gt;<i> believe it's the real time which is hard on Windows, and leads to the
+</I>&gt;<i> OS/hardware restrictions mentioned above?
+</I>
+I have a small patch for SOEM (available at 
+<A HREF="http://git.mech.kuleuven.be/?p=robotics/soem.git;a=blob;f=soem_core/rtnet.patch;h=ba80c8118a75cf12e9afabf3c57faec851054f90;hb=refs/heads/master">http://git.mech.kuleuven.be/?p=robotics/soem.git;a=blob;f=soem_core/rtnet.patch;h=ba80c8118a75cf12e9afabf3c57faec851054f90;hb=refs/heads/master</A>)
+that enables the use of SOEM on top of RTNET which in itself can be used on 
+top of Xenomai( or RTAI-lxrt).
+
+This patch is well tested and I have confirmed that no mode (hard-soft-hart rt)  
+switches happen during send_process_data - receive_process_data cycli on a 
+Xenomai kernel.
+
+Ruben
+
+&gt;<i> Do you think it is feasible to port SOEM to embedded hardware running
+</I>&gt;<i> something like uC/OS-II? I can use the NicheStack which I believe supports
+</I>&gt;<i> access to RAW sockets.
+</I>&gt;<i> 
+</I>&gt;<i> I would be grateful for any answers received.
+</I>&gt;<i> 
+</I>&gt;<i> Regards,
+</I>&gt;<i> 
+</I>&gt;<i> Andrew
+</I>&gt;<i> 
+</I>&gt;<i> Andrew Crosland
+</I>&gt;<i> Member of Technical Staff
+</I>&gt;<i> Altera Europe
+</I>&gt;<i> Holmers Farm Way
+</I>&gt;<i> High Wycombe
+</I>&gt;<i> Bucks HP12 4XF
+</I>&gt;<i> United Kingdom
+</I>&gt;<i> Phone: 44 (0) 1494 602373
+</I>&gt;<i> Fax: 44 (0) 1494 602301
+</I>&gt;<i> <A HREF="http://www.altera.com">http://www.altera.com</A>
+</I>&gt;<i> 
+</I>&gt;<i> 
+</I>&gt;<i> To ensure compliance with requirements imposed by applicable law, we inform
+</I>&gt;<i> you of the following:
+</I>&gt;<i> 
+</I>&gt;<i> Name of Company                      Altera Europe Limited
+</I>&gt;<i> Company Registration #             2647731
+</I>&gt;<i> Place of Registration                  Cardiff, Wales (Companies House)
+</I>&gt;<i> Registered Office Address          Holmers Farm Way, High Wycombe,
+</I>&gt;<i> Buckinghamshire. HP12 4XF
+</I>&gt;<i> 
+</I>&gt;<i> Confidentiality Notice.
+</I>&gt;<i> This message may contain information that is confidential or otherwise
+</I>&gt;<i> protected from disclosure.  If you are not the intended recipient, you are
+</I>&gt;<i> hereby notified that any use, disclosure, dissemination, distribution,  or
+</I>&gt;<i> copying  of this message, or any attachments, is strictly prohibited.  If
+</I>&gt;<i> you have received this message in error, please advise the sender by reply
+</I>&gt;<i> e-mail, and delete the message and any attachments.   Thank you.
+</I>&gt;<i> 
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Soem-user mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">Soem-user at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">https://lists.berlios.de/mailman/listinfo/soem-user</A>
+</I>-- 
+Warning, new email address:
+<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">ruben.smits at intermodalics.eu</A>
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000047.html">[Soem-user] Basic Questions
+</A></li>
+	<LI>Next message: <A HREF="000048.html">[Soem-user] Basic Questions
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#53">[ date ]</a>
+              <a href="thread.html#53">[ thread ]</a>
+              <a href="subject.html#53">[ subject ]</a>
+              <a href="author.html#53">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

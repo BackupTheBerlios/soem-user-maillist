@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] empty object entry list
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-March/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20empty%20object%20entry%20list&In-Reply-To=%3C1331129861.12543.YahooMailNeo%40web29605.mail.ird.yahoo.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000078.html">
+   <LINK REL="Next"  HREF="000079.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] empty object entry list</H1>
+    <B>rocco brandi</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20empty%20object%20entry%20list&In-Reply-To=%3C1331129861.12543.YahooMailNeo%40web29605.mail.ird.yahoo.com%3E"
+       TITLE="[Soem-user] empty object entry list">viccio75 at yahoo.it
+       </A><BR>
+    <I>Wed Mar  7 15:17:41 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000078.html">[Soem-user] empty object entry list
+</A></li>
+        <LI>Next message: <A HREF="000079.html">[Soem-user] How to assign multiple PDOs
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#81">[ date ]</a>
+              <a href="thread.html#81">[ thread ]</a>
+              <a href="subject.html#81">[ subject ]</a>
+              <a href="author.html#81">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+Hi everyone!
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>I'm trying to read the entry list of the PDOs of&#160; a slave (I'm trying with some EL4112 modules).
+</I>&gt;<i>I used the code in slaveinfo.c:
+</I>&gt;<i>
+</I>&gt;<i>What is the output from ./slaveinfo eth0 -sdo? If this does output the ObjectEntry list then you code is not correct.
+</I>
+actually I'm not using slaveinfo.c; I copied the lines I need in a function of mine.
+
+
+&gt;<i>
+</I>&gt;<i>ec_ODlistt ODlist;
+</I>&gt;<i>ec_OElistt OElist;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>if ((ec_slave[cnt].mbx_proto &amp; 0x04))
+</I>&gt;<i>&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; {
+</I>&gt;<i>&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; ODlist.Entries = 0;
+</I>&gt;<i>&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; memset(&amp;ODlist, 0, sizeof(ODlist));
+</I>&gt;<i>&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; if( ec_readODlist(cnt, &amp;ODlist))
+</I>&gt;<i>&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; {
+</I>&gt;<i>&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; 
+</I>&gt;<i>&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; for( i = 0 ; i &lt; ODlist.Entries ;
+</I>          i++)
+&gt;<i>&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; {
+</I>&gt;<i>&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; ec_readODdescription(i,
+</I>          &amp;ODlist); 
+&gt;<i>
+</I>&gt;<i>insert
+</I>
+&gt;<i>while(EcatError) printf(&quot;%s&quot;, ec_elist2string());
+</I>
+&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; memset(&amp;OElist, 0, sizeof(OElist));
+&gt;<i>&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; ec_readOE(i, &amp;ODlist,
+</I>          &amp;OElist);
+&gt;<i>insert
+</I>
+&gt;<i>while(EcatError) printf(&quot;%s&quot;, ec_elist2string());
+</I>
+
+
+&gt;<i>Then you have to do something with the OElist stucture. It gets overwritten by the loop.
+</I>
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; }
+&gt;<i>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; }
+</I>&gt;<i>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; }
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>I can read the Object Dictonary list, but the OElist is always empty
+</I>&gt;<i>
+</I>I have deleted the pritnf because&#160; I put a breakpoint in my debugger and see what ODlist&#160; and OElist contain.
+
+&gt;<i>It should work, but some very old beckhoff slaves do not have full
+</I>    Object Dictionary implementation. If nothing works PM met a zipped
+    wireshark capture &gt;then I'll have a look.
+
+ok, I will try with some others modules.
+
+
+&gt;<i>
+</I>&gt;<i>what am I doing wrong?
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>I've tried also another way.
+</I>&gt;<i>at line 523 of ethercatconfig.c ther's the function &quot;ec_readPDOmap&quot;, that calls &quot;ec_readPDOassign&quot;, that calls &quot;ec_SDOread&quot; that actually reads SDO that is mapped in PDO (line 676 of ethercatcoe.c).
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>in the case of EL4112 and PDO at 0x1600 the function &quot;ec_SDOread&quot; return 0x30010110. the lower byte is the bitlength (line 679 of ethercatcoe.c), but what does the other bytes means? I can't find it in EtherCAT specifications.
+</I>&gt;<i>The mapping word has the format xxxxyyzz where x = object index, y = object subindex, z = object length in bits. This is in the docu, but a bit hard to find. &gt;So in your case we have object 0x3001 subindex 0x01 with bitlength 16 mapped in 0x1600.
+</I>
+thanks a lot!
+
+
+Rocco
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120307/9635f392/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120307/9635f392/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000078.html">[Soem-user] empty object entry list
+</A></li>
+	<LI>Next message: <A HREF="000079.html">[Soem-user] How to assign multiple PDOs
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#81">[ date ]</a>
+              <a href="thread.html#81">[ thread ]</a>
+              <a href="subject.html#81">[ subject ]</a>
+              <a href="author.html#81">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

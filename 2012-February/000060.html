@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] SOEM + RTNET : problems with ec_config_init
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-February/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20SOEM%20%2B%20RTNET%20%3A%20problems%20with%20ec_config_init&In-Reply-To=%3CCAP1XtZzf-v7VB6QmLn0QsTTT82yM3CpKwRpbG_PO7CUhwM1Z9w%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000061.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] SOEM + RTNET : problems with ec_config_init</H1>
+    <B>Santiago Focke</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20SOEM%20%2B%20RTNET%20%3A%20problems%20with%20ec_config_init&In-Reply-To=%3CCAP1XtZzf-v7VB6QmLn0QsTTT82yM3CpKwRpbG_PO7CUhwM1Z9w%40mail.gmail.com%3E"
+       TITLE="[Soem-user] SOEM + RTNET : problems with ec_config_init">focke.85 at gmail.com
+       </A><BR>
+    <I>Thu Feb  9 18:09:55 CET 2012</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000061.html">[Soem-user] SOEM + RTNET : problems with ec_config_init
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#60">[ date ]</a>
+              <a href="thread.html#60">[ thread ]</a>
+              <a href="subject.html#60">[ subject ]</a>
+              <a href="author.html#60">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi all
+
+I'm trying to make my SOEM master work with RTNET. I'm using the SOEM ROS
+stack from <A HREF="http://www.ros.org/wiki/soem">http://www.ros.org/wiki/soem</A> (SOEM version 1.2.4), Xenomai 2.6.0
+and RTNET 0.9.12. I just got RTNET to work, running the script 'rtnet
+start' and checking for rteth1 with the rtifconfig script.
+
+Nevertheless I'm not sure how should I configure rtnet.config to make it
+work with my EtherCat slaves and my SOEM master (don't know what to put in
+IPADDR, NETMASK, TDMA_SLAVES, etc)
+
+In this moment, when I run my master, ec_init(&quot;rteth1&quot;) &gt; 0, so that means
+that ec_init succeded on rteth1. But when I call ec_config_init(true), it
+seems to stay in a loop and never returns anything.
+
+What should I do? How should I configure rtnet.config to work with EtherCAT
+slaves and my SOEM master?
+
+Regards,
+
+-- 
+Santiago
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120209/d6e215e1/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120209/d6e215e1/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000061.html">[Soem-user] SOEM + RTNET : problems with ec_config_init
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#60">[ date ]</a>
+              <a href="thread.html#60">[ thread ]</a>
+              <a href="subject.html#60">[ subject ]</a>
+              <a href="author.html#60">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

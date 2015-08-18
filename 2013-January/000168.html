@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Replacing gettimeofday() calls in nicdrv.c with	clock_gettime() calls
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2013-January/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Replacing%20gettimeofday%28%29%20calls%20in%20nicdrv.c%20with%0A%09clock_gettime%28%29%20calls&In-Reply-To=%3CCAGmM2K7Y9x23LmUSBUhSCEnV%2BxvwLT%3DJn27E6ym%3D3SXYfEpa1w%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Replacing gettimeofday() calls in nicdrv.c with	clock_gettime() calls</H1>
+    <B>Johnathan Van Why</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Replacing%20gettimeofday%28%29%20calls%20in%20nicdrv.c%20with%0A%09clock_gettime%28%29%20calls&In-Reply-To=%3CCAGmM2K7Y9x23LmUSBUhSCEnV%2BxvwLT%3DJn27E6ym%3D3SXYfEpa1w%40mail.gmail.com%3E"
+       TITLE="[Soem-user] Replacing gettimeofday() calls in nicdrv.c with	clock_gettime() calls">jrvanwhy at gmail.com
+       </A><BR>
+    <I>Thu Jan  3 18:35:43 CET 2013</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#168">[ date ]</a>
+              <a href="thread.html#168">[ thread ]</a>
+              <a href="subject.html#168">[ subject ]</a>
+              <a href="author.html#168">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>In nicdrv.c, as distributed in SOEM 1.2.8, there are some calls to
+gettimeofday() in code that should be HRT-safe. gettimeofday() is not
+HRT-safe under either Xenomai or pure Linux.
+
+In order to get HRT performance under either of these platforms, these
+calls should be replaced with equivalent calls to clock_gettime(). In
+a patch I sent to the Orocos mailing list (they have a toolchain that
+downloads SOEM 1.2.5 and patches it), I add an rt_gettimeofday()
+function to nicdrv.c that is a direct replacement for gettimeofday()
+(minus the timezone parameter) and use that instead (at least in a
+couple critical locations).
+
+Would you like me to port my patch to SOEM 1.2.8, so it can be
+incorporated into SOEM itself?
+
+Thank You,
+Johnathan Van Why
+Dynamic Robotics Laboratory
+Oregon State University
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#168">[ date ]</a>
+              <a href="thread.html#168">[ thread ]</a>
+              <a href="subject.html#168">[ subject ]</a>
+              <a href="author.html#168">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] First questions about SOEM
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2011-November/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20First%20questions%20about%20SOEM&In-Reply-To=%3C4EB3C3D9.7090800%40smfk.nl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000038.html">
+   <LINK REL="Next"  HREF="000040.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] First questions about SOEM</H1>
+    <B>Arthur Ketels</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20First%20questions%20about%20SOEM&In-Reply-To=%3C4EB3C3D9.7090800%40smfk.nl%3E"
+       TITLE="[Soem-user] First questions about SOEM">info at smfk.nl
+       </A><BR>
+    <I>Fri Nov  4 11:52:09 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000038.html">[Soem-user] First questions about SOEM
+</A></li>
+        <LI>Next message: <A HREF="000040.html">[Soem-user] First questions about SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#39">[ date ]</a>
+              <a href="thread.html#39">[ thread ]</a>
+              <a href="subject.html#39">[ subject ]</a>
+              <a href="author.html#39">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello Leo,
+
+Op 20:59, Leopold Palomo-Avellaneda schreef:
+&gt;<i> Hello Arthur,
+</I>&gt;<i>
+</I>&gt;<i> A Dimarts 01 Novembre 2011, Arthur Ketels va escriure:
+</I>&gt;<i> [...]
+</I>&gt;<i>
+</I>&gt;&gt;<i> 3) Data is send out but does not return
+</I>&gt;&gt;<i> 4) Data is not send out (driver setting, network cable)
+</I>&gt;<i> Well, I have found what's is happening. I configured the NIC with a simple
+</I>&gt;<i> parameters: no IP, etc. Just a:
+</I>&gt;<i>
+</I>&gt;<i> auto eth1
+</I>&gt;<i> iface eth1 inet manual
+</I>&gt;<i>
+</I>&gt;<i> so, when I did a ifconfig, I got:
+</I>&gt;<i>
+</I>&gt;<i> eth1      Link encap:Ethernet  HWaddr 00:13:46:3c:a4:9e
+</I>&gt;<i>            BROADCAST MULTICAST  MTU:1500  Metric:1
+</I>&gt;<i>            RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+</I>&gt;<i>            TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+</I>&gt;<i>            collisions:0 txqueuelen:1000
+</I>&gt;<i>            RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+</I>&gt;<i>            Interrupt:18 Base address:0xa000
+</I>&gt;<i>
+</I>&gt;<i> in this configuration the SOEM doesn't work. Also, I don't know if is necessary
+</I>&gt;<i> to have configured the IP part of the NIC. If it was was my mistake, I'm sorry.
+</I>&gt;<i>
+</I>&gt;<i> If I configure the IP part of the NIC, then it works. Setting a private
+</I>&gt;<i> address:
+</I>&gt;<i> iface eth1 inet static
+</I>&gt;<i>          address 10.0.0.1
+</I>&gt;<i>          netmask 255.255.255.0
+</I>&gt;<i>          network 10.0.0.1
+</I>&gt;<i>          broadcast 10.0.0.255
+</I>Hmm, strange. Normally this should not be necessary. Perhaps it is an 
+issue with your distribution in combination with your hardware. Anyway, 
+solved is solved.
+
+&gt;<i>
+</I>&gt;<i> then I got this info:
+</I>&gt;<i>
+</I>&gt;<i> sudo ./simple_test eth1
+</I>&gt;<i> SOEM (Simple Open EtherCAT Master)
+</I>&gt;<i> Simple test
+</I>&gt;<i> Starting simple test
+</I>&gt;<i> ec_init on eth1 succeeded.
+</I>&gt;<i> 1 slaves found and configured.
+</I>&gt;<i> Slaves mapped, state to SAFE_OP.
+</I>&gt;<i> segments : 1 : 0 0 0 0
+</I>&gt;<i> Request operational state for all slaves
+</I>&gt;<i> Calculated workcounter 0
+</I>&gt;<i> Not all slaves reached operational state.
+</I>&gt;<i> Slave 1 State=04 StatusCode=0x0000 : Unknown
+</I>&gt;<i>
+</I>&gt;<i> Request safe operational state for all slaves
+</I>&gt;<i> End simple test, close socket
+</I>&gt;<i> End program
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> also:
+</I>&gt;<i>
+</I>&gt;<i> sudo ./slaveinfo eth1 -sdo
+</I>&gt;<i> SOEM (Simple Open EtherCAT Master)
+</I>&gt;<i> Slaveinfo
+</I>&gt;<i> Starting slaveinfo
+</I>&gt;<i> ec_init on eth1 succeeded.
+</I>&gt;<i> 1 slaves found and configured.
+</I>&gt;<i> Calculated workcounter 0
+</I>&gt;<i>
+</I>&gt;<i> Slave:1
+</I>&gt;<i>   Name:? M:00000024 I:00242803
+</I>&gt;<i>   Output size: 0bits
+</I>&gt;<i>   Input size: 0bits
+</I>&gt;<i>   State: 4
+</I>&gt;<i>   Delay: 0[ns]
+</I>&gt;<i>   Has DC: 1
+</I>&gt;<i>   DCParentport:0
+</I>&gt;<i>   Activeports:1.0.0.0
+</I>&gt;<i>   Configured address: 1001
+</I>&gt;<i>   Man: 00000024 ID: 00242803 Rev: 00000001
+</I>&gt;<i>   SM0 A:1800 L: 234 F:00010026 Type:1
+</I>&gt;<i>   SM1 A:1a00 L: 234 F:00010022 Type:2
+</I>&gt;<i>   SM2 A:1000 L:   0 F:00000064 Type:3
+</I>&gt;<i>   SM3 A:1100 L:   0 F:00000062 Type:4
+</I>&gt;<i>   FMMUfunc 0:0 1:0 2:0 3:0
+</I>&gt;<i>   MBX length wr: 234 rd: 234 MBX protocols : 10
+</I>&gt;<i>   CoE details: 00 FoE details: 00 EoE details: 01 SoE details: 00
+</I>&gt;<i>   Ebus current: 0[mA]
+</I>&gt;<i>   only LRD/LWR:0
+</I>&gt;<i> End slaveinfo, close socket
+</I>&gt;<i> End program
+</I>Interesting. The slave responds, SOEM works. Only SOEM is not able to 
+download the slave process data mapping. Either there is an issue in the 
+communication or there is simply no mapping defined in the drive. If it 
+is the latter, you need to add some ec_SoEwrite() instructions between 
+ec_config_init and ec_config_map. You can see what they are by analysing 
+the .XML file.
+
+Please send me a PM with the wireshark trace, then I can analyse what is 
+going wrong.
+
+Also to be seen from the name field the eeprom in the slave is not 
+configured correctly. It is probably missing some entries (like the 
+general and string section).
+
+Arthur.
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000038.html">[Soem-user] First questions about SOEM
+</A></li>
+	<LI>Next message: <A HREF="000040.html">[Soem-user] First questions about SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#39">[ date ]</a>
+              <a href="thread.html#39">[ thread ]</a>
+              <a href="subject.html#39">[ subject ]</a>
+              <a href="author.html#39">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

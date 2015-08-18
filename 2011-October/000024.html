@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] first steps
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2011-October/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20first%20steps&In-Reply-To=%3C4E9555DA.8020409%40thiele-hydraulik.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000025.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] first steps</H1>
+    <B>Erik Thiele</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20first%20steps&In-Reply-To=%3C4E9555DA.8020409%40thiele-hydraulik.de%3E"
+       TITLE="[Soem-user] first steps">erik.thiele at thiele-hydraulik.de
+       </A><BR>
+    <I>Wed Oct 12 10:54:50 CEST 2011</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000025.html">[Soem-user] small bug
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#24">[ date ]</a>
+              <a href="thread.html#24">[ thread ]</a>
+              <a href="subject.html#24">[ subject ]</a>
+              <a href="author.html#24">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>hello
+
+i bought a beckhoff EK1100 and a beckhoff EL3192 to test ethercat on my
+RT-PREEMPT linux system. first steps involved the IgH EtherCAT Master. i
+had trouble getting kernel module stuff to work and am now at a point
+where it usually works. if not i have to start and stop the module
+twice. then i can analyze a analog input value correctly:
+
+./ethercat upload -p 1 --type int16 0x3101 02
+
+then i wrote my own application to try to get this value in cyclic mode.
+i just don't know how to put the device into &quot;OP&quot; mode. there is no call
+to do that.
+
+frustrated i tried TwinCAT on windows and also didn't get it doing
+something useful - i just wanted to check if my hardware can go to op mode.
+
+googling for &quot;OP linux ethercat&quot; or so, i found SOAM. i downloaded,
+fixed the makefile by removing -lpq which is the postgresql client
+library which is obviously not needed :-) and compiled, started and
+instantly my bus worked, i got analog input values display on screen
+without any worries.
+
+that's really great! thanks for that software. i will now include it
+into my realtime framework as i currently use a analog input proprietary
+pci card, and some usb to canbus converter and still i need more io, i
+am now trying ethercat and will try to use soam to attach to it. let's
+see if it worx.
+
+
+
+thanks!
+cya
+erik
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000025.html">[Soem-user] small bug
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#24">[ date ]</a>
+              <a href="thread.html#24">[ thread ]</a>
+              <a href="subject.html#24">[ subject ]</a>
+              <a href="author.html#24">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

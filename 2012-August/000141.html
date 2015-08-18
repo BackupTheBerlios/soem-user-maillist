@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Is ec_receive_processdata() necessary for every cycle?
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-August/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Is%20ec_receive_processdata%28%29%20necessary%20for%20every%20cycle%3F&In-Reply-To=%3CCAGmM2K6sS-uZjwSZwotZ5qyW4QPqhOYFSxa8mpK%3D3uYv_NendQ%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000145.html">
+   <LINK REL="Next"  HREF="000142.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Is ec_receive_processdata() necessary for every cycle?</H1>
+    <B>Johnathan Van Why</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Is%20ec_receive_processdata%28%29%20necessary%20for%20every%20cycle%3F&In-Reply-To=%3CCAGmM2K6sS-uZjwSZwotZ5qyW4QPqhOYFSxa8mpK%3D3uYv_NendQ%40mail.gmail.com%3E"
+       TITLE="[Soem-user] Is ec_receive_processdata() necessary for every cycle?">jrvanwhy at gmail.com
+       </A><BR>
+    <I>Tue Aug  7 00:46:51 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000145.html">[Soem-user] SOEM buffering and data consistency issues
+</A></li>
+        <LI>Next message: <A HREF="000142.html">[Soem-user] Is ec_receive_processdata() necessary for every	cycle?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#141">[ date ]</a>
+              <a href="thread.html#141">[ thread ]</a>
+              <a href="subject.html#141">[ subject ]</a>
+              <a href="author.html#141">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Our main loop is structured as follows:
+
+while(!done) {
+	// Read sensors from slave
+	ec_send_processdata();
+	ec_receive_processdata(500);
+	
+	run_controllers();
+	
+	// Send new torque commands to slaves
+	ec_send_processdata();
+	
+	// Is this necessary?
+	ec_receive_processdata(500);
+	
+	wait_for_next_cycle();
+}
+
+Since we don't need any of the data our slaves return from the second
+frame, is the second ec_receive_processdata() necessary?
+
+Thank You,
+Johnathan Van Why
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000145.html">[Soem-user] SOEM buffering and data consistency issues
+</A></li>
+	<LI>Next message: <A HREF="000142.html">[Soem-user] Is ec_receive_processdata() necessary for every	cycle?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#141">[ date ]</a>
+              <a href="thread.html#141">[ thread ]</a>
+              <a href="subject.html#141">[ subject ]</a>
+              <a href="author.html#141">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

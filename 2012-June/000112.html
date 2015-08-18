@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Using DC clock
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-June/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Using%20DC%20clock&In-Reply-To=%3CCAC4gz4_NhcTQbpOsO_ppOLTx_hg-S0SDGvCL93cFppEC72UqJQ%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000113.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Using DC clock</H1>
+    <B>Luca Magnabosco</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Using%20DC%20clock&In-Reply-To=%3CCAC4gz4_NhcTQbpOsO_ppOLTx_hg-S0SDGvCL93cFppEC72UqJQ%40mail.gmail.com%3E"
+       TITLE="[Soem-user] Using DC clock">magnabosco.luca at gmail.com
+       </A><BR>
+    <I>Mon Jun  4 12:20:21 CEST 2012</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000113.html">[Soem-user] Using DC clock
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#112">[ date ]</a>
+              <a href="thread.html#112">[ thread ]</a>
+              <a href="subject.html#112">[ subject ]</a>
+              <a href="author.html#112">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi all,
+Finally my slaves seem to work (sometimes) but I still have few  questions
+about using DC clock:
+
+1)In which state has to be called the command ec_sync0(). In my case it
+seem that I have to call it while I am in pre-op state,
+    if not it is ignored (the slaves work but without DC)
+   Is it common? ...because in ebox.c it is called when the ebox it's
+already operational.
+   Anyway, calling ec_sync0() in pre-op the drivers sometimes don't reach
+the operational state. But it seem to be casual...of course I'm doing
+something wrong.
+
+
+2)Which is the meaning of the shift in the command ec_sync0()?
+It's not the shift between ec_send/receive and DC clock because it is
+&quot;manually setted&quot; in ebox.c inside the function ec_sync() and of course it
+isn't the shift of the inputs and outputs of the slaves.
+
+3)I haven't understand yet, if while the use of DC is activated in a slave
+I can send asynchronous SDO too or only synchronous PDO.
+
+Thanks for any kind of hint or idea
+
+Best regards
+Luca
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120604/7bd466df/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120604/7bd466df/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000113.html">[Soem-user] Using DC clock
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#112">[ date ]</a>
+              <a href="thread.html#112">[ thread ]</a>
+              <a href="subject.html#112">[ subject ]</a>
+              <a href="author.html#112">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

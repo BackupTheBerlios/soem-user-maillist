@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Problem with mailbox messages
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2013-April/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Problem%20with%20mailbox%20messages&In-Reply-To=%3C6124CC61CCE3454390138D4C81ECF15F2D43114E%40exchange2.groupy.isse.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000173.html">
+   <LINK REL="Next"  HREF="000174.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Problem with mailbox messages</H1>
+    <B>Andreas Schierl</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Problem%20with%20mailbox%20messages&In-Reply-To=%3C6124CC61CCE3454390138D4C81ECF15F2D43114E%40exchange2.groupy.isse.de%3E"
+       TITLE="[Soem-user] Problem with mailbox messages">schierl at informatik.uni-augsburg.de
+       </A><BR>
+    <I>Fri Apr 19 16:43:09 CEST 2013</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000173.html">[Soem-user] etherCAT over TCP/IP
+</A></li>
+        <LI>Next message: <A HREF="000174.html">[Soem-user] Problem with mailbox messages
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#172">[ date ]</a>
+              <a href="thread.html#172">[ thread ]</a>
+              <a href="subject.html#172">[ subject ]</a>
+              <a href="author.html#172">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+I'm currently using SOEM 1.3.0 to communicate with a Trinamic TMCM-KR-842 axis controller, which includes a lot of EtherCat mailbox communication.
+
+However, sometimes (after a while) it happens that mailbox responses are nonsense. Futher investigation (using Wireshark) showed that in this case two FPRD datagrams seem to be on the wire, with different Ado numbers but equal index field, both first with Wc 0 and then with Wc 1 (i.e. there first are two FPRD with Wc0, and then two FPRD with Wc1). SOEM ec_mbxreceive() seems to mix up these responses and returns the data from the other (Ado 0x080D) read instead of the correct mailbox message response (0x1110).
+
+Any ideas what could cause this behavior?
+
+Regards
+Andreas
+
+--
+Andreas Schierl, M.Sc.
+Lehrstuhl f&#252;r Softwaretechnik
+Universit&#228;t Augsburg
+
+Tel.: +49 (821) 598 - 2117
+Fax.: +49 (821) 598 - 2175
+Mail: <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">schierl at informatik.uni-augsburg.de</A>&lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">schierl at informatik.uni-augsburg.de</A>&gt;
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20130419/c318dfcd/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20130419/c318dfcd/attachment.html</A>&gt;
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000173.html">[Soem-user] etherCAT over TCP/IP
+</A></li>
+	<LI>Next message: <A HREF="000174.html">[Soem-user] Problem with mailbox messages
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#172">[ date ]</a>
+              <a href="thread.html#172">[ thread ]</a>
+              <a href="subject.html#172">[ subject ]</a>
+              <a href="author.html#172">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

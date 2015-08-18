@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Problem with mailbox messages
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2013-April/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Problem%20with%20mailbox%20messages&In-Reply-To=%3C6124CC61CCE3454390138D4C81ECF15F2D4344A1%40exchange2.groupy.isse.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000172.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Problem with mailbox messages</H1>
+    <B>Andreas Schierl</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Problem%20with%20mailbox%20messages&In-Reply-To=%3C6124CC61CCE3454390138D4C81ECF15F2D4344A1%40exchange2.groupy.isse.de%3E"
+       TITLE="[Soem-user] Problem with mailbox messages">schierl at informatik.uni-augsburg.de
+       </A><BR>
+    <I>Mon Apr 22 17:32:50 CEST 2013</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000172.html">[Soem-user] Problem with mailbox messages
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#174">[ date ]</a>
+              <a href="thread.html#174">[ thread ]</a>
+              <a href="subject.html#174">[ subject ]</a>
+              <a href="author.html#174">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+further investigation shows that the problem is caused by the following sequence of events:
+
+
+-          Some process data arrive too late (ecx_waitinframe and ecx_inframe and ecx_recvpkt receive no packet)
+
+-          exc_waitinframe marks the buffer as EC_BUF_EMPTY
+
+-          The process data arrive at the next call to exc_inframe and change the buffer state to EC_BUF_RCVD
+
+-          Thus, this buffer index is blocked forever (as it is never read again)
+
+-          After a while, all but one buffers are EC_BUF_RCVD and can no longer be used, so all following requests use the same index / buffer
+
+-          Once the same happens again (packet is not received in a ecx_inframe call, but arrives later), the problem occurs: The buffer is marked as free and reused by the next mailbox message request, which accepts the (late) previous response as current response as it has the same index.
+
+I'm not sure what is the right way to correctly fix this problem, but my workaround to change the lines in nicdrv.c from:
+
+                  /* mark as received */
+                 (*stack-&gt;rxbufstat)[idxf] = EC_BUF_RCVD;
+
+to
+
+                  /* mark as received */
+                  if((*stack-&gt;rxbufstat)[idxf] != EC_BUF_EMPTY)
+                                 (*stack-&gt;rxbufstat)[idxf] = EC_BUF_RCVD;
+
+seems to resolve the problems I have.
+
+Andreas
+
+--
+Andreas Schierl
+Lehrstuhl f&#252;r Softwaretechnik
+Universit&#228;t Augsburg
+
+Tel.: +49 (821) 598 - 2117
+Fax.: +49 (821) 598 - 2175
+Mail: <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">schierl at informatik.uni-augsburg.de</A>&lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">schierl at informatik.uni-augsburg.de</A>&gt;
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20130422/5c939aed/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20130422/5c939aed/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000172.html">[Soem-user] Problem with mailbox messages
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#174">[ date ]</a>
+              <a href="thread.html#174">[ thread ]</a>
+              <a href="subject.html#174">[ subject ]</a>
+              <a href="author.html#174">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

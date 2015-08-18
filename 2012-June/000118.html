@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Using Beckhoff EK1100 and EL6751
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-June/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Using%20Beckhoff%20EK1100%20and%20EL6751&In-Reply-To=%3CCAP1XtZygcBNEzBG9jJzsBzMJqt67s5vLD0gWWddTVc%3Dz2aYh7w%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000117.html">
+   <LINK REL="Next"  HREF="000119.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Using Beckhoff EK1100 and EL6751</H1>
+    <B>Santiago Focke</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Using%20Beckhoff%20EK1100%20and%20EL6751&In-Reply-To=%3CCAP1XtZygcBNEzBG9jJzsBzMJqt67s5vLD0gWWddTVc%3Dz2aYh7w%40mail.gmail.com%3E"
+       TITLE="[Soem-user] Using Beckhoff EK1100 and EL6751">focke.85 at gmail.com
+       </A><BR>
+    <I>Thu Jun 14 17:39:13 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000117.html">[Soem-user] Using DC clock
+</A></li>
+        <LI>Next message: <A HREF="000119.html">[Soem-user] Using Beckhoff EK1100 and EL6751
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#118">[ date ]</a>
+              <a href="thread.html#118">[ thread ]</a>
+              <a href="subject.html#118">[ subject ]</a>
+              <a href="author.html#118">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi all
+
+I have been trying to add the Beckhoff devices EK1100 and EL6751 to y
+EtherCAT network using SOEM 1.2.4. I am able to achieve the operational
+mode of both devices by following these steps:
+
+- ec_init
+- ec_config_init(true)
+- ec_slave[0]=EC_STATE_PRE_OP
+- ec_writestate(0)
+- ec_chechstate(...)
+- ec_config_map (...)
+- &lt;&lt;configure slaves&gt;&gt; --&gt; set 0xF800:2 = 0 (set baudrate of the EL6751)
+- ec_slave[0]=EC_STATE_SAFE_OP
+- ec_writestate(0)
+- ec_chechstate(...)
+- ec_config_dc()
+- ec_slave[0]=EC_STATE_OPERATIONAL
+- ec_writestate(0)
+- ec_chechstate(...)
+
+Both devices have the &lt;run&gt; led on, but the EL6751 keeps having the red led
+&lt;err&gt; on. I have already checked and there is no connection nor physical
+error, so the problem is during the configuration in the master. I try to
+read the OD list of the EK1100, but I get an error (I guess the EK1100
+doesn't suport CoE). I can read the OD list of the EL6751 though. Also, I
+retrieve the number of bits of the process data of the EL6751, having as a
+result of 0 and 128 for output and input respectively, which  makes no
+sense if the EL6751 is ready to be used. Has someone worked with this
+devices that could tell me what could I be missing during the
+configuration?
+
+I have tried to configure and use the devices with the Beckhoff EtherCAT
+configurator and it works, eventhough the slave that manages the
+configuration and process data of the EL6751 is the one corresponding to
+the EK1100 through a box. What is the ECAT configurator doing that I am not
+doing with SOEM? I checked already the OD lists using this configurator and
+comparing it with the one that I obtain with SOEM and I can see some
+differences. The configurator makes some changes to the objects when
+automatcally adding the EL6751 device. I am tempted to make the same chages
+with SOEM, but I would like to understand exactly what should I do, which
+are the important objects to set in order to use the EL6751.
+
+Thanks in advance. BR.
+
+-- 
+Santiago
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120614/712689d7/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120614/712689d7/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000117.html">[Soem-user] Using DC clock
+</A></li>
+	<LI>Next message: <A HREF="000119.html">[Soem-user] Using Beckhoff EK1100 and EL6751
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#118">[ date ]</a>
+              <a href="thread.html#118">[ thread ]</a>
+              <a href="subject.html#118">[ subject ]</a>
+              <a href="author.html#118">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

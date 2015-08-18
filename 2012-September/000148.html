@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Help needed compiling SOEM
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-September/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Help%20needed%20compiling%20SOEM&In-Reply-To=%3C505797C3.4070700%40smfk.nl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000147.html">
+   <LINK REL="Next"  HREF="000149.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Help needed compiling SOEM</H1>
+    <B>Arthur Ketels</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Help%20needed%20compiling%20SOEM&In-Reply-To=%3C505797C3.4070700%40smfk.nl%3E"
+       TITLE="[Soem-user] Help needed compiling SOEM">arthur at smfk.nl
+       </A><BR>
+    <I>Mon Sep 17 23:36:03 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000147.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+        <LI>Next message: <A HREF="000149.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#148">[ date ]</a>
+              <a href="thread.html#148">[ thread ]</a>
+              <a href="subject.html#148">[ subject ]</a>
+              <a href="author.html#148">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Ben,
+
+Op 17-9-2012 8:24, Ben Lewis schreef:
+&gt;<i> When I try to compile SOEM I get the following errors:
+</I>&gt;<i>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">ben at debian</A>:~/soem$ source ./setup.sh linux
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">ben at debian</A>:~/soem$ make all
+</I>&gt;<i> --- Entering /home/ben/soem/osal
+</I>&gt;<i> --- Entering /home/ben/soem/osal/linux
+</I>&gt;<i> --- Create library libosal.a
+</I>&gt;<i> --- Leaving /home/ben/soem/osal/linux
+</I>&gt;<i> --- Leaving /home/ben/soem/osal
+</I>&gt;<i> --- Entering /home/ben/soem/oshw
+</I>&gt;<i> --- Entering /home/ben/soem/oshw/linux
+</I>&gt;<i> --- Compiling nicdrv.c
+</I>&gt;<i> nicdrv.c: In function &#8216;ec_setupnic&#8217;:
+</I>&gt;<i> nicdrv.c:213: error: &#8216;SOL_SOCKET&#8217; undeclared (first use in this function)
+</I>&gt;<i> nicdrv.c:213: error: (Each undeclared identifier is reported only once
+</I>&gt;<i> nicdrv.c:213: error: for each function it appears in.)
+</I>&gt;<i> nicdrv.c:213: error: &#8216;SO_RCVTIMEO&#8217; undeclared (first use in this function)
+</I>&gt;<i> nicdrv.c:214: error: &#8216;SO_SNDTIMEO&#8217; undeclared (first use in this function)
+</I>&gt;<i> nicdrv.c:216: error: &#8216;SO_DONTROUTE&#8217; undeclared (first use in this function)
+</I>&gt;<i> make[2]: *** [obj/linux/nicdrv.o] Error 1
+</I>&gt;<i> make[1]: *** [linux] Error 2
+</I>&gt;<i> make: *** [oshw] Error 2
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">ben at debian</A>:~/soem$
+</I>&gt;<i>
+</I>&gt;<i> I'm using version 1.2.8 of SOEM.
+</I>&gt;<i>
+</I>&gt;<i> Is anybody able to point me in the right direction to solve this problem?
+</I>&gt;<i>
+</I>&gt;<i> Regards, Ben
+</I>&gt;<i>
+</I>Please check your sys/socket.h
+It should be defined there. Is just standard linux stuff. You could 
+check if you have the build-essentials package installed on your system.
+
+Regards,
+Arthur
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000147.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+	<LI>Next message: <A HREF="000149.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#148">[ date ]</a>
+              <a href="thread.html#148">[ thread ]</a>
+              <a href="subject.html#148">[ subject ]</a>
+              <a href="author.html#148">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

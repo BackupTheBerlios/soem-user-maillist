@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] CoE questions
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-February/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20CoE%20questions&In-Reply-To=%3C000301ccec00%2430e63490%2492b29db0%24%40tpaspa.it%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000062.html">
+   <LINK REL="Next"  HREF="000064.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] CoE questions</H1>
+    <B>FrancescoBoschetti</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20CoE%20questions&In-Reply-To=%3C000301ccec00%2430e63490%2492b29db0%24%40tpaspa.it%3E"
+       TITLE="[Soem-user] CoE questions">francesco.boschetti at tpaspa.it
+       </A><BR>
+    <I>Wed Feb 15 17:38:04 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000062.html">[Soem-user] SOEM + RTNET : problems with ec_config_init
+</A></li>
+        <LI>Next message: <A HREF="000064.html">[Soem-user] CoE questions
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#63">[ date ]</a>
+              <a href="thread.html#63">[ thread ]</a>
+              <a href="subject.html#63">[ subject ]</a>
+              <a href="author.html#63">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+i'm new to ethercat field bus and i'm trying to use SOEM v1.2.5 in my
+application; I'm currently facing some problems 
+
+with CoE:  what I'm trying to do is to interact with a servo-drive (yaskawa
+SGDV)via CANopen protocol using the library 
+
+implemented in ethercatcoe.c file. I've tried to access single CANopen objet
+with ec_SDOwrite() and ec_SDOread() and also I tried
+
+to send and receive synchronous data through ec_RxPDO() and ec_TxPDO()
+function without any positive results (all functions return wkc=0).
+
+Moreover I've seen that, even calling the example function slaveinfo(), the
+servo-drive is correctly found but once it cames to call function 
+
+ec_readODlist() to retrieve the object description list  it fails like if
+there are no information about SDO and PDO mapping.
+
+ 
+
+The yaskawa servo-drive cames with and xml file attached that I guess
+contains the configuration information but I really don't know how to use 
+
+It with SOEM.could anyone give me a hint on how to get the servo-drive work
+with SOEM??
+
+ 
+
+Thanks in advance.
+
+ 
+
+Regards,
+
+Francesco
+
+ 
+
+ 
+
+ 
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120215/abe064b5/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120215/abe064b5/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000062.html">[Soem-user] SOEM + RTNET : problems with ec_config_init
+</A></li>
+	<LI>Next message: <A HREF="000064.html">[Soem-user] CoE questions
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#63">[ date ]</a>
+              <a href="thread.html#63">[ thread ]</a>
+              <a href="subject.html#63">[ subject ]</a>
+              <a href="author.html#63">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

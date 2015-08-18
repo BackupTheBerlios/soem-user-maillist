@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] PB with SDO read
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-November/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20PB%20with%20SDO%20read&In-Reply-To=%3C8F7C6D37D742AF469B145A1DF40E49E2456470E2%40SRV-VM-MAIL.veco.local%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000162.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] PB with SDO read</H1>
+    <B>Philippe Meynard</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20PB%20with%20SDO%20read&In-Reply-To=%3C8F7C6D37D742AF469B145A1DF40E49E2456470E2%40SRV-VM-MAIL.veco.local%3E"
+       TITLE="[Soem-user] PB with SDO read">philippe.meynard at vendeeconcept.com
+       </A><BR>
+    <I>Tue Nov 27 10:24:43 CET 2012</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000162.html">[Soem-user] PB with SDO read
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#161">[ date ]</a>
+              <a href="thread.html#161">[ thread ]</a>
+              <a href="subject.html#161">[ subject ]</a>
+              <a href="author.html#161">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+I use EK1100+EL1018+EL2004+EL6001.
+I have no problem with EL1018+EL2004. I can activate Input and Output without problem. But the serial output looks be disable. SDO read doesn't work !
+I did :
+ob=0;
+      os=sizeof(ob2); ob2=0;
+      ec_SDOread(4,0x4073,00,FALSE,&amp;os,&amp;ob2,EC_TIMEOUTRXM);
+it should have in ob2 the value 6 , it's the default value. But I have already 0.
+I trace the problem and I discovered in SDO-read at the line :
+/* slave response should be CoE, SDO response and the correct index */
+       if (((aSDOp-&gt;MbxHeader.mbxtype &amp; 0x0f) == ECT_MBXT_COE) &amp;&amp;
+          ((etohs(aSDOp-&gt;CANOpen) &gt;&gt; 12) == ECT_COES_SDORES) &amp;&amp;
+           (aSDOp-&gt;Index == SDOp-&gt;Index))
+
+((etohs(aSDOp-&gt;CANOpen) &gt;&gt; 12) == ECT_COES_SDORES) is in fact == ECT_COES_SDOREQ.
+
+I test SDO before and after ec_config_map but it always the same Problem.
+
+Any suggestions ?
+
+
+Philippe Meynard
+Responsable Service Informatique
+
+VENDEE CONCEPT S.A.
+57 rue Fleming, ZI Belle Place
+85000 LA ROCHE SUR YON
+T?l: 02.51.37.46.79 / Fax: 02.51.36.17.71
+www.vendeeconcept.com&lt;<A HREF="http://www.vendeeconcept.com">http://www.vendeeconcept.com</A>&gt;
+
+Ce message et ses ?ventuelles pi?ces jointes contiennent des informations strictement confidentielles et/ou privil?gi?es et sont exclusivement destines aux personnes d?sign?es ci-dessus comme destinataire. Si vous n'?tes pas destinataire de ce message, il vous est interdit de le copier, de le faire suivre, de le divulguer ou d'en utiliser tout ou partie. Si vous avez re?u ce message par erreur, merci de le supprimer de votre syst?me, ainsi que toutes ses copies, et d'en avertir imm?diatement l'exp?diteur par message de retour. Il est impossible de garantir que les communications par messagerie ?lectronique arrivent en temps utile, sont s?curis?es ou d?nu?es de toute erreur ou virus. En cons?quence, l'exp?diteur n'accepte aucune responsabilit? du fait des erreurs, omissions ou pr?judices qui pourraient en r?sulter.
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20121127/9e7ca15f/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20121127/9e7ca15f/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000162.html">[Soem-user] PB with SDO read
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#161">[ date ]</a>
+              <a href="thread.html#161">[ thread ]</a>
+              <a href="subject.html#161">[ subject ]</a>
+              <a href="author.html#161">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

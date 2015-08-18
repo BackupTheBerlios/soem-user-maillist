@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Why an SDOread seem to let output PDOs working well?
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-May/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Why%20an%20SDOread%20seem%20to%20let%20output%20PDOs%20working%20well%3F&In-Reply-To=%3C1337247828.78108.YahooMailNeo%40web29606.mail.ird.yahoo.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000107.html">
+   <LINK REL="Next"  HREF="000109.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Why an SDOread seem to let output PDOs working well?</H1>
+    <B>rocco brandi</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Why%20an%20SDOread%20seem%20to%20let%20output%20PDOs%20working%20well%3F&In-Reply-To=%3C1337247828.78108.YahooMailNeo%40web29606.mail.ird.yahoo.com%3E"
+       TITLE="[Soem-user] Why an SDOread seem to let output PDOs working well?">viccio75 at yahoo.it
+       </A><BR>
+    <I>Thu May 17 11:43:48 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000107.html">[Soem-user] Why an SDOread seem to let output PDOs working well?
+</A></li>
+        <LI>Next message: <A HREF="000109.html">[Soem-user] Using DC clock
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#108">[ date ]</a>
+              <a href="thread.html#108">[ thread ]</a>
+              <a href="subject.html#108">[ subject ]</a>
+              <a href="author.html#108">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+
+&gt;<i>As Luca commented, we are having problems in some aspects, but not in all. So, 
+</I>&gt;<i>it's possible to access to the SOEM data from several processes in the same 
+</I>&gt;<i>app?
+</I>
+&gt;<i>Regards,
+</I>
+&gt;<i>Leo
+</I>
+I think about two possibile solutions:
+
+1) make&#160; struct ec_slave as a global variable for every process. trhough a linker script you can put this structure at a fix address in memory, so all processes can see struct ec_slave by a fix pointer
+
+2) leave ec_slave where it is, call ec_config_map in one process and pass the address of ec_slave to the other processes with&#160; a queue mechanism or leave the address in a global variable that all process can see.
+
+
+hope it would help.
+
+Rocco ^_^
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120517/902853ba/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120517/902853ba/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000107.html">[Soem-user] Why an SDOread seem to let output PDOs working well?
+</A></li>
+	<LI>Next message: <A HREF="000109.html">[Soem-user] Using DC clock
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#108">[ date ]</a>
+              <a href="thread.html#108">[ thread ]</a>
+              <a href="subject.html#108">[ subject ]</a>
+              <a href="author.html#108">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

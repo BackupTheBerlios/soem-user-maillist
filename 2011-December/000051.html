@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] ec_send_processdata problem
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2011-December/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20ec_send_processdata%20problem&In-Reply-To=%3C20111214153450.103496v2de9vyia2%40webmail.uni-bremen.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000050.html">
+   <LINK REL="Next"  HREF="000052.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] ec_send_processdata problem</H1>
+    <B>s_k9jo6n at uni-bremen.de</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20ec_send_processdata%20problem&In-Reply-To=%3C20111214153450.103496v2de9vyia2%40webmail.uni-bremen.de%3E"
+       TITLE="[Soem-user] ec_send_processdata problem">s_k9jo6n at uni-bremen.de
+       </A><BR>
+    <I>Wed Dec 14 15:34:50 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000050.html">[Soem-user] CoE PDOs question
+</A></li>
+        <LI>Next message: <A HREF="000052.html">[Soem-user] ec_send_processdata problem
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#51">[ date ]</a>
+              <a href="thread.html#51">[ thread ]</a>
+              <a href="subject.html#51">[ subject ]</a>
+              <a href="author.html#51">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello all
+
+I've been trying to send the process data in ec_slave[i].outputs but  
+it seems it is not working. I already wrote and read SDOs successfully  
+with the ec_SDOwrite and ec_SDOread. When I read the bytes in  
+ec_slave[i].inputs, after calling ec_receive_processdata, I can read  
+successfully the data sent by my slave as well. But when I write the  
+bytes in ec_slave[i].outputs, apparently it doesn't send it.
+
+Also, I tried to read and write the PDO data (inputs and outputs) with  
+the CoE methods unsuccessfully. Exactly which are the steps to do this?
+
+The part of my code where I read and write the process data is the  
+following (the slave is already in operational state)
+
+&lt;code&gt;
+
+     while (EcatError)
+     {
+         cout &lt;&lt; ec_elist2string() &lt;&lt; endl;
+     }
+
+     if (ec_receive_processdata(EC_TIMEOUTRET) == 0)
+     {
+         success = false;
+         cout &lt;&lt; &quot;receiving data failed&quot; &lt;&lt; endl;
+     }
+
+     if (success)
+         updateSlave();//this function reads and writes the slave i  
+inputs and outputs
+
+
+     if (ec_send_processdata() == 0)
+     {
+         success = false;
+         cout &lt;&lt; &quot;sending process data failed&quot; &lt;&lt; endl;
+     }
+
+&lt;/code&gt;
+
+
+Which could be the problem?
+
+Thanks in advance.
+
+Best Regards,
+
+Focke
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000050.html">[Soem-user] CoE PDOs question
+</A></li>
+	<LI>Next message: <A HREF="000052.html">[Soem-user] ec_send_processdata problem
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#51">[ date ]</a>
+              <a href="thread.html#51">[ thread ]</a>
+              <a href="subject.html#51">[ subject ]</a>
+              <a href="author.html#51">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

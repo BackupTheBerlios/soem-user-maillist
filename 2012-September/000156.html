@@ -1,0 +1,122 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Help needed compiling SOEM
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-September/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Help%20needed%20compiling%20SOEM&In-Reply-To=%3C201209181341.47566.leo%40alaxarxa.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000154.html">
+   <LINK REL="Next"  HREF="000157.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Help needed compiling SOEM</H1>
+    <B>Leopold Palomo-Avellaneda</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Help%20needed%20compiling%20SOEM&In-Reply-To=%3C201209181341.47566.leo%40alaxarxa.net%3E"
+       TITLE="[Soem-user] Help needed compiling SOEM">leo at alaxarxa.net
+       </A><BR>
+    <I>Tue Sep 18 13:41:46 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000154.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+        <LI>Next message: <A HREF="000157.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#156">[ date ]</a>
+              <a href="thread.html#156">[ thread ]</a>
+              <a href="subject.html#156">[ subject ]</a>
+              <a href="author.html#156">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>A Dimarts 18 Setembre 2012, Ben Lewis va escriure:
+&gt;<i> On 18/09/2012 6:34 PM, Arthur Ketels wrote:
+</I>&gt;<i> &gt; Hi Ben
+</I>&gt;<i> &gt; Op 18-9-2012 1:09, Ben Lewis schreef:
+</I>&gt;<i> &gt;&gt; Hi Arthur,
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Thanks for your reply.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; I can confirm that I have sys/socket.h present on my system.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Installing build-essentials has not helped.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; I get the same result on Ubuntu and Debian.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Any other suggestions I can try?
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Regards, Ben
+</I>&gt;<i> &gt; No clue what is wrong with your set up. Most people just simply download 
+</I>and build without issues.
+&gt;<i> &gt; I had a look at one of my PC's, running Ubuntu 12 64bit.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; The call chain for socket.h is:
+</I>&gt;<i> &gt; /usr/include/x68_64-linux-gnu/sys/socket.h
+</I>&gt;<i> &gt; /usr/include/x68_64-linux-gnu/bits/socket.h
+</I>&gt;<i> &gt; /usr/include/x68_64-linux-gnu/asm/socket.h
+</I>&gt;<i> &gt; /usr/include/asm-generic/socket.h
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; The last file has the actual definitions your set-up complains about.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; build-essential should do the trick, but you can also reinstall glibc6 and 
+</I>glibc6-dev.
+&gt;<i> &gt;
+</I>&gt;<i> &gt; Regards, Arthur.
+</I>&gt;<i> 
+</I>&gt;<i> Interesting...
+</I>&gt;<i> 
+</I>&gt;<i> On both my Debian and Ubuntu installations I'm missing the usr/include/asm 
+</I>directory.
+
+I don't understand why. I have it.
+
+&gt;<i> It looks like it is required because line 40 of usr/include/sys/socket.h 
+</I>includes &lt;bits/socket.h&gt;, 
+&gt;<i> which in turn includes &lt;asm/socket.h&gt; on line 366. However, I am missing 
+</I>this file (and entire 
+&gt;<i> directory).
+</I>&gt;<i> 
+</I>&gt;<i> This might be related to this bug 
+</I><A HREF="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/373214">https://bugs.launchpad.net/ubuntu/+source/linux/+bug/373214</A>
+&gt;<i> 
+</I>&gt;<i> I will update my installation and report back.
+</I>
+It's a bug a bit old.
+
+Leo
+
+
+-- 
+--
+Linux User 152692
+Catalonia
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000154.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+	<LI>Next message: <A HREF="000157.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#156">[ date ]</a>
+              <a href="thread.html#156">[ thread ]</a>
+              <a href="subject.html#156">[ subject ]</a>
+              <a href="author.html#156">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

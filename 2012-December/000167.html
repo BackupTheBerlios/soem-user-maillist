@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] CoE PDO read/write
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-December/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20CoE%20PDO%20read/write&In-Reply-To=%3C378982C2DED06049B6E2FED41772A03A2D25C2BD%40exchange2.groupy.isse.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000166.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] CoE PDO read/write</H1>
+    <B>Michael Vistein</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20CoE%20PDO%20read/write&In-Reply-To=%3C378982C2DED06049B6E2FED41772A03A2D25C2BD%40exchange2.groupy.isse.de%3E"
+       TITLE="[Soem-user] CoE PDO read/write">vistein at informatik.uni-augsburg.de
+       </A><BR>
+    <I>Tue Dec 11 17:20:21 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000166.html">[Soem-user] CoE PDO read/write
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#167">[ date ]</a>
+              <a href="thread.html#167">[ thread ]</a>
+              <a href="subject.html#167">[ subject ]</a>
+              <a href="author.html#167">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Arthur,
+
+I now managed to establish a connection with the device. The error had nothing to do with CoE, but rather with an incomplete/incorrect configuration of DC. The other EtherCAT slaves we used so far simply did not care about DC, but this device obviously does. With correct DC, ec_receive_processdata() works as intended.
+
+Thanks again for your support,
+
+Michael
+
+&gt;<i> -----Urspr&#252;ngliche Nachricht-----
+</I>&gt;<i> Von: Arthur Ketels [mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">info at smfk.nl</A>]
+</I>&gt;<i> Gesendet: Dienstag, 11. Dezember 2012 13:30
+</I>&gt;<i> An: Michael Vistein
+</I>&gt;<i> Cc: <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user at lists.berlios.de</A>
+</I>&gt;<i> Betreff: Re: [Soem-user] CoE PDO read/write
+</I>&gt;<i> 
+</I>&gt;<i> Hi Michael,
+</I>&gt;<i> Op 10-12-2012 14:42, Michael Vistein schreef:
+</I>&gt;<i> &gt; Hi,
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; I'm currently trying to control a robotic device using CoE and CiA 402.
+</I>&gt;<i> A little more info would help to know what we are dealing with here.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; After removing the CA flag I'm now able to put the device into Operational
+</I>&gt;<i> Mode, I get a process image of appropriate size and I can read SDO objects.
+</I>&gt;<i> However, I have not found a way to read the PDOs.
+</I>&gt;<i> &gt; ec_send_processdata() returns with a non-zero wkc, however
+</I>&gt;<i> ec_receive_precessdata(...) always returns with zero.
+</I>&gt;<i> Zero WKC on ec_receive_data() indicates there is no data transfer
+</I>&gt;<i> between the master and slave logical IO mapping. Can you send a (zipped)
+</I>&gt;<i> wireshark trace of a your device in OP? Also a dump of &quot;./slaveinfo eth0
+</I>&gt;<i> -map&quot; would help.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Maybe TxPDO and RxPDO have to be used instead of
+</I>&gt;<i> ec_receive_processdata for CoE? Unfortunately I did not find much
+</I>&gt;<i> information about using CoE with SOEM. Has anyone managed to use
+</I>&gt;<i> synchronous PDOs with SOEM so far?
+</I>&gt;<i> SOEM is used in hundreds of projects on many master targets and slave
+</I>&gt;<i> combinations. It does work as advertised. But sometimes there can be a
+</I>&gt;<i> snag before all works out. I always suggest to start simple, for example
+</I>&gt;<i> a digital input / output slave. And make a &quot;blinky&quot; project. When that
+</I>&gt;<i> works you can go to more complex projects.
+</I>&gt;<i> 
+</I>&gt;<i> Arthur
+</I></PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000166.html">[Soem-user] CoE PDO read/write
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#167">[ date ]</a>
+              <a href="thread.html#167">[ thread ]</a>
+              <a href="subject.html#167">[ subject ]</a>
+              <a href="author.html#167">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] CoE questions
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-February/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20CoE%20questions&In-Reply-To=%3CCAP1XtZyCn-DkE1xMENMf62nQGpWhkf%2BLPzkOd-U_6NGwtGvxKQ%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000063.html">
+   <LINK REL="Next"  HREF="000065.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] CoE questions</H1>
+    <B>Santiago Focke</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20CoE%20questions&In-Reply-To=%3CCAP1XtZyCn-DkE1xMENMf62nQGpWhkf%2BLPzkOd-U_6NGwtGvxKQ%40mail.gmail.com%3E"
+       TITLE="[Soem-user] CoE questions">focke.85 at gmail.com
+       </A><BR>
+    <I>Wed Feb 15 18:27:03 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000063.html">[Soem-user] CoE questions
+</A></li>
+        <LI>Next message: <A HREF="000065.html">[Soem-user] bug: SOEM stack: Errors in master component	re-configuration
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#64">[ date ]</a>
+              <a href="thread.html#64">[ thread ]</a>
+              <a href="subject.html#64">[ subject ]</a>
+              <a href="author.html#64">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Francesco
+
+I once found myself with the same difficulties. I'm not an expert but maybe
+I can help you. I use SOEM 1.2.4, but I think this can help you.
+
+
+2012/2/15 FrancescoBoschetti &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">francesco.boschetti at tpaspa.it</A>&gt;
+
+&gt;<i> Hi,
+</I>&gt;<i>
+</I>&gt;<i> i&#8217;m new to ethercat field bus and i&#8217;m trying to use SOEM v1.2.5 in my
+</I>&gt;<i> application; I&#8217;m currently facing some problems
+</I>&gt;<i>
+</I>&gt;<i> with CoE:  what I&#8217;m trying to do is to interact with a servo-drive
+</I>&gt;<i> (yaskawa SGDV)via CANopen protocol using the library
+</I>&gt;<i>
+</I>&gt;<i> implemented in ethercatcoe.c file. I&#8217;ve tried to access single CANopen
+</I>&gt;<i> objet with ec_SDOwrite() and ec_SDOread() and also I tried
+</I>&gt;<i>
+</I>&gt;<i> to send and receive synchronous data through ec_RxPDO() and ec_TxPDO()
+</I>&gt;<i> function without any positive results (all functions return wkc=0).
+</I>&gt;<i>
+</I>
+To read and write SDO I did it as follows (example setting and reading a
+1-byte parameter from a slave (index 0xf800, subindex 2) ):
+
+uint8 cValue = 1;// value to be set
+int iSize = sizeof(cValue);
+int wkc = ec_SDOwrite( m_slave_nr, //slave number --&gt; depending on your
+slave
+0xf800,//object index --&gt; for example
+2, //subindex,
+FALSE,
+iSize, //parameter size (in bytes)
+&amp;cValue, //value to be set
+EC_TIMEOUTRXM ); //timeout
+
+//------------------------------------
+
+unsigned char cValue = 0; //value to be read
+int iSize = sizeof(cValue);
+int wkc = ec_SDOread( m_slave_nr, //slave number --&gt; depending on your slave
+0xf800,//object index
+2, //subindex,
+FALSE,
+&amp;iSize, //parameter size (in bytes)
+&amp;cValue, //value to be read
+EC_TIMEOUTRXM );// timeout
+if ( iSize != sizeof(cValue) )
+return false;
+
+
+I never managed to read and write PDOs. At the end I managed the process
+data directly from inputs and outputs.
+
+
+&gt;<i>
+</I>&gt;<i> Moreover I&#8217;ve seen that, even calling the example function slaveinfo(),
+</I>&gt;<i> the servo-drive is correctly found but once it cames to call function
+</I>&gt;<i>
+</I>&gt;<i> ec_readODlist() to retrieve the object description list  it fails like if
+</I>&gt;<i> there are no information about SDO and PDO mapping.
+</I>&gt;<i>
+</I>
+To read the Object Dictionay I did as follows:
+
+    ec_ODlistt ODlist;
+    ec_OElistt OElist;
+    int wkc;
+
+    //read Object Dictionary list
+    wkc = ec_readODlist (iSlave, &amp;ODlist);
+
+    //Read objects description
+    for (unsigned int i = 0; i &lt; ODlist.Entries; i++)
+        wkc = ec_readODdescription(i, &amp;ODlist);
+
+To include the subindexes description as well, I did
+
+    for (unsigned int i = 0; i &lt; ODlist.Entries; i++)
+ int wkc = ec_readOE(i, &amp;ODlist, &amp;OElist);
+
+After that you can access the read data, e.g.:
+
+ODlist.Index[desired_index]
+OElist.BitLength[desired_subindex]
+
+
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> The yaskawa servo-drive cames with and xml file attached that I guess
+</I>&gt;<i> contains the configuration information but I really don&#8217;t know how to use
+</I>&gt;<i>
+</I>
+As far as I know, SOEM has not a configuration tool to manage XML files.
+This thread is about that:
+<A HREF="https://lists.berlios.de/pipermail/soem-user/2011-November/000043.html">https://lists.berlios.de/pipermail/soem-user/2011-November/000043.html</A>
+
+
+&gt;<i> It with SOEM&#8230;could anyone give me a hint on how to get the servo-drive
+</I>&gt;<i> work with SOEM??
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Thanks in advance.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Regards,
+</I>&gt;<i>
+</I>&gt;<i> Francesco
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Soem-user mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">Soem-user at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">https://lists.berlios.de/mailman/listinfo/soem-user</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>
+
+-- 
+Santiago
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120215/e8ae5c64/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120215/e8ae5c64/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000063.html">[Soem-user] CoE questions
+</A></li>
+	<LI>Next message: <A HREF="000065.html">[Soem-user] bug: SOEM stack: Errors in master component	re-configuration
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#64">[ date ]</a>
+              <a href="thread.html#64">[ thread ]</a>
+              <a href="subject.html#64">[ subject ]</a>
+              <a href="author.html#64">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

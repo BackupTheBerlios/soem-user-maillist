@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] ec_send_processdata problem
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2011-December/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20ec_send_processdata%20problem&In-Reply-To=%3C4EE9A8E8.4040300%40smfk.nl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000051.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] ec_send_processdata problem</H1>
+    <B>Arthur Ketels</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20ec_send_processdata%20problem&In-Reply-To=%3C4EE9A8E8.4040300%40smfk.nl%3E"
+       TITLE="[Soem-user] ec_send_processdata problem">info at smfk.nl
+       </A><BR>
+    <I>Thu Dec 15 08:59:36 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000051.html">[Soem-user] ec_send_processdata problem
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#52">[ date ]</a>
+              <a href="thread.html#52">[ thread ]</a>
+              <a href="subject.html#52">[ subject ]</a>
+              <a href="author.html#52">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello Focke,
+
+Op 20:59, <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">s_k9jo6n at uni-bremen.de</A> schreef:
+&gt;<i> Hello all
+</I>&gt;<i>
+</I>&gt;<i> I've been trying to send the process data in ec_slave[i].outputs but
+</I>&gt;<i> it seems it is not working. I already wrote and read SDOs successfully
+</I>&gt;<i> with the ec_SDOwrite and ec_SDOread. When I read the bytes in
+</I>&gt;<i> ec_slave[i].inputs, after calling ec_receive_processdata, I can read
+</I>&gt;<i> successfully the data sent by my slave as well. But when I write the
+</I>&gt;<i> bytes in ec_slave[i].outputs, apparently it doesn't send it.
+</I>So most likely your slave is in pre-op or pre-op+error state and 
+refusing any output data. This is easy to check with wireshark. You can 
+then monitor the actual packets transmitted to and from the slaves. 
+Wireshark has an in-build filter for EtherCAT so they are easy to read.
+
+Before starting the process data cycle you have to set the slaves to 
+operational mode, and monitor they are really in the requested mode. See 
+the simple_test example on how to do that.
+&gt;<i>
+</I>&gt;<i> Also, I tried to read and write the PDO data (inputs and outputs) with
+</I>&gt;<i> the CoE methods unsuccessfully. Exactly which are the steps to do this?
+</I>There are no known slaves that support this part of the protocol. The 
+methods are supported by SOEM, but there is currently no way to use them.
+&gt;<i>
+</I>&gt;<i> The part of my code where I read and write the process data is the
+</I>&gt;<i> following (the slave is already in operational state)
+</I>&gt;<i>
+</I>&gt;<i> &lt;code&gt;
+</I>&gt;<i>
+</I>&gt;<i>       while (EcatError)
+</I>&gt;<i>       {
+</I>&gt;<i>           cout&lt;&lt;  ec_elist2string()&lt;&lt;  endl;
+</I>&gt;<i>       }
+</I>&gt;<i>
+</I>&gt;<i>       if (ec_receive_processdata(EC_TIMEOUTRET) =0)
+</I>You should also check the actual value returned. This is the workcounter 
+and represents the sum of answers all slaves have given to the 
+ec_send_processdata(). Each slave increments the workcounter with 1 for 
+an input syncmanager and with 2 for an output syncmanager. So a slave 
+that has both inputs and outputs will increment with 3.
+
+If the slave fall back to pre-op from operational (because you send the 
+packets slower than the slaves watchdog time-out value of 100ms, or from 
+an internal slave error) the workcounter will be decreased with 2. This 
+is easy detectable.
+&gt;<i>       {
+</I>&gt;<i>           success =alse;
+</I>&gt;<i>           cout&lt;&lt;  &quot;receiving data failed&quot;&lt;&lt;  endl;
+</I>&gt;<i>       }
+</I>&gt;<i>
+</I>&gt;<i>       if (success)
+</I>&gt;<i>           updateSlave();//this function reads and writes the slave i
+</I>&gt;<i> inputs and outputs
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>       if (ec_send_processdata() =0)
+</I>&gt;<i>       {
+</I>&gt;<i>           success =alse;
+</I>&gt;<i>           cout&lt;&lt;  &quot;sending process data failed&quot;&lt;&lt;  endl;
+</I>&gt;<i>       }
+</I>&gt;<i>
+</I>&gt;<i> &lt;/code&gt;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Which could be the problem?
+</I>&gt;<i>
+</I>&gt;<i> Thanks in advance.
+</I>&gt;<i>
+</I>&gt;<i> Best Regards,
+</I>&gt;<i>
+</I>&gt;<i> Focke
+</I>&gt;<i>
+</I>Good luck, Arthur Ketels.
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000051.html">[Soem-user] ec_send_processdata problem
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#52">[ date ]</a>
+              <a href="thread.html#52">[ thread ]</a>
+              <a href="subject.html#52">[ subject ]</a>
+              <a href="author.html#52">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

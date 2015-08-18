@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] TxPDO Assign Settings
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2010-April/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20TxPDO%20Assign%20Settings&In-Reply-To=%3Cq2j64ba654c1004210617s2cde2760w3f7a897925c44d96%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000009.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] TxPDO Assign Settings</H1>
+    <B>Ryan Neuhart</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20TxPDO%20Assign%20Settings&In-Reply-To=%3Cq2j64ba654c1004210617s2cde2760w3f7a897925c44d96%40mail.gmail.com%3E"
+       TITLE="[Soem-user] TxPDO Assign Settings">ryneu2 at gmail.com
+       </A><BR>
+    <I>Wed Apr 21 15:17:45 CEST 2010</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000009.html">[Soem-user] TxPDO Assign Settings
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#8">[ date ]</a>
+              <a href="thread.html#8">[ thread ]</a>
+              <a href="subject.html#8">[ subject ]</a>
+              <a href="author.html#8">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello,
+I am writing with a question about the ability to set TxPDO assign options.
+
+I am working with the Beckhoff EL5101 encoder card.  The default TxPDO
+assign settings allow only the status, value, and latch parameters through
+(0x1A00 inputs).  I would like to change the TxPDO assign so that the
+frequency, window, and period parameters are also passed (0x1A02 inputs).
+
+I was attempting to do this with the &quot;ec_SDOwrite()&quot; function as shown
+below:
+
+                // Change number of inputs
+                TxPDO_000=2;
+                int os=sizeof(TxPDO_000);
+
+                ec_SDOwrite(8,0x1C13,00,FALSE,os,&amp;TxPDO_000,EC_TIMEOUTRXM);
+
+                // Verify change
+                TxPDO_000=0;
+                os=sizeof(TxPDO_000);
+
+ec_SDOread(8,0x1C13,00,FALSE,&amp;os,&amp;TxPDO_000,EC_TIMEOUTRXM);
+
+                // Add input assignment
+                TxPDO_002=0x1A02;
+                os=sizeof(TxPDO_002);
+
+                ec_SDOwrite(8,0x1C13,02,FALSE,os,&amp;TxPDO_002,EC_TIMEOUTRXM);
+
+                // Verify change
+                TxPDO_002=0;
+                os=sizeof(TxPDO_002);
+                ec_SDOread(8,0x1C13,02,FALSE,&amp;os,&amp;TxPDO_002,EC_TIMEOUTRXM);
+
+The read statements work (I was able to verify the default settings for the
+other subindices were as expected), but the write statements did not.  Also,
+I have verfied that the ec_SDOwrite() function works for other parameter
+changes (able to change frequency window of this card), but not this.  Any
+help on this is greatly appreciated.
+
+Sincerely,
+RyanN
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20100421/30c47dee/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20100421/30c47dee/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000009.html">[Soem-user] TxPDO Assign Settings
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#8">[ date ]</a>
+              <a href="thread.html#8">[ thread ]</a>
+              <a href="subject.html#8">[ subject ]</a>
+              <a href="author.html#8">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

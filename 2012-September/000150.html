@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Help needed compiling SOEM
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-September/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Help%20needed%20compiling%20SOEM&In-Reply-To=%3C201209180908.24099.leo%40alaxarxa.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000149.html">
+   <LINK REL="Next"  HREF="000151.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Help needed compiling SOEM</H1>
+    <B>Leopold Palomo-Avellaneda</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Help%20needed%20compiling%20SOEM&In-Reply-To=%3C201209180908.24099.leo%40alaxarxa.net%3E"
+       TITLE="[Soem-user] Help needed compiling SOEM">leo at alaxarxa.net
+       </A><BR>
+    <I>Tue Sep 18 09:08:23 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000149.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+        <LI>Next message: <A HREF="000151.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#150">[ date ]</a>
+              <a href="thread.html#150">[ thread ]</a>
+              <a href="subject.html#150">[ subject ]</a>
+              <a href="author.html#150">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>A Dimarts 18 Setembre 2012, Ben Lewis va escriure:
+&gt;<i> Hi Arthur,
+</I>&gt;<i> 
+</I>&gt;<i> Thanks for your reply.
+</I>&gt;<i> 
+</I>&gt;<i> I can confirm that I have sys/socket.h present on my system.
+</I>&gt;<i> 
+</I>&gt;<i> Installing build-essentials has not helped.
+</I>&gt;<i> 
+</I>&gt;<i> I get the same result on Ubuntu and Debian.
+</I>&gt;<i> 
+</I>&gt;<i> Any other suggestions I can try?
+</I>
+Hi Ben,
+
+I don't know what's happening with your setup. Which version of debian and 
+ubuntu have you tested?
+
+I have compiled SOEM without problems in a Debian Squeeze in a clean chroot 
+minimal configuration.
+
+Leo
+
+
+&gt;<i> Regards, Ben
+</I>&gt;<i> 
+</I>&gt;<i> On 9/18/12, Arthur Ketels &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">arthur at smfk.nl</A>&gt; wrote:
+</I>&gt;<i> &gt; Hi Ben,
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Op 17-9-2012 8:24, Ben Lewis schreef:
+</I>&gt;<i> &gt;&gt; When I try to compile SOEM I get the following errors:
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">ben at debian</A>:~/soem$ source ./setup.sh linux
+</I>&gt;<i> &gt;&gt; <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">ben at debian</A>:~/soem$ make all
+</I>&gt;<i> &gt;&gt; --- Entering /home/ben/soem/osal
+</I>&gt;<i> &gt;&gt; --- Entering /home/ben/soem/osal/linux
+</I>&gt;<i> &gt;&gt; --- Create library libosal.a
+</I>&gt;<i> &gt;&gt; --- Leaving /home/ben/soem/osal/linux
+</I>&gt;<i> &gt;&gt; --- Leaving /home/ben/soem/osal
+</I>&gt;<i> &gt;&gt; --- Entering /home/ben/soem/oshw
+</I>&gt;<i> &gt;&gt; --- Entering /home/ben/soem/oshw/linux
+</I>&gt;<i> &gt;&gt; --- Compiling nicdrv.c
+</I>&gt;<i> &gt;&gt; nicdrv.c: In function &#8216;ec_setupnic&#8217;:
+</I>&gt;<i> &gt;&gt; nicdrv.c:213: error: &#8216;SOL_SOCKET&#8217; undeclared (first use in this function)
+</I>&gt;<i> &gt;&gt; nicdrv.c:213: error: (Each undeclared identifier is reported only once
+</I>&gt;<i> &gt;&gt; nicdrv.c:213: error: for each function it appears in.)
+</I>&gt;<i> &gt;&gt; nicdrv.c:213: error: &#8216;SO_RCVTIMEO&#8217; undeclared (first use in this
+</I>&gt;<i> &gt;&gt; function)
+</I>&gt;<i> &gt;&gt; nicdrv.c:214: error: &#8216;SO_SNDTIMEO&#8217; undeclared (first use in this
+</I>&gt;<i> &gt;&gt; function)
+</I>&gt;<i> &gt;&gt; nicdrv.c:216: error: &#8216;SO_DONTROUTE&#8217; undeclared (first use in this
+</I>&gt;<i> &gt;&gt; function)
+</I>&gt;<i> &gt;&gt; make[2]: *** [obj/linux/nicdrv.o] Error 1
+</I>&gt;<i> &gt;&gt; make[1]: *** [linux] Error 2
+</I>&gt;<i> &gt;&gt; make: *** [oshw] Error 2
+</I>&gt;<i> &gt;&gt; <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">ben at debian</A>:~/soem$
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; I'm using version 1.2.8 of SOEM.
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Is anybody able to point me in the right direction to solve this problem?
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt;&gt; Regards, Ben
+</I>&gt;<i> &gt;&gt;
+</I>&gt;<i> &gt; Please check your sys/socket.h
+</I>&gt;<i> &gt; It should be defined there. Is just standard linux stuff. You could
+</I>&gt;<i> &gt; check if you have the build-essentials package installed on your system.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Regards,
+</I>&gt;<i> &gt; Arthur
+</I>&gt;<i> &gt;
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Soem-user mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">Soem-user at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">https://lists.berlios.de/mailman/listinfo/soem-user</A>
+</I>&gt;<i> 
+</I>
+
+-- 
+--
+Linux User 152692
+Catalonia
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000149.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+	<LI>Next message: <A HREF="000151.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#150">[ date ]</a>
+              <a href="thread.html#150">[ thread ]</a>
+              <a href="subject.html#150">[ subject ]</a>
+              <a href="author.html#150">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

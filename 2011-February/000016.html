@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Re : 6731 startup SDOwrite
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2011-February/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Re%20%3A%206731%20startup%20SDOwrite&In-Reply-To=%3CA48B1CA8-CDBC-4334-A685-E133C5AA6593%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000015.html">
+   <LINK REL="Next"  HREF="000017.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Re : 6731 startup SDOwrite</H1>
+    <B>asa hammond</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Re%20%3A%206731%20startup%20SDOwrite&In-Reply-To=%3CA48B1CA8-CDBC-4334-A685-E133C5AA6593%40gmail.com%3E"
+       TITLE="[Soem-user] Re : 6731 startup SDOwrite">asa.mlists at gmail.com
+       </A><BR>
+    <I>Wed Feb  2 19:22:19 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000015.html">[Soem-user] Re : 6731 startup SDOwrite
+</A></li>
+        <LI>Next message: <A HREF="000017.html">[Soem-user] Re : 6731 startup SDOwrite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#16">[ date ]</a>
+              <a href="thread.html#16">[ thread ]</a>
+              <a href="subject.html#16">[ subject ]</a>
+              <a href="author.html#16">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Thank you for the response.
+
+some questions inline
+On Feb 2, 2011, at 5:57 AM, Arthur Ketels wrote:
+
+&gt;<i> Some Beckhoff slaves have an issue with index 0x1c12 and 0x1c13 subindex 00. The datatype is defined as uint8 but the slave uses uint16 internally. Try ec_SDOwrite() on subindex 0 with datatype uint16.
+</I>&gt;<i> The order to reconfigure 0x1c12 and 0x1c13 is:
+</I>&gt;<i> - Set subindex 0 to 0.
+</I>&gt;<i> - Write index 01 to n
+</I>&gt;<i> - Set subindex 0 to n
+</I>&gt;<i> 
+</I>
+what is n here?  if I want to write the value of 1000000 into subindex 0x02 and then 8 into subindex  0x04, do I:
+	
+	do I set subindex 0 to the last value I wrote? like:
+
+		first set subindex 0 to 0, 
+		then write subindex 0x02 to my value of 1000000, 
+		then set subindex 0 to 0x02
+		then write subindex 0x04 to my value of 8,
+		then set subindex 0 to 0x04 
+
+	OR
+
+	does n equal the number of my current subindex I am working on? like:
+
+		first set subindex 0 to 0, 
+		then write subindex 0x02 to my value of 1000000, 
+		then set subindex 0 to 0x02
+		then write subindex 0x04 to my value of 8,
+		then set subindex 0 to 0x04
+	
+	OR 
+	
+
+	do I set n to the final value of the subindex I wrote, after writing all my subindices? like:
+	
+		first set subindex 0 to 0, 
+		then write subindex 0x02 to my value of 1000000, 
+		then write subindex 0x04 to my value of 8,
+		then set subindex 0 to 0x04 
+	
+
+I feel like I could interpret the literature in any one of these ways. =)
+
+
+&gt;<i> CA should also work. But some slaves choke on it so you have to revert to the single case. With CA you HAVE to write the complete object in one go. The data structure can be quite complex (see protocol doc in the ETG), but an easy way to figure it out is to analyse the result from a CA read on the index in question. The datatype is not important as long it has the correct size. So you can use uint8 buf[OBJECTSIZE], and then ec_SDOwrite(slave, index, 0, TRUE, OBJECTSIZE, &amp;buf, TIMEOUT). Remember that for CA the subindex MUST be 0 or 1.
+</I>
+I do not have access to the protocol doc (working on that) so I am working a little blind here.
+
+
+&gt;<i> For setting 0x1c12 with CA the length needs to be subindex 0 plus the number of entries. If you only have 3 entries but 10 are possible, 3 need to be send. The length of the object is 1(SI0) + 1(filler) + 2(SI1) + 2(SI2) + 2(SI3) = 8 bytes.
+</I>
+where is this filler defined? spec doc?
+
+Ill try and pursue the read CA setup, inspect that and write it back changed.
+
+&gt;<i> Arthur
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Soem-user mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">Soem-user at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">https://lists.berlios.de/mailman/listinfo/soem-user</A>
+</I>
+
+Thank you for your help.
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000015.html">[Soem-user] Re : 6731 startup SDOwrite
+</A></li>
+	<LI>Next message: <A HREF="000017.html">[Soem-user] Re : 6731 startup SDOwrite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#16">[ date ]</a>
+              <a href="thread.html#16">[ thread ]</a>
+              <a href="subject.html#16">[ subject ]</a>
+              <a href="author.html#16">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

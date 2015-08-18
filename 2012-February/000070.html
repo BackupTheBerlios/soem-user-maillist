@@ -1,0 +1,380 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Soem-user Digest, Vol 15, Issue 6
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-February/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Soem-user%20Digest%2C%20Vol%2015%2C%20Issue%206&In-Reply-To=%3CCAMjdfU2r7Ld9gjFwz-WtmTsaZpypLy6xG-y_A%3Dh%3DTZhD4e5UGA%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000069.html">
+   <LINK REL="Next"  HREF="000071.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Soem-user Digest, Vol 15, Issue 6</H1>
+    <B>Ian Sherman</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Soem-user%20Digest%2C%20Vol%2015%2C%20Issue%206&In-Reply-To=%3CCAMjdfU2r7Ld9gjFwz-WtmTsaZpypLy6xG-y_A%3Dh%3DTZhD4e5UGA%40mail.gmail.com%3E"
+       TITLE="[Soem-user] Soem-user Digest, Vol 15, Issue 6">ian.j.sherman at gmail.com
+       </A><BR>
+    <I>Mon Feb 27 19:23:48 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000069.html">[Soem-user] Tool for configuration from ENI XML file-looking for	developers
+</A></li>
+        <LI>Next message: <A HREF="000071.html">[Soem-user] Soem-user Digest, Vol 15, Issue 6
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#70">[ date ]</a>
+              <a href="thread.html#70">[ thread ]</a>
+              <a href="subject.html#70">[ subject ]</a>
+              <a href="author.html#70">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Thanks for the responses, Arthur &amp; Ruben.
+
+The value of Ostartbit is 0 for the first module, 4 for the second module,
+and 0 for the third module, as Arthur's explanation would predict.
+
+But because m_size is 4 for all three modules, the loop doesn't set any of
+the m_mask bits to 1 for the second module.
+
+for (size_t i = mem_loc-&gt;Ostartbit; i &lt; m_size; i++)
+  m_mask.set(i);
+
+After initializing the mask with the following loop, everything else worked
+perfectly:
+
+for (size_t i = mem_loc-&gt;Ostartbit; i &lt; mem_loc-&gt;Ostartbit + m_size; i++)
+  m_mask.set(i);
+
+Is this a change that should be adopted by the soem stack?
+
+Thanks,
+Ian
+
+
+On Sun, Feb 26, 2012 at 3:00 AM, &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user-request at lists.berlios.de</A>&gt; wrote:
+
+&gt;<i> Send Soem-user mailing list submissions to
+</I>&gt;<i>        <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user at lists.berlios.de</A>
+</I>&gt;<i>
+</I>&gt;<i> To subscribe or unsubscribe via the World Wide Web, visit
+</I>&gt;<i>        <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">https://lists.berlios.de/mailman/listinfo/soem-user</A>
+</I>&gt;<i> or, via email, send a message with subject or body 'help' to
+</I>&gt;<i>        <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user-request at lists.berlios.de</A>
+</I>&gt;<i>
+</I>&gt;<i> You can reach the person managing the list at
+</I>&gt;<i>        <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user-owner at lists.berlios.de</A>
+</I>&gt;<i>
+</I>&gt;<i> When replying, please edit your Subject line so it is more specific
+</I>&gt;<i> than &quot;Re: Contents of Soem-user digest...&quot;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Today's Topics:
+</I>&gt;<i>
+</I>&gt;<i>   1. Re: Beckhoff drivers not able to address the second terminal
+</I>&gt;<i>      (of three) in an ethercat chain (Arthur Ketels)
+</I>&gt;<i>   2. Re: Beckhoff drivers not able to address the second terminal
+</I>&gt;<i>      (of three) in an ethercat chain (Ruben Smits)
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ----------------------------------------------------------------------
+</I>&gt;<i>
+</I>&gt;<i> Message: 1
+</I>&gt;<i> Date: Sat, 25 Feb 2012 15:19:51 +0100
+</I>&gt;<i> From: Arthur Ketels &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">arthur at smfk.nl</A>&gt;
+</I>&gt;<i> To: &quot;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user at lists.berlios.de</A>&quot; &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user at lists.berlios.de</A>&gt;
+</I>&gt;<i> Subject: Re: [Soem-user] Beckhoff drivers not able to address the
+</I>&gt;<i>        second terminal (of three) in an ethercat chain
+</I>&gt;<i> Message-ID: &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">4F48EE07.9090808 at smfk.nl</A>&gt;
+</I>&gt;<i> Content-Type: text/plain; charset=&quot;iso-8859-1&quot;; Format=&quot;flowed&quot;
+</I>&gt;<i>
+</I>&gt;<i> Op 20:59, Ian Sherman schreef:
+</I>&gt;<i> &gt; I am seeing an issue when trying to address a contiguous block of
+</I>&gt;<i> &gt; three Beckhoff relay terminals (EL2624s) with Orocos 2.5, ROS
+</I>&gt;<i> &gt; Electric, and the most recent code from the soem repository.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; My ethercat chain looks like this:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; =&gt; EK1100 =&gt; EL2624 =&gt; EL2624 =&gt; EL2624
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; The first and third EL2624 terminals can be correctly triggered from
+</I>&gt;<i> &gt; the Orocos deployer:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; SoemMaster.Slave_0.setBit(0, 1) // turns on an LED on the first terminal
+</I>&gt;<i> &gt; SoemMaster.Slave_2.setBit(0, 1) // turns on an LED on the third terminal
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; However the second EL2624 terminal in the chain cannot be triggered:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; SoemMaster.Slave_1.setBit(0, 1) // has no effect
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Switching the order of the terminals does not help -- it is always the
+</I>&gt;<i> &gt; second terminal in the chain that fails to trigger.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; After some logging, it appears that this is because the LogStartbit of
+</I>&gt;<i> &gt; the FMMU for the second terminal in the chain is 4, rather than 0 as
+</I>&gt;<i> &gt; it is for the first and third terminals. Note in the output from
+</I>&gt;<i> &gt; slaveinfo:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Slave:5
+</I>&gt;<i> &gt;  Name:EL2624
+</I>&gt;<i> &gt;  Output size: 4bits
+</I>&gt;<i> &gt;  Input size: 0bits
+</I>&gt;<i> &gt;  ...
+</I>&gt;<i> &gt;  FMMU0 Ls:0000003c Ll:   1 *Lsb:0* Leb:3 Ps:0f00 Psb:0 Ty:02 Act:01
+</I>&gt;<i> Slave 5 is mapped on address 0x3c bits 0..3
+</I>&gt;<i> &gt;  ...
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Slave:6
+</I>&gt;<i> &gt;  Name:EL2624
+</I>&gt;<i> &gt;  Output size: 4bits
+</I>&gt;<i> &gt;  Input size: 0bits
+</I>&gt;<i> &gt;  ...
+</I>&gt;<i> &gt;  FMMU0 Ls:0000003c Ll:   1 *Lsb:4* Leb:7 Ps:0f00 Psb:0 Ty:02 Act:01
+</I>&gt;<i> Slave 6 is mapped on address 0x3c bits 4..7
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Slave:7
+</I>&gt;<i> &gt;  Name:EL2624
+</I>&gt;<i> &gt;  Output size: 4bits
+</I>&gt;<i> &gt;  Input size: 0bits
+</I>&gt;<i> &gt;  ...
+</I>&gt;<i> &gt;  FMMU0 Ls:0000003d Ll:   1 *Lsb:0* Leb:3 Ps:0f00 Psb:0 Ty:02 Act:01
+</I>&gt;<i> &gt;  ...
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; As a result, mem_loc-&gt;0startbit is 4, rather than 0. And as a result
+</I>&gt;<i> &gt; of that, m_mask is initialized to 00000000, rather than the expected
+</I>&gt;<i> &gt; 00001111.
+</I>&gt;<i> m_mask should be set at 11110000 in this case.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Is this expected behavior? Why is the LogStartbit always different for
+</I>&gt;<i> &gt; the second terminal in the ethercat chain? And how do you suggest I
+</I>&gt;<i> &gt; modify the driver to account for this?
+</I>&gt;<i> This is perfectly normal for SOEM as it tries to map slaves with IO
+</I>&gt;<i> sizes &lt;8 bit in packed format. This is very benificial when you have
+</I>&gt;<i> large numbers of simple bit slaves and reduces the transfer size. On the
+</I>&gt;<i> other hand the ROS need to understand that a slave IO does not have to
+</I>&gt;<i> start at a byte boundary. The ec_slave[] struct has next to the IO
+</I>&gt;<i> pointer also entries for start and end bit. If this is not implemented
+</I>&gt;<i> in ROS then it will not work and you get the behaviour as explained.
+</I>&gt;<i>
+</I>&gt;<i> When you mix other combinations of bit slaves it could be more complex
+</I>&gt;<i> even. F.e. slave1 1 bit, slave2 2 bits, slave 3 4 bits, slave 4 2 bits,
+</I>&gt;<i> slave 5 4 bits. The mapping would be:
+</I>&gt;<i>
+</I>&gt;<i> slave address startbit endbit
+</I>&gt;<i> 1 0 0 0
+</I>&gt;<i> 2 0 1 2
+</I>&gt;<i> 3 0 3 6
+</I>&gt;<i> 4 1 0 1
+</I>&gt;<i> 5 1 2 5
+</I>&gt;<i>
+</I>&gt;<i> So the ROS driver simply has to follow the mapping data as defined in
+</I>&gt;<i> ec_slave[]
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Many thanks,
+</I>&gt;<i> &gt; Ian
+</I>&gt;<i> Arthur Ketels
+</I>&gt;<i> -------------- next part --------------
+</I>&gt;<i> An HTML attachment was scrubbed...
+</I>&gt;<i> URL: &lt;
+</I>&gt;<i> <A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120225/c016799d/attachment-0001.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120225/c016799d/attachment-0001.html</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i>
+</I>&gt;<i> ------------------------------
+</I>&gt;<i>
+</I>&gt;<i> Message: 2
+</I>&gt;<i> Date: Sun, 26 Feb 2012 10:55:13 +0100
+</I>&gt;<i> From: Ruben Smits &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">ruben.smits at intermodalics.eu</A>&gt;
+</I>&gt;<i> To: Arthur Ketels &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">arthur at smfk.nl</A>&gt;
+</I>&gt;<i> Cc: &quot;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user at lists.berlios.de</A>&quot; &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user at lists.berlios.de</A>&gt;
+</I>&gt;<i> Subject: Re: [Soem-user] Beckhoff drivers not able to address the
+</I>&gt;<i>        second terminal (of three) in an ethercat chain
+</I>&gt;<i> Message-ID:
+</I>&gt;<i>        &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">CAN8PhbkALZti+RYhOcZ1J9LctqseEekaOTFv+3n9mRpRc+D+ng at mail.gmail.com</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i> Content-Type: text/plain; charset=ISO-8859-1
+</I>&gt;<i>
+</I>&gt;<i> On Sat, Feb 25, 2012 at 3:19 PM, Arthur Ketels &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">arthur at smfk.nl</A>&gt; wrote:
+</I>&gt;<i> &gt; Op 20:59, Ian Sherman schreef:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; I am seeing an issue when trying to address a contiguous block of three
+</I>&gt;<i> &gt; Beckhoff relay terminals (EL2624s) with Orocos 2.5, ROS Electric, and the
+</I>&gt;<i> &gt; most recent code from the soem repository.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; My ethercat chain looks like this:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; =&gt; EK1100 =&gt; EL2624 =&gt; EL2624 =&gt; EL2624
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; The first and third EL2624 terminals can be correctly triggered from the
+</I>&gt;<i> &gt; Orocos deployer:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; SoemMaster.Slave_0.setBit(0, 1) // turns on an LED on the first terminal
+</I>&gt;<i> &gt; SoemMaster.Slave_2.setBit(0, 1) // turns on an LED on the third terminal
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; However the second EL2624 terminal in the chain cannot be triggered:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; SoemMaster.Slave_1.setBit(0, 1)?// has no effect
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Switching the order of the terminals does not help -- it is always the
+</I>&gt;<i> &gt; second terminal in the chain that fails to trigger.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; After some logging, it appears that this is because the LogStartbit of
+</I>&gt;<i> the
+</I>&gt;<i> &gt; FMMU for the second terminal in the chain is 4, rather than 0 as it is
+</I>&gt;<i> for
+</I>&gt;<i> &gt; the first and third terminals. Note in the output from slaveinfo:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Slave:5
+</I>&gt;<i> &gt; ?Name:EL2624
+</I>&gt;<i> &gt; ?Output size: 4bits
+</I>&gt;<i> &gt; ?Input size: 0bits
+</I>&gt;<i> &gt; ?...
+</I>&gt;<i> &gt; ?FMMU0 Ls:0000003c Ll: ? 1 Lsb:0 Leb:3 Ps:0f00 Psb:0 Ty:02 Act:01
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Slave 5 is mapped on address 0x3c bits 0..3
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; ?...
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Slave:6
+</I>&gt;<i> &gt; ?Name:EL2624
+</I>&gt;<i> &gt; ?Output size: 4bits
+</I>&gt;<i> &gt; ?Input size: 0bits
+</I>&gt;<i> &gt; ?...
+</I>&gt;<i> &gt; ?FMMU0 Ls:0000003c Ll: ? 1 Lsb:4 Leb:7 Ps:0f00 Psb:0 Ty:02 Act:01
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Slave 6 is mapped on address 0x3c bits 4..7
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Slave:7
+</I>&gt;<i> &gt; ?Name:EL2624
+</I>&gt;<i> &gt; ?Output size: 4bits
+</I>&gt;<i> &gt; ?Input size: 0bits
+</I>&gt;<i> &gt; ?...
+</I>&gt;<i> &gt; ?FMMU0 Ls:0000003d Ll: ? 1 Lsb:0 Leb:3 Ps:0f00 Psb:0 Ty:02 Act:01
+</I>&gt;<i> &gt; ?...
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; As a result, mem_loc-&gt;0startbit?is 4, rather than 0. And as a result of
+</I>&gt;<i> &gt; that, m_mask is initialized to 00000000, rather than the expected
+</I>&gt;<i> 00001111.
+</I>&gt;<i>
+</I>&gt;<i> As far as I can see the mask is initialized to 00001111 and m_bits to
+</I>&gt;<i> the inverse:
+</I>&gt;<i> &lt;code&gt;
+</I>&gt;<i> m_mask.reset();
+</I>&gt;<i> for (size_t i = mem_loc-&gt;Ostartbit; i &lt; m_size; i++)
+</I>&gt;<i>     m_mask.set(i);
+</I>&gt;<i> m_bits = ~m_mask;
+</I>&gt;<i> &lt;/code&gt;
+</I>&gt;<i>
+</I>&gt;<i> Later on in the update the following code makes sure only the bits
+</I>&gt;<i> that belong to this module are touched and not the others:
+</I>&gt;<i>
+</I>&gt;<i> the setbit(uint bit,value) function:
+</I>&gt;<i> &lt;code&gt;
+</I>&gt;<i> m_bits.set(bit + m_datap-&gt;Ostartbit, value);
+</I>&gt;<i> &lt;/code&gt;
+</I>&gt;<i>
+</I>&gt;<i> and the driver update function:
+</I>&gt;<i> &lt;code&gt;
+</I>&gt;<i> bitset &lt; 8 &gt; tmp = m_mask | bitset&lt;8&gt; (
+</I>&gt;<i>            ((out_el2xxxt*) (m_datap-&gt;outputs))-&gt;bits);//xxxx1111
+</I>&gt;<i>    ((out_el2xxxt*) (m_datap-&gt;outputs))-&gt;bits = (tmp &amp; m_bits).to_ulong();
+</I>&gt;<i> &lt;/code&gt;
+</I>&gt;<i>
+</I>&gt;<i> Could you check the value of the Ostartbit of your modules?
+</I>&gt;<i>
+</I>&gt;<i> Ruben
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; m_mask should be set at 11110000 in this case.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Is this expected behavior? Why is the LogStartbit always different for
+</I>&gt;<i> the
+</I>&gt;<i> &gt; second terminal in the ethercat chain? And how do you suggest I modify
+</I>&gt;<i> the
+</I>&gt;<i> &gt; driver to account for this?
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; This is perfectly normal for SOEM as it tries to map slaves with IO
+</I>&gt;<i> sizes &lt;8
+</I>&gt;<i> &gt; bit in packed format. This is very benificial when you have large
+</I>&gt;<i> numbers of
+</I>&gt;<i> &gt; simple bit slaves and reduces the transfer size. On the other hand the
+</I>&gt;<i> ROS
+</I>&gt;<i> &gt; need to understand that a slave IO does not have to start at a byte
+</I>&gt;<i> &gt; boundary. The ec_slave[] struct has next to the IO pointer also entries
+</I>&gt;<i> for
+</I>&gt;<i> &gt; start and end bit. If this is not implemented in ROS then it will not
+</I>&gt;<i> work
+</I>&gt;<i> &gt; and you get the behaviour as explained.
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; When you mix other combinations of bit slaves it could be more complex
+</I>&gt;<i> even.
+</I>&gt;<i> &gt; F.e. slave1 1 bit, slave2 2 bits, slave 3 4 bits, slave 4 2 bits, slave
+</I>&gt;<i> 5 4
+</I>&gt;<i> &gt; bits. The mapping would be:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; slave address startbit endbit
+</I>&gt;<i> &gt; 1 0 0 0
+</I>&gt;<i> &gt; 2 0 1 2
+</I>&gt;<i> &gt; 3 0 3 6
+</I>&gt;<i> &gt; 4 1 0 1
+</I>&gt;<i> &gt; 5 1 2 5
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; So the ROS driver simply has to follow the mapping data as defined in
+</I>&gt;<i> &gt; ec_slave[]
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Many thanks,
+</I>&gt;<i> &gt; Ian
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Arthur Ketels
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; _______________________________________________
+</I>&gt;<i> &gt; Soem-user mailing list
+</I>&gt;<i> &gt; <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">Soem-user at lists.berlios.de</A>
+</I>&gt;<i> &gt; <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">https://lists.berlios.de/mailman/listinfo/soem-user</A>
+</I>&gt;<i> &gt;
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> ------------------------------
+</I>&gt;<i>
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Soem-user mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">Soem-user at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">https://lists.berlios.de/mailman/listinfo/soem-user</A>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> End of Soem-user Digest, Vol 15, Issue 6
+</I>&gt;<i> ****************************************
+</I>&gt;<i>
+</I>-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120227/dc8c023a/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120227/dc8c023a/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000069.html">[Soem-user] Tool for configuration from ENI XML file-looking for	developers
+</A></li>
+	<LI>Next message: <A HREF="000071.html">[Soem-user] Soem-user Digest, Vol 15, Issue 6
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#70">[ date ]</a>
+              <a href="thread.html#70">[ thread ]</a>
+              <a href="subject.html#70">[ subject ]</a>
+              <a href="author.html#70">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,350 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] PDO mapping
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-June/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20PDO%20mapping&In-Reply-To=%3C4FE2E08E.7020901%40smfk.nl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000124.html">
+   <LINK REL="Next"  HREF="000126.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] PDO mapping</H1>
+    <B>Arthur Ketels</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20PDO%20mapping&In-Reply-To=%3C4FE2E08E.7020901%40smfk.nl%3E"
+       TITLE="[Soem-user] PDO mapping">info at smfk.nl
+       </A><BR>
+    <I>Thu Jun 21 10:51:26 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000124.html">[Soem-user] PDO mapping
+</A></li>
+        <LI>Next message: <A HREF="000126.html">[Soem-user] New Release SOEM1.2.8
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#125">[ date ]</a>
+              <a href="thread.html#125">[ thread ]</a>
+              <a href="subject.html#125">[ subject ]</a>
+              <a href="author.html#125">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Francesco,
+Op 20-6-2012 10:16, FrancescoBoschetti schreef:
+&gt;<i>
+</I>&gt;<i> Hi all,
+</I>&gt;<i>
+</I>&gt;<i> I&#8217;m trying to configure four ethercat servo drive form KEB (Combivert 
+</I>&gt;<i> H6) but i have some problems related to the PDO mapping:
+</I>&gt;<i>
+</I>&gt;<i> Using the standard ec_SDOwrite function every time I try to write an 
+</I>&gt;<i> object I get an error, in particular when I try to read the answer  at 
+</I>&gt;<i> address 0x1900 the packet received is not even interpreted as a CoE 
+</I>&gt;<i> answer, result: I can&#8217;t change the standard PDO mapping.
+</I>&gt;<i>
+</I>&gt;<i> Having a look at the wireshark trace from another master I&#8217;ve noticed 
+</I>&gt;<i> that the PDO mapping for these slaves is always done via expedited 
+</I>&gt;<i> transfer (sometimes the command is 0x23 sometimes it is 0x2F); thus 
+</I>&gt;<i> I&#8217;ve tried to send command 0x23 instead 0x21 changing the instruction 
+</I>&gt;<i> SDOp-&gt;MbxHeader.length = htoes(0x0a + framedatasize) into 
+</I>&gt;<i> SDOp-&gt;MbxHeader.length = htoes(0x0a) since command 0x23 has the data 
+</I>&gt;<i> size indicator bit not set. What I see now is that for some indexes 
+</I>&gt;<i> (fe 0x1c12:0 or 0x1600:0) it works but for other it doesn&#8217;t (fe 
+</I>&gt;<i> 0x1600:1) giving an error 0x06090030: Value range of parameter exceeded.
+</I>&gt;<i>
+</I>&gt;<i> The same happens if I try to send command 0x2F: for some objects it 
+</I>&gt;<i> works for other it deosn&#8217;t.
+</I>&gt;<i>
+</I>&gt;<i> My questions are:
+</I>&gt;<i>
+</I>&gt;<i> 1)Is it possible that these slaves only support expedited transfers 
+</I>&gt;<i> for the CoE communication?
+</I>&gt;<i>
+</I>It seems this way. At least for objects &lt;=4 bytes. This is not 
+conforming the EtherCAT standard. All CoE slaves should support both 
+expedited and normal transfers. As a master it should even expect an 
+expedited answer on a normal request or vise versa. So you should 
+contact KEB about this.
+&gt;<i>
+</I>&gt;<i> 2)Are there any logic behind the fact that for some indexes I have to 
+</I>&gt;<i> send command 0x2F and for other 0x23 or there are some kind of bugs in 
+</I>&gt;<i> the slave? If  there is a logic behind can anyone tell me which one it 
+</I>&gt;<i> is and give me a hint on how to modify the SOEM source code?
+</I>&gt;<i>
+</I>The expedited commad is different for 1, 2, 3 and 4 byte transfers. I.e. 
+the length is part of the command. Read the protocol definition ETG1000_6.
+
+The new SOEM (to be released) has reinstated the expedited but for other 
+reasons. A snippet:
+
+/** CoE SDO write, blocking. Single subindex or Complete Access.
+  *
+  * A &quot;normal&quot; download request is issued, unless we have a really small 
+mailbox
+  * and small data, then a expedited transfer is used. If the paramater 
+is larger than
+  * the mailbox size then the download is segmented. The function will 
+split the
+  * parameter data in segments and send them to the slave one by one.
+  *
+  * @param[in]  Slave      = Slave number
+  * @param[in]  Index      = Index to write
+  * @param[in]  SubIndex   = Subindex to write, must be 0 or 1 if CA is 
+used.
+  * @param[in]  CA         = FALSE = single subindex. TRUE = Complete 
+Access, all subindexes written.
+  * @param[in]  psize      = Size in bytes of parameter buffer.
+  * @param[out] p          = Pointer to parameter buffer
+  * @param[in]  Timeout    = Timeout in us, standard is EC_TIMEOUTRXM
+  * @return Workcounter from last slave response
+  */
+int ec_SDOwrite(uint16 Slave, uint16 Index, uint8 SubIndex,
+     boolean CA, int psize, void *p, int Timeout)
+{
+    ec_SDOt *SDOp, *aSDOp;
+    int wkc, maxdata;
+    ec_mbxbuft MbxIn, MbxOut;
+    uint8 cnt, toggle;
+    uint16 framedatasize;
+    boolean  NotLast;
+    uint8 *hp;
+
+    ec_clearmbx(&amp;MbxIn);
+    /* Empty slave out mailbox if something is in. Timout set to 0 */
+    wkc = ec_mbxreceive(Slave, (ec_mbxbuft *)&amp;MbxIn, 0);
+    ec_clearmbx(&amp;MbxOut);
+    aSDOp = (ec_SDOt *)&MbxIn;
+    SDOp = (ec_SDOt *)&MbxOut;
+    maxdata = ec_slave[Slave].mbx_l - 0x10; /* data section=mailbox size 
+- 6 mbx - 2 CoE - 8 sdo req */
+     /* if small data use expedited transfer */
+     if ( psize &lt;= 4)
+     {
+         SDOp-&gt;MbxHeader.length = htoes(0x000a);
+         SDOp-&gt;MbxHeader.address = htoes(0x0000);
+         SDOp-&gt;MbxHeader.priority = 0x00;
+         /* get new mailbox counter, used for session handle */
+         cnt = ec_nextmbxcnt(ec_slave[Slave].mbx_cnt);
+         ec_slave[Slave].mbx_cnt = cnt;
+         SDOp-&gt;MbxHeader.mbxtype = ECT_MBXT_COE + (cnt &lt;&lt; 4); /* CoE */
+         SDOp-&gt;CANOpen = htoes(0x000 + (ECT_COES_SDOREQ &lt;&lt; 12)); /* 
+number 9bits service upper 4 bits */
+         SDOp-&gt;Command = ECT_SDO_DOWN_EXP | (((4 - psize) &lt;&lt; 2) &amp; 0x0c); 
+/* expedited SDO download transfer */
+         SDOp-&gt;Index = htoes(Index);
+         SDOp-&gt;SubIndex = SubIndex;
+         hp = p;
+         /* copy parameter data to mailbox */
+         memcpy(&amp;SDOp-&gt;ldata[0], hp, psize);
+         /* send mailbox SDO download request to slave */
+         wkc = ec_mbxsend(Slave, (ec_mbxbuft *)&amp;MbxOut, EC_TIMEOUTTXM);
+         if (wkc &gt; 0)
+         {
+             ec_clearmbx(&amp;MbxIn);
+             /* read slave response */
+             wkc = ec_mbxreceive(Slave, (ec_mbxbuft *)&amp;MbxIn, Timeout);
+             if (wkc &gt; 0)
+             {
+                 /* response should be CoE, SDO response, correct index 
+and subindex */
+                 if (((aSDOp-&gt;MbxHeader.mbxtype &amp; 0x0f) == ECT_MBXT_COE) &amp;&amp;
+                     ((etohs(aSDOp-&gt;CANOpen) &gt;&gt; 12) == ECT_COES_SDORES) &amp;&amp;
+                     (aSDOp-&gt;Index == SDOp-&gt;Index) &amp;&amp;
+                     (aSDOp-&gt;SubIndex == SDOp-&gt;SubIndex))
+                 {
+                     /* all OK */
+                 }
+                 /* unexpected response from slave */
+                 else
+                 {
+                     if (aSDOp-&gt;Command == ECT_SDO_ABORT) /* SDO abort 
+frame received */
+                         ec_SDOerror(Slave, Index, SubIndex, 
+etohl(aSDOp-&gt;ldata[0]));
+                     else
+                         ec_packeterror(Slave, Index, SubIndex, 1); /* 
+Unexpected frame returned */
+                     wkc = 0;
+                 }
+             }
+         }
+     }
+     else
+     {
+    framedatasize = psize;
+    NotLast = FALSE;
+    if (framedatasize &gt; maxdata)
+    {
+       framedatasize = maxdata;  /*  segmented transfer needed  */
+       NotLast = TRUE;
+    }
+    SDOp-&gt;MbxHeader.length = htoes(0x0a + framedatasize);
+    SDOp-&gt;MbxHeader.address = htoes(0x0000);
+    SDOp-&gt;MbxHeader.priority = 0x00;
+    /* get new mailbox counter, used for session handle */
+    cnt = ec_nextmbxcnt(ec_slave[Slave].mbx_cnt);
+    ec_slave[Slave].mbx_cnt = cnt;
+    SDOp-&gt;MbxHeader.mbxtype = ECT_MBXT_COE + (cnt &lt;&lt; 4); /* CoE */
+    SDOp-&gt;CANOpen = htoes(0x000 + (ECT_COES_SDOREQ &lt;&lt; 12)); /* number 
+9bits service upper 4 bits */
+    if (CA)
+       SDOp-&gt;Command = ECT_SDO_DOWN_INIT_CA; /* Complete Access, normal 
+SDO init download transfer */
+    else
+       SDOp-&gt;Command = ECT_SDO_DOWN_INIT; /* normal SDO init download 
+transfer */
+    SDOp-&gt;Index = htoes(Index);
+    SDOp-&gt;SubIndex = SubIndex;
+    if (CA &amp;&amp; (SubIndex &gt; 1))
+       SDOp-&gt;SubIndex = 1;
+    SDOp-&gt;ldata[0] = htoel(psize);
+    hp = p;
+    /* copy parameter data to mailbox */
+    memcpy(&amp;SDOp-&gt;ldata[1], hp, framedatasize);
+    hp += framedatasize;
+    psize -= framedatasize;
+    /* send mailbox SDO download request to slave */
+    wkc = ec_mbxsend(Slave, (ec_mbxbuft *)&amp;MbxOut, EC_TIMEOUTTXM);
+    if (wkc &gt; 0)
+    {
+       ec_clearmbx(&amp;MbxIn);
+       /* read slave response */
+       wkc = ec_mbxreceive(Slave, (ec_mbxbuft *)&amp;MbxIn, Timeout);
+       if (wkc &gt; 0)
+       {
+          /* response should be CoE, SDO response, correct index and 
+subindex */
+          if (((aSDOp-&gt;MbxHeader.mbxtype &amp; 0x0f) == ECT_MBXT_COE) &amp;&amp;
+              ((etohs(aSDOp-&gt;CANOpen) &gt;&gt; 12) == ECT_COES_SDORES) &amp;&amp;
+               (aSDOp-&gt;Index == SDOp-&gt;Index) &amp;&amp;
+               (aSDOp-&gt;SubIndex == SDOp-&gt;SubIndex))
+          {
+             /* all ok */
+             maxdata += 7;
+             toggle = 0;
+             /* repeat while segments left */
+             while (NotLast)
+             {
+                SDOp = (ec_SDOt *)&MbxOut;
+                framedatasize = psize;
+                NotLast = FALSE;
+                SDOp-&gt;Command = 0x01; /* last segment */
+                if (framedatasize &gt; maxdata)
+                {
+                   framedatasize = maxdata;  /*  more segments needed  */
+                   NotLast = TRUE;
+                   SDOp-&gt;Command = 0x00; /* segments follow */
+                }
+                if (!NotLast &amp;&amp; (framedatasize &lt; 7))
+                {
+                   SDOp-&gt;MbxHeader.length = htoes(0x0a); /* minimum size */
+                   SDOp-&gt;Command = 0x01 + ((7 - framedatasize) &lt;&lt; 1); /* 
+last segment reduced octets */
+                }
+                else
+                   SDOp-&gt;MbxHeader.length = htoes(framedatasize + 3); /* 
+data + 2 CoE + 1 SDO */
+                SDOp-&gt;MbxHeader.address = htoes(0x0000);
+                SDOp-&gt;MbxHeader.priority = 0x00;
+                /* get new mailbox counter value */
+                cnt = ec_nextmbxcnt(ec_slave[Slave].mbx_cnt);
+                ec_slave[Slave].mbx_cnt = cnt;
+                SDOp-&gt;MbxHeader.mbxtype = ECT_MBXT_COE + (cnt &lt;&lt; 4); /* 
+CoE */
+                SDOp-&gt;CANOpen = htoes(0x000 + (ECT_COES_SDOREQ &lt;&lt; 12)); 
+/* number 9bits service upper 4 bits (SDO request) */
+                SDOp-&gt;Command = SDOp-&gt;Command + toggle; /* add toggle 
+bit to command byte */
+                /* copy parameter data to mailbox */
+                memcpy(&amp;SDOp-&gt;Index, hp, framedatasize);
+                /* update parameter buffer pointer */
+                hp += framedatasize;
+                psize -= framedatasize;
+                /* send SDO download request */
+                wkc = ec_mbxsend(Slave, (ec_mbxbuft *)&amp;MbxOut, 
+EC_TIMEOUTTXM);
+                if (wkc &gt; 0)
+                {
+                   ec_clearmbx(&amp;MbxIn);
+                   /* read slave response */
+                   wkc = ec_mbxreceive(Slave, (ec_mbxbuft *)&amp;MbxIn, 
+Timeout);
+                   if (wkc &gt; 0)
+                   {
+                      if (((aSDOp-&gt;MbxHeader.mbxtype &amp; 0x0f) == 
+ECT_MBXT_COE) &amp;&amp;
+                          ((etohs(aSDOp-&gt;CANOpen) &gt;&gt; 12) == 
+ECT_COES_SDORES) &amp;&amp;
+                          ((aSDOp-&gt;Command &amp; 0xe0) == 0x20))
+                      {
+                                 /* all OK, nothing to do */
+                      }
+                      else
+                      {
+                         if (aSDOp-&gt;Command == ECT_SDO_ABORT) /* SDO 
+abort frame received */
+                            ec_SDOerror(Slave, Index, SubIndex, 
+etohl(aSDOp-&gt;ldata[0]));
+                         else
+                            ec_packeterror(Slave, Index, SubIndex, 1); 
+/* Unexpected frame returned */
+                         wkc = 0;
+                         NotLast = FALSE;
+                      }
+                   }
+                }
+                toggle = toggle ^ 0x10; /* toggle bit for segment request */
+             }
+          }
+          /* unexpected response from slave */
+          else
+          {
+             if (aSDOp-&gt;Command == ECT_SDO_ABORT) /* SDO abort frame 
+received */
+                ec_SDOerror(Slave, Index, SubIndex, etohl(aSDOp-&gt;ldata[0]));
+             else
+                ec_packeterror(Slave, Index, SubIndex, 1); /* Unexpected 
+frame returned */
+             wkc = 0;
+          }
+       }
+    }
+     }
+
+    return wkc;
+}
+
+Arthur Ketels
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120621/8ddd98cf/attachment-0001.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120621/8ddd98cf/attachment-0001.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000124.html">[Soem-user] PDO mapping
+</A></li>
+	<LI>Next message: <A HREF="000126.html">[Soem-user] New Release SOEM1.2.8
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#125">[ date ]</a>
+              <a href="thread.html#125">[ thread ]</a>
+              <a href="subject.html#125">[ subject ]</a>
+              <a href="author.html#125">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

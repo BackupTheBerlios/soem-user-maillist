@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] First questions about SOEM
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2011-October/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20First%20questions%20about%20SOEM&In-Reply-To=%3C201110312319.13589.leo%40alaxarxa.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000033.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] First questions about SOEM</H1>
+    <B>Leopold Palomo Avellaneda</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20First%20questions%20about%20SOEM&In-Reply-To=%3C201110312319.13589.leo%40alaxarxa.net%3E"
+       TITLE="[Soem-user] First questions about SOEM">leo at alaxarxa.net
+       </A><BR>
+    <I>Mon Oct 31 23:19:13 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000033.html">[Soem-user] First questions about SOEM
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#34">[ date ]</a>
+              <a href="thread.html#34">[ thread ]</a>
+              <a href="subject.html#34">[ subject ]</a>
+              <a href="author.html#34">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>A Dilluns 31 Octubre 2011, Mladen Knezic va escriure:
+&gt;<i> On Mon, 31 Oct 2011 22:56:07 +0100, Leopold Palomo Avellaneda wrote
+</I>&gt;<i> 
+</I>&gt;<i> &gt; A Dilluns 31 Octubre 2011, Mladen Knezic va escriure:
+</I>&gt;<i> &gt; [...]
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; &gt; &gt; &gt; On the same interface?
+</I>&gt;<i> &gt; &gt; &gt; 
+</I>&gt;<i> &gt; &gt; &gt; yes,, but using the ethercat master driver from the other project.
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; Which one? IgH Etherlab, TwinCAT? Some other library?
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; IgH Etherlab. We are using a GNU/Linux box.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; &gt; &gt; &gt; Which device?
+</I>&gt;<i> &gt; &gt; &gt; 
+</I>&gt;<i> &gt; &gt; &gt; the ethercat device? it's a Bosch Rexroth Indradrive controller.
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; So, it is the same device.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; Yes, the only one we have ...
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; &gt; &gt; &gt; Slaveinfo example should show you
+</I>&gt;<i> &gt; &gt; &gt; &gt; infromation about device attached to the interface. If it is not
+</I>&gt;<i> &gt; &gt; &gt; &gt; the case you have either communicating over the wrong interface
+</I>&gt;<i> &gt; &gt; &gt; &gt; (not one that the ethercat device is attached to) or something is
+</I>&gt;<i> &gt; &gt; &gt; &gt; definitely wrong with your system. :)
+</I>&gt;<i> &gt; &gt; &gt; 
+</I>&gt;<i> &gt; &gt; &gt; the question is which is wrong?
+</I>&gt;<i> &gt; &gt; &gt; 
+</I>&gt;<i> &gt; &gt; &gt; &gt; From your last post I can see that soem successfully connects
+</I>&gt;<i> &gt; &gt; &gt; &gt; to the raw socket, but it does not &quot;see&quot; any device on the bus.
+</I>&gt;<i> &gt; &gt; &gt; &gt; From that, I can only conclude that there is no attached ethercat
+</I>&gt;<i> &gt; &gt; &gt; &gt; devices on the interface you are using.
+</I>&gt;<i> &gt; &gt; &gt; 
+</I>&gt;<i> &gt; &gt; &gt; Ok, some other idea?
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; I would try &quot;slaveinfo&quot; example. This example has only acyclic
+</I>&gt;<i> &gt; &gt; communication without making slave goes into the OP state. It
+</I>&gt;<i> &gt; &gt; communicates with device over the CoE protocol to find some essential
+</I>&gt;<i> &gt; &gt; information about the device. If that does not work, my next
+</I>&gt;<i> &gt; &gt; assumption that something is wrong with the connection. Try with
+</I>&gt;<i> &gt; &gt; different cable, or with different NIC.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; ok, thanks for the ideas. We are now in some kind of local holiday.
+</I>&gt;<i> &gt; On Wednesday  I will try the slave info and another NIC to checkit.
+</I>&gt;<i> &gt; Do you have had configure in some way the NIC to make it works with SOEM?
+</I>&gt;<i> 
+</I>&gt;<i> No. Just specify the interface name. It should work (at least for me). :)
+</I>
+well, I have just to load the module and no configuration done. No IP, gw, ....
+
+&gt;<i> &gt; &gt; P.S. I have found some datasheet
+</I>&gt;<i> &gt; &gt; (<A HREF="http://www.boschrexroth.com/country_units/">http://www.boschrexroth.com/country_units/</A>
+</I>&gt;<i> &gt; &gt; europe/france/fr/branches/branches/handling/ressources/documentation/pr
+</I>&gt;<i> &gt; &gt; odu its/ IndraDrive_Mi.pdf) and info
+</I>&gt;<i> &gt; &gt; (<A HREF="http://www.boschrexroth.com/dcc/Vornavigation/">http://www.boschrexroth.com/dcc/Vornavigation/</A>
+</I>&gt;<i> &gt; &gt; Vornavi.cfm?&amp;language=en&amp;PageID=p146813). They does not state that
+</I>&gt;<i> &gt; &gt; drive supports EtherCAT communication. Can you confirm that this is
+</I>&gt;<i> &gt; &gt; the drive you are using, or send me a link with info about your
+</I>&gt;<i> &gt; &gt; device?
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; Indradrive HCS02. It's a multiprotocol device, with SercosIII,
+</I>&gt;<i> &gt; Ethercat and Ethernet/IP . Now it's activated the Ethercat protocol.
+</I>&gt;<i> &gt; The page is:
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; <A HREF="http://www.boschrexroth.com/modules/BRMV2PDFDownload.dll?">http://www.boschrexroth.com/modules/BRMV2PDFDownload.dll?</A>
+</I>&gt;<i> 
+</I>&gt;<i> db=brmv2&amp;lvid=90389&amp;mvid=5262&amp;clid=20&amp;sid=DD1441493B9F589CC877A37F9F3C69E0&amp;
+</I>&gt;<i> sch=M
+</I>&gt;<i> 
+</I>&gt;<i> Ok, thanx. I will examine the datasheet to see if there is something that I
+</I>&gt;<i> have missed. In any case, I believe that you have configured the device
+</I>&gt;<i> correctly. If so, there should be no problem with &quot;slaveinfo&quot; to work.
+</I>
+Ok, I will check it. .. I'm really impatient ...
+
+Regards,
+
+Leo
+
+
+
+-- 
+--
+Linux User 152692     PGP: 0xF944807E
+Catalonia
+-------------------------------------
+A: Because it messes up the order in which people normally read text.
+Q: Why is top-posting such a bad thing?
+A: Top-posting.
+Q: What is the most annoying thing in e-mail?
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000033.html">[Soem-user] First questions about SOEM
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#34">[ date ]</a>
+              <a href="thread.html#34">[ thread ]</a>
+              <a href="subject.html#34">[ subject ]</a>
+              <a href="author.html#34">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

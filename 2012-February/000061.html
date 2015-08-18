@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] SOEM + RTNET : problems with ec_config_init
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-February/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20SOEM%20%2B%20RTNET%20%3A%20problems%20with%20ec_config_init&In-Reply-To=%3C4F34D9FA.6060901%40smfk.nl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000060.html">
+   <LINK REL="Next"  HREF="000062.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] SOEM + RTNET : problems with ec_config_init</H1>
+    <B>Arthur Ketels</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20SOEM%20%2B%20RTNET%20%3A%20problems%20with%20ec_config_init&In-Reply-To=%3C4F34D9FA.6060901%40smfk.nl%3E"
+       TITLE="[Soem-user] SOEM + RTNET : problems with ec_config_init">info at smfk.nl
+       </A><BR>
+    <I>Fri Feb 10 09:48:58 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000060.html">[Soem-user] SOEM + RTNET : problems with ec_config_init
+</A></li>
+        <LI>Next message: <A HREF="000062.html">[Soem-user] SOEM + RTNET : problems with ec_config_init
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#61">[ date ]</a>
+              <a href="thread.html#61">[ thread ]</a>
+              <a href="subject.html#61">[ subject ]</a>
+              <a href="author.html#61">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Some mess up from the list manager, reposted
+
+Arthur Ketels.
+
+-------- Originele bericht --------
+Onderwerp: 	Re: [Soem-user] SOEM + RTNET : problems with ec_config_init
+Datum: 	Thu, 9 Feb 2012 19:56:25 +0100
+Van: 	Ruben Smits &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">ruben at intermodalics.eu</A>&gt;
+Antwoord-naar: 	<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">ruben at intermodalics.eu</A> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">ruben at intermodalics.eu</A>&gt;
+Aan: 	Santiago Focke &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">focke.85 at gmail.com</A>&gt;
+CC: 	<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user at lists.berlios.de</A> &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user at lists.berlios.de</A>&gt;
+
+
+
+Hi Santiago,
+
+On Thu, Feb 9, 2012 at 6:09 PM, Santiago Focke &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">focke.85 at gmail.com</A> 
+&lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">focke.85 at gmail.com</A>&gt;&gt; wrote:
+
+    Hi all
+
+    I'm trying to make my SOEM master work with RTNET. I'm using the
+    SOEM ROS stack from <A HREF="http://www.ros.org/wiki/soem">http://www.ros.org/wiki/soem</A> (SOEM version
+    1.2.4), Xenomai 2.6.0 and RTNET 0.9.12. I just got RTNET to work,
+    running the script 'rtnet start' and checking for rteth1 with the
+    rtifconfig script.
+
+    Nevertheless I'm not sure how should I configure rtnet.config to
+    make it work with my EtherCat slaves and my SOEM master (don't know
+    what to put in IPADDR, NETMASK, TDMA_SLAVES, etc)
+
+    In this moment, when I run my master, ec_init(&quot;rteth1&quot;) &gt; 0, so that
+    means that ec_init succeded on rteth1. But when I call
+    ec_config_init(true), it seems to stay in a loop and never returns
+    anything.
+
+    What should I do? How should I configure rtnet.config to work with
+    EtherCAT slaves and my SOEM master?
+
+
+I also never managed to get RTNet configured correctly with the 
+rtnet.config. But luckily it is possible to get rtnet started in the old 
+way, the following script works for us:
+
+#unload normal driver
+sudo rmmod e1000
+#load rtnet drivers
+# Protocol stack
+sudo insmod ./rtnet.ko
+sudo insmod ./rtpacket.ko
+sudo insmod ./rtmac.ko
+sudo insmod ./rtipv4.ko
+sudo insmod ./rtudp.ko
+sudo insmod ./rtcfg.ko
+
+# Driver
+sudo insmod ./rt_loopback.ko
+sudo insmod ./rt_e1000.ko
+
+sudo /usr/local/rtnet/sbin/rtifconfig rteth1 up
+
+
+Did you try to run the slaveinfo executable?
+
+
+    Regards,
+
+    -- 
+    Santiago
+
+
+Regards,
+
+Ruben
+
+    _______________________________________________
+    Soem-user mailing list
+    <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">Soem-user at lists.berlios.de</A> &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">Soem-user at lists.berlios.de</A>&gt;
+    <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">https://lists.berlios.de/mailman/listinfo/soem-user</A>
+
+
+
+
+-- 
+Ruben Smits, Phd
+Chief Technology Officer
+Intermodalics BVBA
++32479511786
+www.intermodalics.eu &lt;<A HREF="http://www.intermodalics.eu">http://www.intermodalics.eu</A>&gt;
+
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120210/a0e4f69b/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120210/a0e4f69b/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000060.html">[Soem-user] SOEM + RTNET : problems with ec_config_init
+</A></li>
+	<LI>Next message: <A HREF="000062.html">[Soem-user] SOEM + RTNET : problems with ec_config_init
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#61">[ date ]</a>
+              <a href="thread.html#61">[ thread ]</a>
+              <a href="subject.html#61">[ subject ]</a>
+              <a href="author.html#61">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

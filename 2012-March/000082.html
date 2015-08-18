@@ -1,0 +1,236 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] How to assign multiple PDOs
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-March/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20How%20to%20assign%20multiple%20PDOs&In-Reply-To=%3CCACRhLDmGUzs3vOtHpzaLtfMwEoddKf5LA3mfGGNA9wwWsO8haw%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000079.html">
+   <LINK REL="Next"  HREF="000080.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] How to assign multiple PDOs</H1>
+    <B>Thomas Kr&#252;ger</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20How%20to%20assign%20multiple%20PDOs&In-Reply-To=%3CCACRhLDmGUzs3vOtHpzaLtfMwEoddKf5LA3mfGGNA9wwWsO8haw%40mail.gmail.com%3E"
+       TITLE="[Soem-user] How to assign multiple PDOs">thomas.krueger.home at googlemail.com
+       </A><BR>
+    <I>Wed Mar  7 22:24:23 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000079.html">[Soem-user] How to assign multiple PDOs
+</A></li>
+        <LI>Next message: <A HREF="000080.html">[Soem-user] PDO communication issue
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#82">[ date ]</a>
+              <a href="thread.html#82">[ thread ]</a>
+              <a href="subject.html#82">[ subject ]</a>
+              <a href="author.html#82">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dear Arthur,
+
+thanks a lot for your help. I have switched back fto automatic slave
+configuration, ec_config_init(FALSE), and I could set my PDOs
+properly.
+
+However, the &quot;invalid input configurations remains&quot; maybe according to
+the wrong flags of one syncmanagers
+
+The debug output delivers.
+
+SM programming
+    SM2 Type:3 StartAddr:1100 Flags:00010024
+    SM3 Type:0 StartAddr:1180 Flags:00000020
+
+SM2 is correct while SM3 should be Type 4 and has bit 16 (channel
+enable) set to true
+
+ SM3 Type:4 StartAddr:1180 Flags:00010020
+
+To achieve this I tried to send before the settings of the PDO
+
+                uint32		SM_Flags = 0x10020;
+		int os=sizeof(SM_Flags);
+		ec_SDOwrite(1, 0x01180, 0,FALSE, os, &amp;SM_Flags, EC_TIMEOUTRXM );
+
+(in the ethercat doku I have the description of the c struct DWORD
+Adress, DWORD Lenght, followed by the flags as bits or 2 bit
+combinations). I just cant find the right point and way (Adress,
+subindex) to send this information to the device...
+
+The result is surprisingly after powering up, sometimes I get the
+message that the object 0x1180.0 does not exist on the directory,
+sometimes there is no change and sometimes the result is like I
+desired and the program continues with: Invalid requested state change
+when I continue in the example.
+
+Even if I write to 0x0818 the sync manager channel I get the same results...
+
+If I use the Twincat Ethercat_Configurator everything seems to be set
+and after a &quot;hot swap&quot; my linux works.
+
+Does somebody has a code fragment or example that show how, and in
+which order to set up a similar device. I want to understand the usage
+of SOEM and not let you set up my device step by step ;-) even if I am
+grateful for any hint.
+
+Best regards,
+Thomas
+
+
+
+
+2012/3/6 Arthur Ketels &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">arthur at smfk.nl</A>&gt;:
+&gt;<i> Op 6-3-2012 15:39, Thomas Kr&#252;ger schreef:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Dear All,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I have a problem to set up my Ethercat device correctly using SOEM.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I have an ELMO Whistle Gold and want to set
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Outputs on SM2
+</I>&gt;&gt;<i> PDO &#8211; 0x160A
+</I>&gt;&gt;<i> PDO &#8211; 0x160B
+</I>&gt;&gt;<i> PDO &#8211; 0x160F
+</I>&gt;&gt;<i> PDO &#8211; 0x161A
+</I>&gt;&gt;<i> PDO &#8211; 0x161C
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> should be
+</I>&gt;&gt;<i> Control word &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160;UINT
+</I>&gt;&gt;<i> Mode of operation &#160; &#160; &#160; &#160; &#160; &#160; &#160; USINT
+</I>&gt;&gt;<i> Target position &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; DINT
+</I>&gt;&gt;<i> Interpolated data record &#160; &#160; &#160; &#160;DINT
+</I>&gt;&gt;<i> Target Velocity &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; DINT
+</I>&gt;&gt;<i> Total size on byte: 120
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Imputs on SM3
+</I>&gt;&gt;<i> PDO &#8211; 0x1A04
+</I>&gt;&gt;<i> PDO &#8211; 0x1A1B
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> should be
+</I>&gt;&gt;<i> Position actual value &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; DINT
+</I>&gt;&gt;<i> Position Following error actual value &#160; DINT
+</I>&gt;&gt;<i> Torque actual value &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; INT
+</I>&gt;&gt;<i> Status Word &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; UNIT
+</I>&gt;&gt;<i> Mode of operation Display &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; &#160; USINT
+</I>&gt;&gt;<i> Position Demand Value [cnt] &#160; &#160; &#160; &#160; &#160; &#160; DINT
+</I>&gt;&gt;<i> Total size in byte: 136
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I checked these settings with the Ethercat configurator from Twincat
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I have added the entry for the device in ethercatconfiglist.h
+</I>&gt;&gt;<i> ...
+</I>&gt;&gt;<i> {/*Man=0x0000009A,/*ID=*/0x00030924,/*Name=*/&quot;SimplIQ_GOLD&quot;
+</I>&gt;&gt;<i> ,/*dtype=7,/*Ibits=*/136,/*Obits=*/120, 0x1100, 0x00010024, 0x1180,
+</I>&gt;&gt;<i> 0x00010020, 1, 0}
+</I>&gt;&gt;<i> ...
+</I>&gt;<i>
+</I>&gt;<i> Ehhh, I realy REALY should put a big fat warning in ethercatconfiglist.h! Do
+</I>&gt;<i> not use it unless absolutly nescessary! It is intended for support of very
+</I>&gt;<i> old slaves that do not have full support of basic slave configuration
+</I>&gt;<i> mechanisms. The default auto mapping function should always work. If not
+</I>&gt;<i> there is something else wrong.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> If I start ec_config_init(FALSE) I got a &quot;Slave 1 State=12
+</I>&gt;&gt;<i> StatusCode=001e : Invalid Input Configuration&quot;
+</I>&gt;<i>
+</I>&gt;<i> This should be your hint that something went wrong in your configuration.
+</I>&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> if I start ec_config_init(TRUE) the program proceeds
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> To setting up the PDO in SOEM I follow the simple_example.c and the
+</I>&gt;&gt;<i> advice from a previous entry:
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/pipermail/soem-user/2010-April/000007.html">https://lists.berlios.de/pipermail/soem-user/2010-April/000007.html</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> So to set them up I do
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> My take on this:
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> if ( ec_config_init(1)&gt; &#160;0 )
+</I>&gt;<i> &#160; {
+</I>&gt;<i> &#160; &#160; &#160; printf(&quot;%d slave(s) found\n&quot;, ec_slavecount);
+</I>&gt;<i>
+</I>&gt;<i> &#160; &#160; &#160; uint8 TxPDO_000=0;
+</I>&gt;<i> &#160; &#160; &#160; int os=sizeof(TxPDO_000);
+</I>&gt;<i> &#160; &#160; &#160; ec_SDOwrite(1,0x1c13,00,FALSE, os,&amp;TxPDO_000,EC_TIMEOUTRXM);
+</I>&gt;<i> &#160; &#160; &#160; uint16 TxPDO_002= 0x1A04;
+</I>&gt;<i> &#160; &#160; &#160; os=sizeof(TxPDO_002);
+</I>&gt;<i> &#160; &#160; &#160; ec_SDOwrite(1,0x1c13,01,FALSE,os,&amp;TxPDO_002,EC_TIMEOUTRXM);
+</I>&gt;<i> &#160; &#160; &#160; TxPDO_002= 0x1a1b;
+</I>&gt;<i> &#160; &#160; &#160; ec_SDOwrite(1,0x1c13,02,FALSE,os,&amp;TxPDO_002,EC_TIMEOUTRXM);
+</I>&gt;<i> &#160; &#160; &#160; TxPDO_000=2;
+</I>&gt;<i> &#160; &#160; &#160; os=sizeof(TxPDO_000);
+</I>&gt;<i> &#160; &#160; &#160; ec_SDOwrite(1,0x1c13,00,FALSE, os,&amp;TxPDO_000,EC_TIMEOUTRXM);
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> &#160; &#160; &#160; // if the write resulted in an error print the message(s)
+</I>&gt;<i> &#160; &#160; &#160; while(EcatError) printf(&quot;%s&quot;, ec_elist2string());
+</I>&gt;<i>
+</I>&gt;<i> &#160; &#160; &#160; uint8 RxPDO_000=0;
+</I>&gt;<i> &#160; &#160; &#160; os=sizeof(RxPDO_000);
+</I>&gt;<i> &#160; &#160; &#160; ec_SDOwrite(1,0x1c12,00,FALSE, os,&amp;RxPDO_000,EC_TIMEOUTRXM);
+</I>&gt;<i> &#160; &#160; &#160; uint16 RxPDO_002= 0x160a;
+</I>&gt;<i> &#160; &#160; &#160; os=sizeof(RxPDO_002);
+</I>&gt;<i> &#160; &#160; &#160; ec_SDOwrite(1,0x1c12,01,FALSE,os,&amp;RxPDO_002,EC_TIMEOUTRXM);
+</I>&gt;<i> &#160; &#160; &#160; RxPDO_002= 0x160b;
+</I>&gt;<i> &#160; &#160; &#160; ec_SDOwrite(1,0x1c12,02,FALSE,os,&amp;RxPDO_002,EC_TIMEOUTRXM);
+</I>&gt;<i> &#160; &#160; &#160; RxPDO_002= 0x160f;
+</I>&gt;<i> &#160; &#160; &#160; ec_SDOwrite(1,0x1c12,03,FALSE,os,&amp;RxPDO_002,EC_TIMEOUTRXM);
+</I>&gt;<i> &#160; &#160; &#160; RxPDO_002= 0x161a;
+</I>&gt;<i> &#160; &#160; &#160; ec_SDOwrite(1,0x1c12,04,FALSE,os,&amp;RxPDO_002,EC_TIMEOUTRXM);
+</I>&gt;<i> &#160; &#160; &#160; RxPDO_002= 0x161c;
+</I>&gt;<i> &#160; &#160; &#160; ec_SDOwrite(1,0x1c12,05,FALSE,os,&amp;RxPDO_002,EC_TIMEOUTRXM);
+</I>&gt;<i> &#160; &#160; &#160; RxPDO_000=5;
+</I>&gt;<i> &#160; &#160; &#160; os=sizeof(RxPDO_000);
+</I>&gt;<i> &#160; &#160; &#160; ec_SDOwrite(1,0x1c12,00,FALSE, os,&amp;RxPDO_000,EC_TIMEOUTRXM);
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> &#160; &#160; &#160; // if the write resulted in an error print the message(s)
+</I>&gt;<i> &#160; &#160; &#160; while(EcatError) printf(&quot;%s&quot;, ec_elist2string());
+</I>&gt;<i>
+</I>&gt;<i> &#160;}
+</I>&gt;<i>
+</I>&gt;<i> Just follow the rules as set by the EtherCAT spec. You can find it at the
+</I>&gt;<i> ETG. And you code did not use the correct types for the SDOwrite variables.
+</I>&gt;<i> Subindex 0 is always uint8, mapping entries in 0x1c12 and 0x1c13 are uint16.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Regards,
+</I>&gt;<i> Arthur
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000079.html">[Soem-user] How to assign multiple PDOs
+</A></li>
+	<LI>Next message: <A HREF="000080.html">[Soem-user] PDO communication issue
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#82">[ date ]</a>
+              <a href="thread.html#82">[ thread ]</a>
+              <a href="subject.html#82">[ subject ]</a>
+              <a href="author.html#82">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

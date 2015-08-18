@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Why an SDOread seem to let output PDOs working well?
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-May/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Why%20an%20SDOread%20seem%20to%20let%20output%20PDOs%20working%20well%3F&In-Reply-To=%3C201205170945.09789.leo%40alaxarxa.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000106.html">
+   <LINK REL="Next"  HREF="000108.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Why an SDOread seem to let output PDOs working well?</H1>
+    <B>Leopold Palomo-Avellaneda</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Why%20an%20SDOread%20seem%20to%20let%20output%20PDOs%20working%20well%3F&In-Reply-To=%3C201205170945.09789.leo%40alaxarxa.net%3E"
+       TITLE="[Soem-user] Why an SDOread seem to let output PDOs working well?">leo at alaxarxa.net
+       </A><BR>
+    <I>Thu May 17 09:45:09 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000106.html">[Soem-user] Why an SDOread seem to let output PDOs working well?
+</A></li>
+        <LI>Next message: <A HREF="000108.html">[Soem-user] Why an SDOread seem to let output PDOs working well?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#107">[ date ]</a>
+              <a href="thread.html#107">[ thread ]</a>
+              <a href="subject.html#107">[ subject ]</a>
+              <a href="author.html#107">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>A Dimecres 16 Maig 2012, Luca Magnabosco va escriure:
+&gt;<i> Hi all,
+</I>&gt;<i> I have installed SOEM as a system library and I had use it to compile
+</I>&gt;<i> and execute some simple programs in C.
+</I>&gt;<i> Now I'm using SOEM with Orocos and I have two tasks. The first one is
+</I>&gt;<i> the master and the second one the slave.
+</I>&gt;<i> Using Orocos syntax I have obtained that the master's task executes,
+</I>&gt;<i> with its own thread, the slave's task.
+</I>&gt;<i> For this reason I can give to the slave a memory pointer so that the
+</I>&gt;<i> slave can (using the master thread) write/read directly to/from
+</I>&gt;<i> ec_slave[1].outputs/inputs.
+</I>&gt;<i> 
+</I>&gt;<i> While I use SDO all is working well but when I start to use PDOs(in
+</I>&gt;<i> operational state, after a correct and verified PDO mapping)  happens
+</I>&gt;<i> something strange.
+</I>&gt;<i> 
+</I>&gt;<i> 1)Compiling and running no warnings or errors appear but  PDOs doesn't
+</I>&gt;<i> arrive to the slaves.
+</I>&gt;<i> 
+</I>&gt;<i> 2)If,, while the master is in Operational state in the updatehook of
+</I>&gt;<i> the slave, I use an SDOread the output PDOs start working well.
+</I>&gt;<i>    Anyway the input PDOs from  the slaves continue to be 0.
+</I>&gt;<i> 
+</I>&gt;<i> Anyone has an idea of why using an SDOread I can obtain that the PDOs
+</I>&gt;<i> output start working?
+</I>&gt;<i> And why even if the outputs are working the input PDO (PDO arriving
+</I>&gt;<i> from the slaves) continue to be 0 or unreadable?
+</I>&gt;<i> 
+</I>
+I would like to add more information about this issue. I'm working with Luca 
+and I would like to refocus the question to a more specific SOEM question.
+
+SOEM is implemented as a library to let the programers access to ethercat 
+devices. AFAIK the interchange of information in done sharing a &quot;iomap&quot; 
+memory, that the programmer send to the library in the ec_config_map function.
+
+Then, to access to the devices found in the bus, the library provides the 
+ec_slave structure with the input and output field to put the information.
+
+Our problem is what happen if we make a ec_config_map in one process and we 
+use the ec_slave in another process. We are confident that we access to that 
+data in the same thread, so we don't have (or we think..) collision problems.
+
+As Luca commented, we are having problems in some aspects, but not in all. So, 
+it's possible to access to the SOEM data from several processes in the same 
+app?
+
+Regards,
+
+Leo
+
+
+
+-- 
+--
+Linux User 152692
+Catalonia
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000106.html">[Soem-user] Why an SDOread seem to let output PDOs working well?
+</A></li>
+	<LI>Next message: <A HREF="000108.html">[Soem-user] Why an SDOread seem to let output PDOs working well?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#107">[ date ]</a>
+              <a href="thread.html#107">[ thread ]</a>
+              <a href="subject.html#107">[ subject ]</a>
+              <a href="author.html#107">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

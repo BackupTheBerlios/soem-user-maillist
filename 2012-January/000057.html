@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] SOEM error after upgrade to ROS Electric
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-January/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20SOEM%20error%20after%20upgrade%20to%20ROS%20Electric&In-Reply-To=%3CCAMjdfU2qD706XRb94rJjqm8pFS71N_J5xDF1hLO3Aec578TjXg%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000056.html">
+   <LINK REL="Next"  HREF="000058.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] SOEM error after upgrade to ROS Electric</H1>
+    <B>Ian Sherman</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20SOEM%20error%20after%20upgrade%20to%20ROS%20Electric&In-Reply-To=%3CCAMjdfU2qD706XRb94rJjqm8pFS71N_J5xDF1hLO3Aec578TjXg%40mail.gmail.com%3E"
+       TITLE="[Soem-user] SOEM error after upgrade to ROS Electric">ian.j.sherman at gmail.com
+       </A><BR>
+    <I>Tue Jan 17 19:16:20 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000056.html">[Soem-user] BRD frames treated as errors by ET1100
+</A></li>
+        <LI>Next message: <A HREF="000058.html">[Soem-user] SOEM error after upgrade to ROS Electric
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#57">[ date ]</a>
+              <a href="thread.html#57">[ thread ]</a>
+              <a href="subject.html#57">[ subject ]</a>
+              <a href="author.html#57">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>[cross-posted to Orocos forums]
+
+After upgrade to ROS Electric, SoemMaster.configure() is failing with
+the following error:
+
+-------------------------
+Deployer [S]&gt; SoemMaster.configure()
+creation of socket failed:-1
+16.285 [ ERROR &#160;][SoemMaster] Could not initialize master on ecat0
+&#160;= false
+-------------------------
+
+slaveinfo and simple_test, however, work fine:
+
+-------------------------
+Starting slaveinfo
+ec_init on ecat0 succeeded.
+3 slaves found and configured.
+...
+-------------------------
+
+I am using the electric branch of SOEM from
+<A HREF="http://git.mech.kuleuven.be/robotics/soem.git">http://git.mech.kuleuven.be/robotics/soem.git</A>
+
+Any idea what's going on, or how best to troubleshoot?
+
+Thanks,
+Ian
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000056.html">[Soem-user] BRD frames treated as errors by ET1100
+</A></li>
+	<LI>Next message: <A HREF="000058.html">[Soem-user] SOEM error after upgrade to ROS Electric
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#57">[ date ]</a>
+              <a href="thread.html#57">[ thread ]</a>
+              <a href="subject.html#57">[ subject ]</a>
+              <a href="author.html#57">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

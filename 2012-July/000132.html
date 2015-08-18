@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Thread safety and a patch to block instead of	polling.
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-July/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Thread%20safety%20and%20a%20patch%20to%20block%20instead%20of%0A%09polling.&In-Reply-To=%3C4FF76186.8060109%40smfk.nl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000131.html">
+   <LINK REL="Next"  HREF="000133.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Thread safety and a patch to block instead of	polling.</H1>
+    <B>Arthur Ketels</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Thread%20safety%20and%20a%20patch%20to%20block%20instead%20of%0A%09polling.&In-Reply-To=%3C4FF76186.8060109%40smfk.nl%3E"
+       TITLE="[Soem-user] Thread safety and a patch to block instead of	polling.">arthur at smfk.nl
+       </A><BR>
+    <I>Sat Jul  7 00:07:02 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000131.html">[Soem-user] Thread safety and a patch to block instead of polling.
+</A></li>
+        <LI>Next message: <A HREF="000133.html">[Soem-user] Problems with EL4732 and EL3702 distribuited clock
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#132">[ date ]</a>
+              <a href="thread.html#132">[ thread ]</a>
+              <a href="subject.html#132">[ subject ]</a>
+              <a href="author.html#132">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Op 5-7-2012 22:16, Johnathan Van Why schreef:
+&gt;<i> I have two questions to ask and one patch that I would like to be considered.
+</I>First of all, many thanks for giving feedback. So few people do that.
+&gt;<i> First, is SOEM threadsafe? If not, it's not difficult to make my send
+</I>&gt;<i> and receive (which may be called from different threads) thread-safe.
+</I>Yes SOEM is threadsafe. It was build from the ground up to be like that. 
+See also the example programs ebox.c and red_test.c
+&gt;<i> Second, I notice that SOEM polls its socket to receive data.
+</I>Yes, this is deliberate. I tried many different approaches to get the 
+best possible RT performance under Linux. SOEM uses RAW sockets to get 
+the EtherCAT packets over the line. The socket polls are blocking, 
+contrary to the comments in the code and the documentation.  But the 
+blocking is extremely short. So for all practical reasons they behave 
+like non-blocking calls. The important distinction is that it allows the 
+scheduler to do its magic, while at the same time prevent the thread to 
+go in the waiting cue. So it balances the CPU polling cost with 
+low-latency. This works for most current Intel processors. For some ARM 
+and other slower single core systems there might be some tweaks necessary.
+
+In  ec_setupnic
+    /* we use RAW packet socket, with packet type ETH_P_ECAT */
+    *psock = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ECAT));
+    timeout.tv_sec =  0;
+    timeout.tv_usec = 1;
+
+    r = setsockopt(*psock, SOL_SOCKET, SO_RCVTIMEO, &amp;timeout, 
+sizeof(timeout));
+    r = setsockopt(*psock, SOL_SOCKET, SO_SNDTIMEO, &amp;timeout, 
+sizeof(timeout));
+
+The SO_RCVTIMEO is set at 1 usec. So the recv() call in ec_recvpkt will 
+block for a maximum of 1 usec. In reality this is much longer (somewhere 
+around 3 usec). In a not too big EtherCAT system the send -&gt; receive 
+delay is only 3 to 5 usec. So this timeout makes sense.  It does depend 
+a lot on the NIC driver used. There is a really large spread in linux 
+NIC driver quality with regards to latency. Some drivers can be tweaked 
+with for example ethtool, others are just no good for RT work.
+
+&gt;<i> As we run
+</I>&gt;<i> a hard-realtime system where our code has a realtime priority higher
+</I>&gt;<i> than 50 (on an RT-PREEMPT) system, it's strongly preferable for SOEM
+</I>&gt;<i> to block until new data is available.
+</I>Setting the thread priority over 50  can cause all kind of issues. The 
+socket layer also operates largely at prio 50, so the application will 
+starve the network stack. It can be done, but you need to tweak all kind 
+of kernel prio settings too.
+&gt;<i>   The attached patch causes SOEM
+</I>&gt;<i> to block when __unix__ is defined without sacrificing portability to
+</I>&gt;<i> systems without a select() call.
+</I>And at the same time this patch makes SOEM non-reentrant. SOEM manages 
+its own packet coherence stack. With EtherCAT there is always a send &lt;-&gt; 
+receive packet match. So SOEM keeps track of all packets send (with idx 
+field) and compares all received packets with this list. Only when there 
+is a timeout on receive the transmit packet in the list is dropped. In 
+the re-entrant case it is very well possible that ec_inframe gets an 
+other packet than it expects (from activity in other threads). This is 
+fine because it will still compare the packet with the list and copies 
+it in the receive stack. When there is a match with the expected packet 
+it returns with that pointer. When the ec_inframe finds its packet 
+already available in the receive stack it will just return that pointer 
+without making any call to the socket layer.
+
+Your patch will block this functionality for a large degree. Because the 
+packet might already have been received and put in the buffer. The 
+select() will block until timeout, only then to find the packet was 
+already there.
+
+&gt;<i> Third, is there a repository for SOEM's source code?
+</I>Not yet, but this might change in the near future.
+
+Thanks,
+Arthur
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000131.html">[Soem-user] Thread safety and a patch to block instead of polling.
+</A></li>
+	<LI>Next message: <A HREF="000133.html">[Soem-user] Problems with EL4732 and EL3702 distribuited clock
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#132">[ date ]</a>
+              <a href="thread.html#132">[ thread ]</a>
+              <a href="subject.html#132">[ subject ]</a>
+              <a href="author.html#132">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

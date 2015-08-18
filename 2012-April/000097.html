@@ -1,0 +1,264 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] sdo_write abort
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-April/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20sdo_write%20abort&In-Reply-To=%3C1334048288.58890.YahooMailNeo%40web29606.mail.ird.yahoo.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000096.html">
+   <LINK REL="Next"  HREF="000098.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] sdo_write abort</H1>
+    <B>rocco brandi</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20sdo_write%20abort&In-Reply-To=%3C1334048288.58890.YahooMailNeo%40web29606.mail.ird.yahoo.com%3E"
+       TITLE="[Soem-user] sdo_write abort">viccio75 at yahoo.it
+       </A><BR>
+    <I>Tue Apr 10 10:58:08 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000096.html">[Soem-user] sdo_write abort
+</A></li>
+        <LI>Next message: <A HREF="000098.html">[Soem-user] sdo_write abort
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#97">[ date ]</a>
+              <a href="thread.html#97">[ thread ]</a>
+              <a href="subject.html#97">[ subject ]</a>
+              <a href="author.html#97">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>here I am again!
+
+
+so, I've made some progress.
+
+first of all, the invalid length response is a problem of wireshark, because in the header it finds a length&lt;0x0A;
+second, the abort when I try to write at 0x1C12:1 is due to the swap of the data;
+
+now I'm facing the last (I hope!) problem: when I try to write the PDO count, I receive the following error (as you can see in wireshark cap):
+&quot;value of parameter to high&quot; (abort code 0x06090031)
+(ignore the second abort, it depends on my code)
+
+
+comparing to the wireshark capture from TwinCAT, I've noticed that my sdo is a byte longer
+
+Rocco
+
+
+________________________________
+ Da: Arthur Ketels &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">info at smfk.nl</A>&gt;
+A: rocco brandi &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">viccio75 at yahoo.it</A>&gt; 
+Cc: SOEM &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user at lists.berlios.de</A>&gt; 
+Inviato: Gioved&#236; 5 Aprile 2012 17:46
+Oggetto: Re: sdo_write abort
+ 
+
+Hi Rocco,
+
+Op 5-4-2012 17:17, rocco brandi schreef: 
+oh my god! you're right!!!
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>I've swap the index. there's still some problems, now the response is invalid length (in the capture you can see it) when I try to reset at 0x1C12 and 0x1C13 and aborted again when I try do write at 0x1C12 subindex 1
+</I>Some old Beckhoff slaves, want subindex 0 with size 2 (even if the specification says 1). So your master code has to check for this error response and retry with size=2.
+
+Subindex 1 of object 0x1c12 and 0x1c13 can not be 0x0000. It must be
+    a valid PDO mapping object. Only when subindex 0 is zero you can do
+    with the subindexes what you want (no checks performed by the
+    slave).
+
+
+
+&gt;<i>
+</I>&gt;<i>Rocco
+</I>&gt;<i>
+</I>Arthur
+
+
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>________________________________
+</I>&gt;<i> Da: Arthur Ketels &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">info at smfk.nl</A>&gt;
+</I>&gt;<i>A: rocco brandi &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">viccio75 at yahoo.it</A>&gt; 
+</I>&gt;<i>Cc: SOEM &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user at lists.berlios.de</A>&gt; 
+</I>&gt;<i>Inviato: Gioved&#236; 5 Aprile 2012 16:44
+</I>&gt;<i>Oggetto: Re: sdo_write abort
+</I>&gt;<i> 
+</I>&gt;<i>
+</I>&gt;<i>Hi Rocco,
+</I>&gt;<i>
+</I>&gt;<i>I can't believe I've missed the the mistake you made!
+</I>                You try to set object 0x121c instead of 0x1c12. Then the
+                slaves correctly answers with the CoE abort 0x6020000
+                &quot;The object does not exist in the object directory&quot;.
+&gt;<i>
+</I>&gt;<i>Arthur.
+</I>&gt;<i>
+</I>&gt;<i>Op 5-4-2012 16:14, rocco brandi schreef: 
+</I>&gt;<i>the line 10 refers to the EK110 (ado 0x3E9) that is correctly in safe-op, while at line 12 we can see that the slave EL4112 (ado 0x3EA) and the following slaves are still in pre-op state
+</I>&gt;&gt;<i>
+</I>Yes, you are right. My eyes must be asleep today ;-)
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>________________________________
+</I>&gt;&gt;<i> Da: Arthur Ketels &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">info at smfk.nl</A>&gt;
+</I>&gt;&gt;<i>A: rocco brandi &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">viccio75 at yahoo.it</A>&gt; 
+</I>&gt;&gt;<i>Cc: SOEM &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user at lists.berlios.de</A>&gt; 
+</I>&gt;&gt;<i>Inviato: Gioved&#236; 5 Aprile 2012 16:06
+</I>&gt;&gt;<i>Oggetto: Re: sdo_write abort
+</I>&gt;&gt;<i> 
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>Hi Rocco,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>Op 5-4-2012 15:47, rocco brandi schreef: 
+</I>&gt;&gt;<i>thank you for the answer, Arthur!
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>I've made modification to be sure that the slave is the pre-op state, but as you can see in the capture, the problem is still there :-(
+</I>No, you have only partly solved the issue I mentioned. As you see in line 10 the actual state is still 0x0004 meaning safe-op. Only in line 12 the slave has dropped to 0x0002 pre-op.
+&gt;&gt;<i>
+</I>&gt;&gt;<i>You can't set the ALcommand to a state and
+</I>                            assume the slave has accepted that at the
+                            same instant. You have to check the ALstatus
+                            and wait until the slave has had time to
+                            respond. Only then issue the CoE commands.
+&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>Rocco
+</I>Regards,
+&gt;&gt;<i>Arthur.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>________________________________
+</I>&gt;&gt;&gt;<i> Da: Arthur Ketels &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">info at smfk.nl</A>&gt;
+</I>&gt;&gt;&gt;<i>A: rocco brandi &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">viccio75 at yahoo.it</A>&gt; 
+</I>&gt;&gt;&gt;<i>Cc: SOEM &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user at lists.berlios.de</A>&gt; 
+</I>&gt;&gt;&gt;<i>Inviato: Mercoled&#236; 4 Aprile 2012 17:45
+</I>&gt;&gt;&gt;<i>Oggetto: Re: sdo_write abort
+</I>&gt;&gt;&gt;<i> 
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>Hi Rocco,
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>From the wireshark capture I can
+</I>                                        see that just before you issue
+                                        the SDOwrite the slave is set to
+                                        safe-op. Changing the PDO
+                                        mapping is not allowed in
+                                        safe-op, you need to be in
+                                        pre-op.
+&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>Arthur
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>Op 4-4-2012 17:37, rocco brandi
+</I>                                        schreef: 
+&gt;&gt;&gt;<i>Hi everyone!
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>as I told in others
+</I>                                              trheads, I'm working on a
+                                              configuration tool that
+                                              use the ENI XML file to
+                                              configure the network
+&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>after successfully execute
+</I>                                              the inti-to-preop
+                                              transition and sending the
+                                              init commands for the
+                                              pre-op to safe-op
+                                              transition, I'm trying to
+                                              send the mailbox init
+                                              commands, that essentially
+                                              consist in PDOs assigment.
+&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>in the case of EL4112, the commands are the following:
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>-clear sm pdos (0x1C12) [index 0x1C12, subIndex 0, data 00]
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>-clear sm pdos (0x1C13) [index 0x1C13, subIndex 0, data 00]
+</I>&gt;&gt;&gt;&gt;<i>-download pdo 0x1C12:01 index [index 0x1C12, subIndex 1, data 0016]
+</I>&gt;&gt;&gt;&gt;<i>-download pdo 0x1C12:02 index [index 0x1C12, subIndex 12 data 0116]
+</I>&gt;&gt;&gt;&gt;<i>-download pdo 0x1C12 count [index 0x1C12, subIndex 0, data 02]
+</I>That is the correct order.
+&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>so I try to send the first command with
+</I>&gt;&gt;&gt;&gt;<i>ec_SDOwrite(slave,Index,SubIndex,FALSE,Len,&amp;(data),EC_TIMEOUTRXM)
+</I>&gt;&gt;&gt;&gt;<i>[Len=1 and data=0]
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>but, as you can see in the last packet of wireshare cap, the request is aborted
+</I>See above, the slave is in safe-op.
+&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>I've seen there are several thread about this issue, I've tried also the procedure at <A HREF="https://lists.berlios.de/pipermail/soem-user/2010-April/000007.html">https://lists.berlios.de/pipermail/soem-user/2010-April/000007.html</A> but nothing has worked.
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>any suggestions?
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i>Rocco
+</I>&gt;&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120410/f0649e14/attachment-0001.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120410/f0649e14/attachment-0001.html</A>&gt;
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: sdo_write abort_on_count.pcap
+Type: application/octet-stream
+Size: 5244 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120410/f0649e14/attachment-0002.obj">https://lists.berlios.de/pipermail/soem-user/attachments/20120410/f0649e14/attachment-0002.obj</A>&gt;
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: twinsdo_on_count.pcap
+Type: application/octet-stream
+Size: 724 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120410/f0649e14/attachment-0003.obj">https://lists.berlios.de/pipermail/soem-user/attachments/20120410/f0649e14/attachment-0003.obj</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000096.html">[Soem-user] sdo_write abort
+</A></li>
+	<LI>Next message: <A HREF="000098.html">[Soem-user] sdo_write abort
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#97">[ date ]</a>
+              <a href="thread.html#97">[ thread ]</a>
+              <a href="subject.html#97">[ subject ]</a>
+              <a href="author.html#97">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

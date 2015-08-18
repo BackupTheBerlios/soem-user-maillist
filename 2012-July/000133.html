@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Problems with EL4732 and EL3702 distribuited clock
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-July/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Problems%20with%20EL4732%20and%20EL3702%20distribuited%20clock&In-Reply-To=%3C50101B70.5000907%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000132.html">
+   <LINK REL="Next"  HREF="000134.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Problems with EL4732 and EL3702 distribuited clock</H1>
+    <B>Guido</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Problems%20with%20EL4732%20and%20EL3702%20distribuited%20clock&In-Reply-To=%3C50101B70.5000907%40gmail.com%3E"
+       TITLE="[Soem-user] Problems with EL4732 and EL3702 distribuited clock">guithercat at gmail.com
+       </A><BR>
+    <I>Wed Jul 25 18:14:40 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000132.html">[Soem-user] Thread safety and a patch to block instead of	polling.
+</A></li>
+        <LI>Next message: <A HREF="000134.html">[Soem-user] SOEM buffering and data consistency issues
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#133">[ date ]</a>
+              <a href="thread.html#133">[ thread ]</a>
+              <a href="subject.html#133">[ subject ]</a>
+              <a href="author.html#133">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+     my name is Guido and I'm trying to use Beckhoff EtherCAT modules 
+for the motion controll.
+  I tried a few examples (simple_test, slaveinfo, red_test) found in the 
+SOEM code and everything works properly with &quot;standard&quot; modules. The 
+problem is when I try to use the modules with the Distribuited Clock.
+  As a base I used the code of red_test.c where I have configured the 
+distribuited clock for the modules: EL4732 and EL3702, with the 
+instructions: ec_sync, ec_configdc and ec_dcsync01. However when I try 
+to send a value on the analog output (with the set_output_int16 
+function) I can not read any voltage. Can anyone send me a sample code 
+for generate a square wave and reread it with these modules?
+
+Thanks
+Guido
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000132.html">[Soem-user] Thread safety and a patch to block instead of	polling.
+</A></li>
+	<LI>Next message: <A HREF="000134.html">[Soem-user] SOEM buffering and data consistency issues
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#133">[ date ]</a>
+              <a href="thread.html#133">[ thread ]</a>
+              <a href="subject.html#133">[ subject ]</a>
+              <a href="author.html#133">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

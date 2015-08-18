@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] PDO communication issue
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-March/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20PDO%20communication%20issue&In-Reply-To=%3C000001ccfc44%248e660c90%24ab3225b0%24%40tpaspa.it%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000082.html">
+   <LINK REL="Next"  HREF="000083.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] PDO communication issue</H1>
+    <B>FrancescoBoschetti</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20PDO%20communication%20issue&In-Reply-To=%3C000001ccfc44%248e660c90%24ab3225b0%24%40tpaspa.it%3E"
+       TITLE="[Soem-user] PDO communication issue">francesco.boschetti at tpaspa.it
+       </A><BR>
+    <I>Wed Mar  7 10:27:46 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000082.html">[Soem-user] How to assign multiple PDOs
+</A></li>
+        <LI>Next message: <A HREF="000083.html">[Soem-user] dynamic slaves list
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#80">[ date ]</a>
+              <a href="thread.html#80">[ thread ]</a>
+              <a href="subject.html#80">[ subject ]</a>
+              <a href="author.html#80">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello everybody,
+
+ 
+
+i'm actually trying to use SOEM library to do PDO communication with my
+servo drive.
+
+I've successfully configured the RX and TX PDOs as follow:
+
+ 
+
+RX:
+
+Index 1C12.0 = 1
+
+             1C12.1 = 1602
+
+             1C12.2 = 1600
+
+ 
+
+TX:
+
+Index 1C13.0 = 1
+
+             1C13.1 = 1A02
+
+             1C13.2 = 1A00
+
+ 
+
+I'm now interested in using the first mapped PDO (1c12.1 and 1c13.1) in
+order to setup a synchronous velocity control for my servo;  I guess I have
+to call the SOEM function ec_TxPDO(uint16 slave, uint16 TxPDOnumber, int
+*psize, void *p, int timeout) to retrieve the position actual value but I
+don't understand which value I have to give as second parameter
+(TxPDOnumber)..i've tried passing values 1C13  and 1A02 since they are for
+sure related in some ways to the PDO communication but every try returns to
+me with a WKC = 0 and the buffer variable p is 0.
+
+ 
+
+Can anybody tell me please which is the correct parameter value?
+
+ 
+
+Thanks in advance.
+
+ 
+
+Francesco  
+
+ 
+
+ 
+
+ 
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120307/43e05853/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120307/43e05853/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000082.html">[Soem-user] How to assign multiple PDOs
+</A></li>
+	<LI>Next message: <A HREF="000083.html">[Soem-user] dynamic slaves list
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#80">[ date ]</a>
+              <a href="thread.html#80">[ thread ]</a>
+              <a href="subject.html#80">[ subject ]</a>
+              <a href="author.html#80">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

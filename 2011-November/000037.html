@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] First questions about SOEM
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2011-November/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20First%20questions%20about%20SOEM&In-Reply-To=%3C201111021221.43762.leo%40alaxarxa.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000036.html">
+   <LINK REL="Next"  HREF="000038.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] First questions about SOEM</H1>
+    <B>Leopold Palomo-Avellaneda</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20First%20questions%20about%20SOEM&In-Reply-To=%3C201111021221.43762.leo%40alaxarxa.net%3E"
+       TITLE="[Soem-user] First questions about SOEM">leo at alaxarxa.net
+       </A><BR>
+    <I>Wed Nov  2 12:21:43 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000036.html">[Soem-user] First questions about SOEM
+</A></li>
+        <LI>Next message: <A HREF="000038.html">[Soem-user] First questions about SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#37">[ date ]</a>
+              <a href="thread.html#37">[ thread ]</a>
+              <a href="subject.html#37">[ subject ]</a>
+              <a href="author.html#37">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello Arthur,
+
+A Dimarts 01 Novembre 2011, Arthur Ketels va escriure:
+[...]
+
+&gt;<i> If simple_test reports no slaves found it can have following reasons:
+</I>&gt;<i> 1) No slaves attached
+</I>
+false, I have an slave attached.
+
+&gt;<i> 2) NIC driver is in a wrong mode (do you have installed the IgH rt 
+</I>&gt;<i> drivers?), use only vanilla NIC drivers.
+</I>
+I have tested the IgH drivers, but now I'm using the vanilla drivers. Exactly 
+I'm using a stock debian squeeze kernel 2.6.32-5.
+
+&gt;<i> 3) Data is send out but does not return
+</I>&gt;<i> 4) Data is not send out (driver setting, network cable)
+</I>
+Well, I have found what's is happening. I configured the NIC with a simple 
+parameters: no IP, etc. Just a:
+
+auto eth1
+iface eth1 inet manual
+
+so, when I did a ifconfig, I got:
+
+eth1      Link encap:Ethernet  HWaddr 00:13:46:3c:a4:9e  
+          BROADCAST MULTICAST  MTU:1500  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+          Interrupt:18 Base address:0xa000 
+
+in this configuration the SOEM doesn't work. Also, I don't know if is necessary 
+to have configured the IP part of the NIC. If it was was my mistake, I'm sorry.
+
+If I configure the IP part of the NIC, then it works. Setting a private 
+address:
+iface eth1 inet static 
+        address 10.0.0.1 
+        netmask 255.255.255.0 
+        network 10.0.0.1 
+        broadcast 10.0.0.255 
+
+then I got this info:
+
+sudo ./simple_test eth1
+SOEM (Simple Open EtherCAT Master)
+Simple test
+Starting simple test
+ec_init on eth1 succeeded.
+1 slaves found and configured.
+Slaves mapped, state to SAFE_OP.
+segments : 1 : 0 0 0 0
+Request operational state for all slaves
+Calculated workcounter 0
+Not all slaves reached operational state.
+Slave 1 State=0x04 StatusCode=0x0000 : Unknown
+
+Request safe operational state for all slaves
+End simple test, close socket
+End program
+
+
+also:
+
+sudo ./slaveinfo eth1 -sdo
+SOEM (Simple Open EtherCAT Master)
+Slaveinfo
+Starting slaveinfo
+ec_init on eth1 succeeded.
+1 slaves found and configured.
+Calculated workcounter 0
+
+Slave:1
+ Name:? M:00000024 I:00242803
+ Output size: 0bits
+ Input size: 0bits
+ State: 4
+ Delay: 0[ns]
+ Has DC: 1
+ DCParentport:0
+ Activeports:1.0.0.0
+ Configured address: 1001
+ Man: 00000024 ID: 00242803 Rev: 00000001
+ SM0 A:1800 L: 234 F:00010026 Type:1
+ SM1 A:1a00 L: 234 F:00010022 Type:2
+ SM2 A:1000 L:   0 F:00000064 Type:3
+ SM3 A:1100 L:   0 F:00000062 Type:4
+ FMMUfunc 0:0 1:0 2:0 3:0
+ MBX length wr: 234 rd: 234 MBX protocols : 10
+ CoE details: 00 FoE details: 00 EoE details: 01 SoE details: 00
+ Ebus current: 0[mA]
+ only LRD/LWR:0
+End slaveinfo, close socket
+End program
+
+&gt;<i> 
+</I>&gt;<i> The best way to solve this quickly is NOT to send dozens of mails with 
+</I>&gt;<i> no real info, 
+</I>
+I sent all the info that I had in that moment and I have sent answered all the 
+question related.
+
+&gt;<i> but to send a wireshark trace of the simple_test and/or 
+</I>&gt;<i> slaveinfo. 
+</I>
+yes, you are right, I didn't send the wireshark trace. Trying to do it is when 
+I have realized that wireshark doesn't detect the interface.
+
+&gt;<i> Mention the exact type of slave, and references to internet 
+</I>&gt;<i> docu (ones that are not broken). 
+</I>
+I did it with the link, but it's true, I didn't realize that it was a session 
+and not portable.
+
+Try this one, 
+
+<A HREF="http://www.boschrexroth.com/content/internet/pdf/PDF_p179794_en.pdf">http://www.boschrexroth.com/content/internet/pdf/PDF_p179794_en.pdf</A>
+
+but it's a bit hard to try to find an static link for the documentation.
+
+&gt;<i> If possible send the configuration of 
+</I>&gt;<i> the slave and/or the ESI xml file. 
+</I>
+no because I have not one ESI xml and I don't know how to obtain it. Bosch is 
+a bit opaque in this.
+
+Regards, 
+
+Leopold
+
+
+-- 
+--
+Linux User 152692
+Catalonia
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000036.html">[Soem-user] First questions about SOEM
+</A></li>
+	<LI>Next message: <A HREF="000038.html">[Soem-user] First questions about SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#37">[ date ]</a>
+              <a href="thread.html#37">[ thread ]</a>
+              <a href="subject.html#37">[ subject ]</a>
+              <a href="author.html#37">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

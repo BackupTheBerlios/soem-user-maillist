@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] DC config
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2013-October/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20DC%20config&In-Reply-To=%3Cgbds2di17qj875ml7p3bnnoy.1381371325301%40email.android.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000186.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] DC config</H1>
+    <B>Deepak</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20DC%20config&In-Reply-To=%3Cgbds2di17qj875ml7p3bnnoy.1381371325301%40email.android.com%3E"
+       TITLE="[Soem-user] DC config">deepak at pragatiautomation.com
+       </A><BR>
+    <I>Thu Oct 10 04:15:25 CEST 2013</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000186.html">[Soem-user] Dc synchronization
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#188">[ date ]</a>
+              <a href="thread.html#188">[ thread ]</a>
+              <a href="subject.html#188">[ subject ]</a>
+              <a href="author.html#188">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+-------- Original message --------
+From: deepak &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">deepak at pragatiautomation.com</A>&gt; 
+Date: 09/10/2013  19:41  (GMT+05:30) 
+To: <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user at lists.berlios.de</A> 
+Subject: DC config 
+ 
+Hi,
+
+I am attaching slaveinfo output.
+I am using 2 EL2202-0100 Beckhoff output modules.
+
+I was expecting HASDC = 1 for only EL2202 module. But I hasdc = 1 for 
+all slaves.
+
+I modified the redtest program little to get output on all output 
+capable slaves.
+When I configure the EL2202 slave not to use DC using TwinCAT then I can 
+see output LED functioning on all slaves ( EL2202, EL2809, EL2008)
+When it is configured as EL2202-0100 to use DC then output LED 
+functioning only on EL2809 and EL2008. EL2202-0100 output LED not seen.
+Same program is run in both cases.
+
+I have checked DC functionality of this config with TwinCAT PLC. Sync 
+and shift-time working ok. Checked with Oscilloscope.
+
+Am I missing something.
+
+Beat regards.
+
+Deepak.
+
+-------------------------
+
+Following is output of redtest
+
+SOEM (Simple Open EtherCAT Master)
+Redundancy test
+Starting Redundant test
+ec_init on eth0 succeeded.
+wkc = 7
+7 slaves found and configured.
+Slave:1 Name:EK1100 Output size:&#160; 0bits Input size:&#160; 0bits State: 4 
+delay:0 has dc :1
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Out:00000000,&#160;&#160; 0 In:00000000,&#160;&#160; 0
+Slave:2 Name:EL2202-0100 Output size:&#160; 4bits Input size:&#160; 0bits State: 4 
+delay:145 has dc :1
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Out:00619340,&#160;&#160; 0 In:00000000,&#160;&#160; 0
+Slave:3 Name:EL1809 Output size:&#160; 0bits Input size: 16bits State: 4 
+delay:285 has dc :1
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Out:00000000,&#160;&#160; 0 In:00619345,&#160;&#160; 2
+Slave:4 Name:EL2809 Output size: 16bits Input size:&#160; 0bits State: 4 
+delay:440 has dc :1
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Out:00619341,&#160;&#160; 2 In:00000000,&#160;&#160; 0
+Slave:5 Name:EK1100 Output size:&#160; 0bits Input size:&#160; 0bits State: 4 
+delay:1430 has dc :1
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Out:00000000,&#160;&#160; 0 In:00000000,&#160;&#160; 0
+Slave:6 Name:EL2202-0100 Output size:&#160; 4bits Input size:&#160; 0bits State: 4 
+delay:1570 has dc :1
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Out:00619343,&#160;&#160; 0 In:00000000,&#160;&#160; 0
+Slave:7 Name:EL2008 Output size:&#160; 8bits Input size:&#160; 0bits State: 4 
+delay:1720 has dc :1
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; Out:00619344,&#160;&#160; 1 In:00000000,&#160;&#160; 0
+Calculated workcounter 9
+Request operational state for all slaves
+Operational state reached for all slaves.
+Processdata cycle&#160;&#160;&#160;&#160; 2 , Wck&#160;&#160; 0, DCtime&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 0, dt -50000, O: 00 
+00 00 00 00 I: 00 00
+Processdata cycle&#160;&#160;&#160;&#160; 3 , Wck&#160;&#160; 9, DCtime&#160;&#160;&#160; 570093680, dt 43680, O: 00 
+00 00 00 00 I: 00 00
+Processdata cycle&#160;&#160;&#160;&#160; 4 , Wck&#160;&#160; 9, DCtime&#160;&#160;&#160; 590006360, dt -43640, O: 00 
+01 00 00 00 I: 00 00
+Processdata cycle&#160;&#160;&#160;&#160; 5 , Wck&#160;&#160; 9, DCtime&#160;&#160;&#160; 610004960, dt -45040, O: 00 
+01 00 00 00 I: 00 00
+Processdata cycle&#160;&#160;&#160;&#160; 6 , Wck&#160;&#160; 9, DCtime&#160;&#160;&#160; 630005600, dt -44400, O: 00 
+01 00 00 00 I: 00 00
+Processdata cycle&#160;&#160;&#160;&#160; 7 , Wck&#160;&#160; 9, DCtime&#160;&#160;&#160; 650005160, dt -44840, O: 00 
+01 00 00 00 I: 00 00
+Processdata cycle&#160;&#160;&#160;&#160; 8 , Wck&#160;&#160; 9, DCtime&#160;&#160;&#160; 670006281, dt -43719, O: 00 
+02 01 00 00 I: 00 00
+OK : all slaves resumed OPERATIONAL.
+Processdata cycle&#160;&#160;&#160;&#160; 9 , Wck&#160;&#160; 9, DCtime&#160;&#160;&#160; 690007121, dt -42879, O: 00 
+02 01 00 00 I: 00 00
+Processdata cycle&#160;&#160;&#160; 11 , Wck&#160;&#160; 9, DCtime&#160;&#160;&#160; 730004121, dt -45879, O: 00 
+02 01 00 00 I: 00 00
+Processdata cycle&#160;&#160;&#160; 13 , Wck&#160;&#160; 9, DCtime&#160;&#160;&#160; 750001121, dt -48879, O: 00 
+03 01 00 00 I: 00 00
+Processdata cycle&#160;&#160;&#160; 15 , Wck&#160;&#160; 9, DCtime&#160;&#160;&#160; 770004361, dt -45639, O: 00 
+03 01 00 00 I: 00 00
+Processdata cycle&#160;&#160;&#160; 17 , Wck&#160;&#160; 9, DCtime&#160;&#160;&#160; 790004361, dt -45639, O: 01 
+04 02 00 01 I: 00 00
+Processdata cycle&#160;&#160;&#160; 19 , Wck&#160;&#160; 9, DCtime&#160;&#160;&#160; 810004881, dt -45119, O: 01 
+04 02 00 01 I: 00 00
+
+
+-- 
+This message has been scanned for viruses and
+dangerous content by MailScanner, and is
+believed to be clean.
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20131010/a240e728/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20131010/a240e728/attachment.html</A>&gt;
+-------------- next part --------------
+An embedded and charset-unspecified text was scrubbed...
+Name: slaveinfo_output.txt
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20131010/a240e728/attachment.txt">https://lists.berlios.de/pipermail/soem-user/attachments/20131010/a240e728/attachment.txt</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000186.html">[Soem-user] Dc synchronization
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#188">[ date ]</a>
+              <a href="thread.html#188">[ thread ]</a>
+              <a href="subject.html#188">[ subject ]</a>
+              <a href="author.html#188">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

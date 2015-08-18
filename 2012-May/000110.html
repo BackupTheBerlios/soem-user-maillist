@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Using DC clock
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-May/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Using%20DC%20clock&In-Reply-To=%3C4FC5E28B.2070602%40smfk.nl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000109.html">
+   <LINK REL="Next"  HREF="000111.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Using DC clock</H1>
+    <B>Arthur Ketels</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Using%20DC%20clock&In-Reply-To=%3C4FC5E28B.2070602%40smfk.nl%3E"
+       TITLE="[Soem-user] Using DC clock">info at smfk.nl
+       </A><BR>
+    <I>Wed May 30 11:04:11 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000109.html">[Soem-user] Using DC clock
+</A></li>
+        <LI>Next message: <A HREF="000111.html">[Soem-user] Using DC clock
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#110">[ date ]</a>
+              <a href="thread.html#110">[ thread ]</a>
+              <a href="subject.html#110">[ subject ]</a>
+              <a href="author.html#110">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello Luca,
+
+Op 28-5-2012 20:13, Luca Magnabosco schreef:
+&gt;<i> Hi all,
+</I>&gt;<i> I'm using three servo-drivers with etherCAT module. I'm facing a 
+</I>&gt;<i> problem when I want to use dc clock synchronisation:
+</I>&gt;<i> 1) Do I need to synchronise ec_send_processdata() and 
+</I>&gt;<i> ec_receive_processdata() with the sync0 cycle in a PI way (like shown 
+</I>&gt;<i> in ebox.c) even if the cycle where they are is periodical with a fix 
+</I>&gt;<i> and &quot;well determined period&quot;?
+</I>Normally yes. Because you want a fixed phase relationship between the 
+frames and the sync0 pulse. Remember that DC only syncs the slaves 
+amongst each other and not the master. So you need a separate control 
+loop to sync the master to the reference slave DC.
+&gt;<i> 2)Maybe because of a not well done setting of the shift times my 
+</I>&gt;<i> slaves seem to receive the PDOs but I can't receive their answers in 
+</I>&gt;<i> ec_slave[i].inputs. Any hint?
+</I>I think you have slaves that do not support LRW commands. In SOEM1.2.5 
+there is no DC support for those slaves. The new 1.2.7 (to be released) 
+has full support for LRD LWR slaves in combination with DC.
+&gt;<i> 3)To solve the problem of point 2 another user with the same drivers 
+</I>&gt;<i> has written a different version of ec_send_processdata() that I will 
+</I>&gt;<i> attach.
+</I>&gt;<i>    With this modification the drivers seem to work, anyway I don't 
+</I>&gt;<i> know if the problem is caused by bad synchronisation or by this kind 
+</I>&gt;<i> of slaves.
+</I>&gt;<i>    I haven't understand yet if this modification can affect the 
+</I>&gt;<i> communication in a bad way with other drivers or if it can be 
+</I>&gt;<i> generally useful.
+</I>That patch will not work correctly in all circumstances. I would advice 
+against using it.
+
+Arthur
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000109.html">[Soem-user] Using DC clock
+</A></li>
+	<LI>Next message: <A HREF="000111.html">[Soem-user] Using DC clock
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#110">[ date ]</a>
+              <a href="thread.html#110">[ thread ]</a>
+              <a href="subject.html#110">[ subject ]</a>
+              <a href="author.html#110">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

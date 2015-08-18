@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] First questions about SOEM
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2011-October/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20First%20questions%20about%20SOEM&In-Reply-To=%3C20111031210621.M48767%40etfbl.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000030.html">
+   <LINK REL="Next"  HREF="000032.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] First questions about SOEM</H1>
+    <B>Mladen Knezic</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20First%20questions%20about%20SOEM&In-Reply-To=%3C20111031210621.M48767%40etfbl.net%3E"
+       TITLE="[Soem-user] First questions about SOEM">mladen_knezic at etfbl.net
+       </A><BR>
+    <I>Mon Oct 31 22:17:33 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000030.html">[Soem-user] First questions about SOEM
+</A></li>
+        <LI>Next message: <A HREF="000032.html">[Soem-user] First questions about SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#31">[ date ]</a>
+              <a href="thread.html#31">[ thread ]</a>
+              <a href="subject.html#31">[ subject ]</a>
+              <a href="author.html#31">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Mon, 31 Oct 2011 21:52:19 +0100, Leopold Palomo Avellaneda wrote
+&gt;<i> A Dilluns 31 Octubre 2011, Mladen Knezic va escriure:
+</I>&gt;<i> &gt; On Mon, 31 Oct 2011 20:27:36 +0100, Leopold Palomo Avellaneda wrote
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; &gt; Hi Mladen,
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; I reply to the list too:
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; A Dilluns 31 Octubre 2011, Mladen Knezic va escriure:1
+</I>&gt;<i> &gt; &gt; [....]
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; &gt; It seems like you have another NIC in your system (by default it 
+</I>should
+&gt;<i> &gt; &gt; &gt; be eth0 if you have the only one interface).
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; The system has 4 nics. But the example has a parameter the nic you
+</I>&gt;<i> &gt; &gt; have attached the ethercat device.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; It is true that the example has a parameter that defines to which 
+</I>interface
+&gt;<i> &gt; the ethercat device is attached. I have asked just to make sure you have
+</I>&gt;<i> &gt; attached the ethercat device to the right interface.
+</I>&gt;<i> 
+</I>&gt;<i> ok.
+</I>&gt;<i> 
+</I>&gt;<i> &gt; &gt; &gt; Have you double-checked you are
+</I>&gt;<i> &gt; &gt; &gt; using the right interface (some ifconfig should give you more
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; information)?
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; &gt; well, I have checked that eth1 is the device I want to use, so I
+</I>&gt;<i> &gt; &gt; don't know in user mode what more to use.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; This confirms my previous questions. So, you have attached the ethercat
+</I>&gt;<i> &gt; device to the correct interface (i.e. eth1).
+</I>&gt;<i> 
+</I>&gt;<i> yes ....
+</I>&gt;<i> 
+</I>&gt;<i> &gt; &gt; &gt; Any wireshark logs (in order to see if SOEM is sending some frames)?
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; No, I have not use wireshark. Should I to use to check it?
+</I>&gt;<i> &gt; &gt; 
+</I>&gt;<i> &gt; &gt; &gt; Have
+</I>&gt;<i> &gt; &gt; &gt; you tried &quot;slaveinfo&quot; example? Is there any result?
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; It is not necessary. My intention was only to make sure that soem app is
+</I>&gt;<i> &gt; communicating over the right interface (to make sure that it generates 
+</I>some
+&gt;<i> &gt; ethercat traffic on the eth1).
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; &gt; no. But, some time ago I tested ethercat master and it detected the
+</I>&gt;<i> &gt; &gt; device.
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; On the same interface?
+</I>&gt;<i> 
+</I>&gt;<i> yes,, but using the ethercat master driver from the other project.
+</I>
+Which one? IgH Etherlab, TwinCAT? Some other library?
+ 
+&gt;<i> &gt; Which device?
+</I>&gt;<i> 
+</I>&gt;<i> the ethercat device? it's a Bosch Rexroth Indradrive controller.
+</I>
+So, it is the same device.
+ 
+&gt;<i> &gt; Slaveinfo example should show you
+</I>&gt;<i> &gt; infromation about device attached to the interface. If it is not the case
+</I>&gt;<i> &gt; you have either communicating over the wrong interface (not one that the
+</I>&gt;<i> &gt; ethercat device is attached to) or something is definitely wrong with your
+</I>&gt;<i> &gt; system. :)
+</I>&gt;<i> 
+</I>&gt;<i> the question is which is wrong?
+</I>&gt;<i> 
+</I>&gt;<i> &gt; From your last post I can see that soem successfully connects
+</I>&gt;<i> &gt; to the raw socket, but it does not &quot;see&quot; any device on the bus. From that,
+</I>&gt;<i> &gt; I can only conclude that there is no attached ethercat devices on the
+</I>&gt;<i> &gt; interface you are using.
+</I>&gt;<i> 
+</I>&gt;<i> Ok, some other idea?
+</I>
+I would try &quot;slaveinfo&quot; example. This example has only acyclic communication 
+without making slave goes into the OP state. It communicates with device over 
+the CoE protocol to find some essential information about the device. If that 
+does not work, my next assumption that something is wrong with the 
+connection. Try with different cable, or with different NIC.
+
+Regards,
+ 
+&gt;<i> Regards,
+</I>&gt;<i> 
+</I>&gt;<i> Leo
+</I>&gt;<i> 
+</I>&gt;<i> -- 
+</I>&gt;<i> --
+</I>&gt;<i> Linux User 152692     PGP: 0xF944807E
+</I>&gt;<i> Catalonia
+</I>&gt;<i> -------------------------------------
+</I>&gt;<i> A: Because it messes up the order in which people normally read text.
+</I>&gt;<i> Q: Why is top-posting such a bad thing?
+</I>&gt;<i> A: Top-posting.
+</I>&gt;<i> Q: What is the most annoying thing in e-mail?
+</I>
+
+--
+Mladen Knezic, MSc. E. E.
+Research and Teaching Assistant
+Faculty of Electrical Engineering
+Banja Luka, Bosnia and Herzegovina
+Web: www.etfbl.net
+
+
+P.S. I have found some datasheet (<A HREF="http://www.boschrexroth.com/country_units/">http://www.boschrexroth.com/country_units/</A>
+europe/france/fr/branches/branches/handling/ressources/documentation/produits/
+IndraDrive_Mi.pdf) and info (<A HREF="http://www.boschrexroth.com/dcc/Vornavigation/">http://www.boschrexroth.com/dcc/Vornavigation/</A>
+Vornavi.cfm?&amp;language=en&amp;PageID=p146813). They does not state that drive 
+supports EtherCAT communication. Can you confirm that this is the drive you 
+are using, or send me a link with info about your device?
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000030.html">[Soem-user] First questions about SOEM
+</A></li>
+	<LI>Next message: <A HREF="000032.html">[Soem-user] First questions about SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#31">[ date ]</a>
+              <a href="thread.html#31">[ thread ]</a>
+              <a href="subject.html#31">[ subject ]</a>
+              <a href="author.html#31">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Using Beckhoff EK1100 and EL6751
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-June/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Using%20Beckhoff%20EK1100%20and%20EL6751&In-Reply-To=%3C4FE08EB4.8070401%40smfk.nl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000122.html">
+   <LINK REL="Next"  HREF="000124.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Using Beckhoff EK1100 and EL6751</H1>
+    <B>Arthur Ketels</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Using%20Beckhoff%20EK1100%20and%20EL6751&In-Reply-To=%3C4FE08EB4.8070401%40smfk.nl%3E"
+       TITLE="[Soem-user] Using Beckhoff EK1100 and EL6751">info at smfk.nl
+       </A><BR>
+    <I>Tue Jun 19 16:37:40 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000122.html">[Soem-user] Using Beckhoff EK1100 and EL6751
+</A></li>
+        <LI>Next message: <A HREF="000124.html">[Soem-user] PDO mapping
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#123">[ date ]</a>
+              <a href="thread.html#123">[ thread ]</a>
+              <a href="subject.html#123">[ subject ]</a>
+              <a href="author.html#123">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+
+Op 19-6-2012 16:24, Santiago Focke schreef:
+&gt;<i>
+</I>&gt;<i>     Op 18-6-2012 17:16, Santiago Focke schreef:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>     2012/6/15 Arthur Ketels &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">arthur at smfk.nl</A> &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">arthur at smfk.nl</A>&gt;&gt;
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>         Op 14-6-2012 17:39, Santiago Focke schreef:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>             Hi all
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>             I have been trying to add the Beckhoff devices EK1100 and
+</I>&gt;&gt;<i>             EL6751 to y EtherCAT network using SOEM 1.2.4. I am able
+</I>&gt;&gt;<i>             to achieve the operational mode of both devices by
+</I>&gt;&gt;<i>             following these steps:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>             - ec_init
+</I>&gt;&gt;<i>             - ec_config_init(true)
+</I>&gt;&gt;<i>             - ec_slave[0]&#236;_STATE_PRE_OP
+</I>&gt;&gt;<i>             - ec_writestate(0)
+</I>&gt;&gt;<i>             - ec_chechstate(...)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>         Set baudrate
+</I>&gt;&gt;<i>         Now you need to program the slave to do a bus scan.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>     What do you mean with bus scan? To search for CAN CANOpen slaves
+</I>&gt;&gt;<i>     in the CANbus? If this is the case, I'm not using CAN CANOpen
+</I>&gt;&gt;<i>     slaves. I will use the EL6751 as a gateway from EtherCAT to CAN,
+</I>&gt;&gt;<i>     without taking into account what application protocol is been
+</I>&gt;&gt;<i>     used by the CAN nodes (I want to communicate with nodes that do
+</I>&gt;&gt;<i>     not implement CANopen)
+</I>&gt;&gt;<i>
+</I>&gt;<i>     I think you have a problem then. The EL6751 is designed to be an
+</I>&gt;<i>     CANopen master.  I have no personal experience with the slave (I
+</I>&gt;<i>     hate gateways), but from the documentation I can't find a way to
+</I>&gt;<i>     bypass the CANopen stack. The slave needs to know how to map the
+</I>&gt;<i>     CAN PDO's to EtherCAT and vise versa.
+</I>&gt;<i>
+</I>&gt;<i>     Anyway, if you do not do a bus scan then you have to program the
+</I>&gt;<i>     CAN mapping in the EL6751. You do that by writing the 0x8000+n*16,
+</I>&gt;<i>     0x8003+n*16, 0x8006+n*16, 0x8008+n*16. The EL6751 will take that
+</I>&gt;<i>     data and configure the CAN slaves and bring the CAN system to
+</I>&gt;<i>     operational. See the EL6751.chm documentation under EtherCAT
+</I>&gt;<i>     communication-&gt;CANopen master-&gt;Object description
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> I have already read about these objects. Nevertheless, they are 
+</I>&gt;<i> oriented to a CANOpen operation. I am afraid that the usage of this 
+</I>&gt;<i> gateway though this PDO mapping will lead to 'automatic' setting of 
+</I>&gt;<i> the COB-ID of the CAN messages deppending on the configuration values 
+</I>&gt;<i> of the 'slaves' and their respective CAN-PDO mapping. In other words, 
+</I>&gt;<i> I'll have access just to the DATA field of the message.
+</I>If you have access to the TwinCAT setup then there is an easy solution. 
+Just capture the configuration sequence of the EL6751 with WireShark 
+(don't forget to set TwinCAT in promiscuous mode). Zip it and email it 
+to me. I can then work out what objects are set in the slave to get it 
+working. Then it is just duplicating what TwinCAT does in SOEM. I have 
+done this multiple times with ill documented slaves.
+
+And don't worry to capture too much. It will zip nicely.
+
+Arthur
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120619/96cbffed/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120619/96cbffed/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000122.html">[Soem-user] Using Beckhoff EK1100 and EL6751
+</A></li>
+	<LI>Next message: <A HREF="000124.html">[Soem-user] PDO mapping
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#123">[ date ]</a>
+              <a href="thread.html#123">[ thread ]</a>
+              <a href="subject.html#123">[ subject ]</a>
+              <a href="author.html#123">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

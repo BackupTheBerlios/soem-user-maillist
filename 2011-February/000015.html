@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Re : 6731 startup SDOwrite
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2011-February/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Re%20%3A%206731%20startup%20SDOwrite&In-Reply-To=%3C4D4962D8.4070906%40smfk.nl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000014.html">
+   <LINK REL="Next"  HREF="000016.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Re : 6731 startup SDOwrite</H1>
+    <B>Arthur Ketels</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Re%20%3A%206731%20startup%20SDOwrite&In-Reply-To=%3C4D4962D8.4070906%40smfk.nl%3E"
+       TITLE="[Soem-user] Re : 6731 startup SDOwrite">info at smfk.nl
+       </A><BR>
+    <I>Wed Feb  2 14:57:44 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000014.html">[Soem-user] 6731 startup SDOwrite
+</A></li>
+        <LI>Next message: <A HREF="000016.html">[Soem-user] Re : 6731 startup SDOwrite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#15">[ date ]</a>
+              <a href="thread.html#15">[ thread ]</a>
+              <a href="subject.html#15">[ subject ]</a>
+              <a href="author.html#15">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Some Beckhoff slaves have an issue with index 0x1c12 and 0x1c13 subindex 
+00. The datatype is defined as uint8 but the slave uses uint16 
+internally. Try ec_SDOwrite() on subindex 0 with datatype uint16.
+The order to reconfigure 0x1c12 and 0x1c13 is:
+- Set subindex 0 to 0.
+- Write index 01 to n
+- Set subindex 0 to n
+
+CA should also work. But some slaves choke on it so you have to revert 
+to the single case. With CA you HAVE to write the complete object in one 
+go. The data structure can be quite complex (see protocol doc in the 
+ETG), but an easy way to figure it out is to analyse the result from a 
+CA read on the index in question. The datatype is not important as long 
+it has the correct size. So you can use uint8 buf[OBJECTSIZE], and then 
+ec_SDOwrite(slave, index, 0, TRUE, OBJECTSIZE, &amp;buf, TIMEOUT). Remember 
+that for CA the subindex MUST be 0 or 1.
+
+For setting 0x1c12 with CA the length needs to be subindex 0 plus the 
+number of entries. If you only have 3 entries but 10 are possible, 3 
+need to be send. The length of the object is 1(SI0) + 1(filler) + 2(SI1) 
++ 2(SI2) + 2(SI3) = 8 bytes.
+
+Arthur
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000014.html">[Soem-user] 6731 startup SDOwrite
+</A></li>
+	<LI>Next message: <A HREF="000016.html">[Soem-user] Re : 6731 startup SDOwrite
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#15">[ date ]</a>
+              <a href="thread.html#15">[ thread ]</a>
+              <a href="subject.html#15">[ subject ]</a>
+              <a href="author.html#15">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

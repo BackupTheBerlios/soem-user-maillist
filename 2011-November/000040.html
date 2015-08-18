@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] First questions about SOEM
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2011-November/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20First%20questions%20about%20SOEM&In-Reply-To=%3C201111041403.40353.leo%40alaxarxa.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000039.html">
+   <LINK REL="Next"  HREF="000041.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] First questions about SOEM</H1>
+    <B>Leopold Palomo-Avellaneda</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20First%20questions%20about%20SOEM&In-Reply-To=%3C201111041403.40353.leo%40alaxarxa.net%3E"
+       TITLE="[Soem-user] First questions about SOEM">leo at alaxarxa.net
+       </A><BR>
+    <I>Fri Nov  4 14:03:40 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000039.html">[Soem-user] First questions about SOEM
+</A></li>
+        <LI>Next message: <A HREF="000041.html">[Soem-user] Configuration tool needed?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#40">[ date ]</a>
+              <a href="thread.html#40">[ thread ]</a>
+              <a href="subject.html#40">[ subject ]</a>
+              <a href="author.html#40">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello Arthur,
+
+
+A Divendres 04 Novembre 2011, Arthur Ketels va escriure:
+[...]
+
+&gt;<i> &gt; If I configure the IP part of the NIC, then it works. Setting a private
+</I>&gt;<i> &gt; address:
+</I>&gt;<i> &gt; iface eth1 inet static
+</I>&gt;<i> &gt;          address 10.0.0.1
+</I>&gt;<i> &gt;          netmask 255.255.255.0
+</I>&gt;<i> &gt;          network 10.0.0.1
+</I>&gt;<i> &gt;          broadcast 10.0.0.255
+</I>&gt;<i> Hmm, strange. Normally this should not be necessary. Perhaps it is an 
+</I>&gt;<i> issue with your distribution in combination with your hardware. Anyway, 
+</I>&gt;<i> solved is solved.
+</I>
+ok, but I don't think that is about distro. However, I think that this should 
+be look in the future. Maybe is something simple.
+
+&gt;<i> &gt;
+</I>&gt;<i> &gt; then I got this info:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; sudo ./simple_test eth1
+</I>&gt;<i> &gt; SOEM (Simple Open EtherCAT Master)
+</I>&gt;<i> &gt; Simple test
+</I>&gt;<i> &gt; Starting simple test
+</I>&gt;<i> &gt; ec_init on eth1 succeeded.
+</I>&gt;<i> &gt; 1 slaves found and configured.
+</I>&gt;<i> &gt; Slaves mapped, state to SAFE_OP.
+</I>&gt;<i> &gt; segments : 1 : 0 0 0 0
+</I>&gt;<i> &gt; Request operational state for all slaves
+</I>&gt;<i> &gt; Calculated workcounter 0
+</I>&gt;<i> &gt; Not all slaves reached operational state.
+</I>&gt;<i> &gt; Slave 1 State=04 StatusCode=0x0000 : Unknown
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Request safe operational state for all slaves
+</I>&gt;<i> &gt; End simple test, close socket
+</I>&gt;<i> &gt; End program
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; also:
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; sudo ./slaveinfo eth1 -sdo
+</I>&gt;<i> &gt; SOEM (Simple Open EtherCAT Master)
+</I>&gt;<i> &gt; Slaveinfo
+</I>&gt;<i> &gt; Starting slaveinfo
+</I>&gt;<i> &gt; ec_init on eth1 succeeded.
+</I>&gt;<i> &gt; 1 slaves found and configured.
+</I>&gt;<i> &gt; Calculated workcounter 0
+</I>&gt;<i> &gt;
+</I>&gt;<i> &gt; Slave:1
+</I>&gt;<i> &gt;   Name:? M:00000024 I:00242803
+</I>&gt;<i> &gt;   Output size: 0bits
+</I>&gt;<i> &gt;   Input size: 0bits
+</I>&gt;<i> &gt;   State: 4
+</I>&gt;<i> &gt;   Delay: 0[ns]
+</I>&gt;<i> &gt;   Has DC: 1
+</I>&gt;<i> &gt;   DCParentport:0
+</I>&gt;<i> &gt;   Activeports:1.0.0.0
+</I>&gt;<i> &gt;   Configured address: 1001
+</I>&gt;<i> &gt;   Man: 00000024 ID: 00242803 Rev: 00000001
+</I>&gt;<i> &gt;   SM0 A:1800 L: 234 F:00010026 Type:1
+</I>&gt;<i> &gt;   SM1 A:1a00 L: 234 F:00010022 Type:2
+</I>&gt;<i> &gt;   SM2 A:1000 L:   0 F:00000064 Type:3
+</I>&gt;<i> &gt;   SM3 A:1100 L:   0 F:00000062 Type:4
+</I>&gt;<i> &gt;   FMMUfunc 0:0 1:0 2:0 3:0
+</I>&gt;<i> &gt;   MBX length wr: 234 rd: 234 MBX protocols : 10
+</I>&gt;<i> &gt;   CoE details: 00 FoE details: 00 EoE details: 01 SoE details: 00
+</I>&gt;<i> &gt;   Ebus current: 0[mA]
+</I>&gt;<i> &gt;   only LRD/LWR:0
+</I>&gt;<i> &gt; End slaveinfo, close socket
+</I>&gt;<i> &gt; End program
+</I>
+&gt;<i> Interesting. The slave responds, SOEM works. Only SOEM is not able to 
+</I>&gt;<i> download the slave process data mapping. Either there is an issue in the 
+</I>&gt;<i> communication or there is simply no mapping defined in the drive. If it 
+</I>&gt;<i> is the latter, you need to add some ec_SoEwrite() instructions between 
+</I>&gt;<i> ec_config_init and ec_config_map. You can see what they are by analysing 
+</I>&gt;<i> the .XML file.
+</I>
+Now I have the XML file, not the one obtained by ethercat xml command (from 
+IgH), indeed the one provides by the manufacturer. Some mails and some phone 
+call worked ...
+
+&gt;<i> Please send me a PM with the wireshark trace, then I can analyse what is 
+</I>&gt;<i> going wrong.
+</I>
+Sorry, but what is PM?
+
+&gt;<i> Also to be seen from the name field the eeprom in the slave is not 
+</I>&gt;<i> configured correctly. It is probably missing some entries (like the 
+</I>&gt;<i> general and string section).
+</I>
+Probably, I will be sure that all is work in the device. Rexroth says that 
+work with Ethercat but I think that the people here (Catalonia/Spain) doesn't 
+know very well about it.
+
+
+Rexroth people send me a presentation and the device doesn't support yet CoE. 
+The slides said:
+
+- Transmission rate 100 Mbit/s
+- Data transmission via Ethernet cable (CAT5e copper) Topologie: &quot;Line&#8222;
+- &quot;Distributed clock synchronization&quot; (exact adjustment of distributed clocks)
+- Supported EtherCAT profiles
+	&quot;Servo Drive Profile over EtherCAT&#174;&quot;
+	 based on the SERCOS II profile
+-  Ethernet over EtherCAT&#174; (EoE)
+- Transmission of Ethernet telegrams via an EtherCAT&#174; mailbox method
+- Attention: No support of EOE at MPx07VRS
+- &quot;CAN over EtherCAT&quot; (CoE) will be not supported, yet
+- Full access to 16-bit SERCOS parameters of the drive via &quot;SoE&quot; protocol
+	(&quot;Servo Drive Profile over EtherCAT&#174;&quot;)
+- EtherCAT&#174; mailbox method for parameterization and diagnosis
+
+Thanks for all.
+
+Best regards,
+
+Leo
+
+
+-- 
+--
+Linux User 152692
+Catalonia
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000039.html">[Soem-user] First questions about SOEM
+</A></li>
+	<LI>Next message: <A HREF="000041.html">[Soem-user] Configuration tool needed?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#40">[ date ]</a>
+              <a href="thread.html#40">[ thread ]</a>
+              <a href="subject.html#40">[ subject ]</a>
+              <a href="author.html#40">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

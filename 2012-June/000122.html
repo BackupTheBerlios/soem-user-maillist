@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Using Beckhoff EK1100 and EL6751
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-June/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Using%20Beckhoff%20EK1100%20and%20EL6751&In-Reply-To=%3CCAP1XtZz07m0x8xCkKd4HBgq0MTCEFM02qWjDCreDT17tVGfNDw%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000121.html">
+   <LINK REL="Next"  HREF="000123.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Using Beckhoff EK1100 and EL6751</H1>
+    <B>Santiago Focke</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Using%20Beckhoff%20EK1100%20and%20EL6751&In-Reply-To=%3CCAP1XtZz07m0x8xCkKd4HBgq0MTCEFM02qWjDCreDT17tVGfNDw%40mail.gmail.com%3E"
+       TITLE="[Soem-user] Using Beckhoff EK1100 and EL6751">focke.85 at gmail.com
+       </A><BR>
+    <I>Tue Jun 19 16:24:18 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000121.html">[Soem-user] Using Beckhoff EK1100 and EL6751
+</A></li>
+        <LI>Next message: <A HREF="000123.html">[Soem-user] Using Beckhoff EK1100 and EL6751
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#122">[ date ]</a>
+              <a href="thread.html#122">[ thread ]</a>
+              <a href="subject.html#122">[ subject ]</a>
+              <a href="author.html#122">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Arthur
+
+thank again
+
+2012/6/18 Arthur Ketels &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">arthur at smfk.nl</A>&gt;
+
+&gt;<i>  Op 18-6-2012 17:16, Santiago Focke schreef:
+</I>&gt;<i>
+</I>&gt;<i> Hi Arthur
+</I>&gt;<i>
+</I>&gt;<i>  Thanks for the reply. I still have some doubts.
+</I>&gt;<i>
+</I>&gt;<i> 2012/6/15 Arthur Ketels &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">arthur at smfk.nl</A>&gt;
+</I>&gt;<i>
+</I>&gt;&gt;<i> Op 14-6-2012 17:39, Santiago Focke schreef:
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>  Hi all
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> I have been trying to add the Beckhoff devices EK1100 and EL6751 to y
+</I>&gt;&gt;&gt;<i> EtherCAT network using SOEM 1.2.4. I am able to achieve the operational
+</I>&gt;&gt;&gt;<i> mode of both devices by following these steps:
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> - ec_init
+</I>&gt;&gt;&gt;<i> - ec_config_init(true)
+</I>&gt;&gt;&gt;<i>  - ec_slave[0]&#236;_STATE_PRE_OP
+</I>&gt;&gt;&gt;<i> - ec_writestate(0)
+</I>&gt;&gt;&gt;<i> - ec_chechstate(...)
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i> Set baudrate
+</I>&gt;&gt;<i> Now you need to program the slave to do a bus scan.
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>  What do you mean with bus scan? To search for CAN CANOpen slaves in the
+</I>&gt;<i> CANbus? If this is the case, I'm not using CAN CANOpen slaves. I will use
+</I>&gt;<i> the EL6751 as a gateway from EtherCAT to CAN, without taking into account
+</I>&gt;<i> what application protocol is been used by the CAN nodes (I want to
+</I>&gt;<i> communicate with nodes that do not implement CANopen)
+</I>&gt;<i>
+</I>&gt;<i> I think you have a problem then. The EL6751 is designed to be an CANopen
+</I>&gt;<i> master.  I have no personal experience with the slave (I hate gateways),
+</I>&gt;<i> but from the documentation I can't find a way to bypass the CANopen stack.
+</I>&gt;<i> The slave needs to know how to map the CAN PDO's to EtherCAT and vise versa.
+</I>&gt;<i>
+</I>&gt;<i> Anyway, if you do not do a bus scan then you have to program the CAN
+</I>&gt;<i> mapping in the EL6751. You do that by writing the 0x8000+n*16, 0x8003+n*16,
+</I>&gt;<i> 0x8006+n*16, 0x8008+n*16. The EL6751 will take that data and configure the
+</I>&gt;<i> CAN slaves and bring the CAN system to operational. See the EL6751.chm
+</I>&gt;<i> documentation under EtherCAT communication-&gt;CANopen master-&gt;Object
+</I>&gt;<i> description
+</I>&gt;<i>
+</I>&gt;<i>
+</I>I have already read about these objects. Nevertheless, they are oriented to
+a CANOpen operation. I am afraid that the usage of this gateway though this
+PDO mapping will lead to 'automatic' setting of the COB-ID of the CAN
+messages deppending on the configuration values of the 'slaves' and their
+respective CAN-PDO mapping. In other words, I'll have access just to the
+DATA field of the message.
+
+
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;<i> Do other configurations necessary to get the slaves in a working state.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>  Which slaves are you talking about here??
+</I>&gt;<i>
+</I>&gt;<i> I'm talking about the EtherCAT slaves. Whatever slaves that might be.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;<i>  - ec_config_map (...)
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i> Config map will read the PDO mapping of all slaves at that moment. If the
+</I>&gt;&gt;<i> slave is not yet configured then it will take that mapping. In effect
+</I>&gt;&gt;<i> disabling it. So only do config map AFTER all configurations and scans have
+</I>&gt;&gt;<i> been done.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i>  - &lt;&lt;configure slaves&gt;&gt; --&gt; set 0xF800:2 = 0 (set baudrate of the EL6751)
+</I>&gt;&gt;&gt;<i>  - ec_slave[0]&#236;_STATE_SAFE_OP
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;&gt;<i> - ec_writestate(0)
+</I>&gt;&gt;&gt;<i> - ec_chechstate(...)
+</I>&gt;&gt;&gt;<i> - ec_config_dc()
+</I>&gt;&gt;&gt;<i>  - ec_slave[0]&#236;_STATE_OPERATIONAL
+</I>&gt;&gt;&gt;<i> - ec_writestate(0)
+</I>&gt;&gt;&gt;<i> - ec_chechstate(...)
+</I>&gt;&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> The EL6751 is one of the most difficult slaves to implement in your
+</I>&gt;&gt;<i> application. So I wish you good luck. And.... read the EL6751 manual.....
+</I>&gt;&gt;<i> It has a flow chart how to do the configuration.
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>  I've seen the manual but I don't find much help in it. For the
+</I>&gt;<i> configuration it just shows how to do it with the Beckhoff configurator.
+</I>&gt;<i> The configurator does it automatically in a transparent way, so I don't
+</I>&gt;<i> know how to do it using SOEM. Also, it keeps talking about CANopen slaves,
+</I>&gt;<i> which I don't have.
+</I>&gt;<i>
+</I>&gt;<i> Does this ring a bell? Only CANopen? Anyway the documentation has a lot
+</I>&gt;<i> more info. See EtherCAT communication-&gt;CANopen master-&gt;State Machine. The
+</I>&gt;<i> flow charts are quite clear.
+</I>&gt;<i>
+</I>&gt;<i>
+</I>That state chart shows how to configure the EtherCAT slaves in a CANOpen
+operation, as said before. Nevertheless, after following the steps in
+'Parameterizing und commissioning -&gt; TwinCAT System Manager', it is
+possible to add automatically the EL6751 device (after scanning, finding
+and adding the EK1100), and set the desired baudrate and Rx-Tx message
+queue size. After doing these, it is posible to access the proccess data of
+these messages, as well as the Tx-counter, Rx-Counter, number of messages,
+etc. This way it is possible to send and receive CAN messages directly in
+the Beckhoff configurator, regarthless the Application layer used by the
+CAN devices. That's exactly what I need to do. Unfortunatelly, as you have
+said, it seems that the manual doesn't say how to do it, since it is
+focused in the CANOpen capabilities of the slave :S
+
+
+&gt;<i>
+</I>&gt;<i>  I tried to set the values of the objects 0x1c12 and 0x1c13 to set the
+</I>&gt;<i> objects 0x1600, 0x1A00 and 0x1A80 to be the Rx and TX PDO map objects with
+</I>&gt;<i> the SDOwrite method, but I get an error. I don't know if I can do it this
+</I>&gt;<i> way or I should try it using other method.
+</I>&gt;<i>
+</I>&gt;<i> That will not work. As it is explained in the documentation. See above.
+</I>&gt;<i>
+</I>
+I see that the configuration of the PDOs is made depending on the CANOpen
+salves' configuration. But I didn't see why is it not possible to do it on
+my own. Those registers are RW, so I should be capable to do it somehow,
+shouldn't I? The Beckhoff configurator does it, I just dont know how :(
+
+
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> Arthur
+</I>&gt;<i>
+</I>
+
+
+-- 
+Ing. Santiago Focke
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120619/afbbe57e/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120619/afbbe57e/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000121.html">[Soem-user] Using Beckhoff EK1100 and EL6751
+</A></li>
+	<LI>Next message: <A HREF="000123.html">[Soem-user] Using Beckhoff EK1100 and EL6751
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#122">[ date ]</a>
+              <a href="thread.html#122">[ thread ]</a>
+              <a href="subject.html#122">[ subject ]</a>
+              <a href="author.html#122">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

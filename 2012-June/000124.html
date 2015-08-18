@@ -1,0 +1,129 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] PDO mapping
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-June/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20PDO%20mapping&In-Reply-To=%3C000701cd4ebd%2408400050%2418c000f0%24%40tpaspa.it%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000123.html">
+   <LINK REL="Next"  HREF="000125.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] PDO mapping</H1>
+    <B>FrancescoBoschetti</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20PDO%20mapping&In-Reply-To=%3C000701cd4ebd%2408400050%2418c000f0%24%40tpaspa.it%3E"
+       TITLE="[Soem-user] PDO mapping">francesco.boschetti at tpaspa.it
+       </A><BR>
+    <I>Wed Jun 20 10:16:45 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000123.html">[Soem-user] Using Beckhoff EK1100 and EL6751
+</A></li>
+        <LI>Next message: <A HREF="000125.html">[Soem-user] PDO mapping
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#124">[ date ]</a>
+              <a href="thread.html#124">[ thread ]</a>
+              <a href="subject.html#124">[ subject ]</a>
+              <a href="author.html#124">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi all,
+
+I'm trying to configure four ethercat servo drive form KEB (Combivert H6)
+but i have some problems related to the PDO mapping:
+
+Using the standard ec_SDOwrite function every time I try to write an object
+I get an error, in particular when I try to read the answer  at address
+0x1900 the packet received is not even interpreted as a CoE answer, result:
+I can't change the standard PDO mapping.
+
+Having a look at the wireshark trace from another master I've noticed that
+the PDO mapping for these slaves is always done via expedited transfer
+(sometimes the command is 0x23 sometimes it is 0x2F); thus I've tried to
+send command 0x23 instead 0x21 changing the instruction
+SDOp-&gt;MbxHeader.length = htoes(0x0a + framedatasize) into
+SDOp-&gt;MbxHeader.length = htoes(0x0a) since command 0x23 has the data size
+indicator bit not set. What I see now is that for some indexes (fe 0x1c12:0
+or 0x1600:0) it works but for other it doesn't (fe 0x1600:1) giving an error
+0x06090030: Value range of parameter exceeded.
+
+The same happens if I try to send command 0x2F: for some objects it works
+for other it deosn't.
+
+My questions are: 
+
+1)      Is it possible that these slaves only support expedited transfers
+for the CoE communication?
+
+2)      Are there any logic behind the fact that for some indexes I have to
+send command 0x2F and for other 0x23 or there are some kind of bugs in the
+slave? If  there is a logic behind can anyone tell me which one it is and
+give me a hint on how to modify the SOEM source code?
+
+ 
+
+Thanks in advance for any help.
+
+ 
+
+Francesco Boschetti
+Divisione Ricerca e Sviluppo
+
+  _____  
+
+
+Descrizione: Tpa Spa
+
+T.P.A. S.p.A. Tecnologie e Prodotti per l'Automazione
+Via Carducci, 221 - 20099 Sesto S. Giovanni
+
+Tel: +39 0236527573
+Email:  &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">francesco.boschetti at tpaspa.it</A>&gt; <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">francesco.boschetti at tpaspa.it</A>
+Sito:  &lt;<A HREF="http://www.tpaspa.it/">http://www.tpaspa.it/</A>&gt; www.tpaspa.it
+
+ 
+
+ 
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120620/162ae813/attachment-0001.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120620/162ae813/attachment-0001.html</A>&gt;
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: image003.jpg
+Type: image/jpeg
+Size: 1526 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120620/162ae813/attachment-0001.jpg">https://lists.berlios.de/pipermail/soem-user/attachments/20120620/162ae813/attachment-0001.jpg</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000123.html">[Soem-user] Using Beckhoff EK1100 and EL6751
+</A></li>
+	<LI>Next message: <A HREF="000125.html">[Soem-user] PDO mapping
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#124">[ date ]</a>
+              <a href="thread.html#124">[ thread ]</a>
+              <a href="subject.html#124">[ subject ]</a>
+              <a href="author.html#124">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

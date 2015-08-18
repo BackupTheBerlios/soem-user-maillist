@@ -1,0 +1,95 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Threaded IO issue
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2014-January/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Threaded%20IO%20issue&In-Reply-To=%3CCAFBKNSQUVCUd5C8m1u878W0m5DEQ6rxmjOtc-MYxMN8ZBD7vNQ%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000197.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Threaded IO issue</H1>
+    <B>Jonathan Clapson</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Threaded%20IO%20issue&In-Reply-To=%3CCAFBKNSQUVCUd5C8m1u878W0m5DEQ6rxmjOtc-MYxMN8ZBD7vNQ%40mail.gmail.com%3E"
+       TITLE="[Soem-user] Threaded IO issue">jonathan.clapson at gmail.com
+       </A><BR>
+    <I>Thu Jan 23 05:04:12 CET 2014</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000197.html">[Soem-user] Sync0 stops triggering
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#198">[ date ]</a>
+              <a href="thread.html#198">[ thread ]</a>
+              <a href="subject.html#198">[ subject ]</a>
+              <a href="author.html#198">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hey
+
+I've been using SOEM only running in the main thread. I am now trying
+to move the ethercat update to another thread. I've used the same (ie
+directly copied) ethercat_thread function from the ebox.c example. I
+removed the code that overrides the values of data streams and am not
+copying the data. I have used the same method using structures to
+access the IOmap. In the main thread, I have a state machine which
+copies configuration data (and verifies) to an ethercat stepper
+controller.
+
+When I have the ec_send_processdata and ec_receive_processdata
+function calls in the main thread, the configuration data is copied to
+the master-&gt;slave data area for the data to be transmitted. The state
+machine then verifies the values have been set by reading from the
+IOmap until the slave-&gt;master data area updates showing the new value.
+
+When the function calls are instead made from the ethercat_thread
+function in their own thread, I can see the values have been written
+to the master-&gt;slave data area of the IOmap (via printf), however the
+slave-&gt;master area never updates to the new value. Changes to the
+IOmap are always made from the main thread (ie not the ethercat_thread
+one).
+
+All devices report they are in the operational state, and the ethercat
+couplers show no errors, so it doesn't appear to be a timing issue.
+I've also used wireshark to verify the timing of ethercat packets,
+which are very consistent with the ethercat functions in a second
+thread, not quite so consistent when they are in the main thread.
+
+Any idea's why the IOmap doesn't seem to update when the update
+happens in a second thread? (It seems to me the values I write aren't
+event transmitted).
+
+Thanks
+
+Jonathan Clapson
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000197.html">[Soem-user] Sync0 stops triggering
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#198">[ date ]</a>
+              <a href="thread.html#198">[ thread ]</a>
+              <a href="subject.html#198">[ subject ]</a>
+              <a href="author.html#198">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

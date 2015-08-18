@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Basic Questions
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2011-December/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Basic%20Questions&In-Reply-To=%3C4EE12439.7070602%40smfk.nl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000053.html">
+   <LINK REL="Next"  HREF="000049.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Basic Questions</H1>
+    <B>Arthur Ketels</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Basic%20Questions&In-Reply-To=%3C4EE12439.7070602%40smfk.nl%3E"
+       TITLE="[Soem-user] Basic Questions">arthur at smfk.nl
+       </A><BR>
+    <I>Thu Dec  8 21:55:21 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000053.html">[Soem-user] Basic Questions
+</A></li>
+        <LI>Next message: <A HREF="000049.html">[Soem-user] Basic Questions
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#48">[ date ]</a>
+              <a href="thread.html#48">[ thread ]</a>
+              <a href="subject.html#48">[ subject ]</a>
+              <a href="author.html#48">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Mladen and Andrew,
+&gt;<i> I have just discovered SOEM. I have used TwinCAT a little but have
+</I>&gt;<i> found the system restriction frustrating (32 bit OS only, particular
+</I>&gt;<i> Intel NIC). All our machines are 64-bit with a variety of hardware.
+</I>&gt;<i> TwinCAT 3 will include support for 64-bit machines. However, it is known when
+</I>&gt;<i> this software is to be published (recently, it was announced that it will be
+</I>&gt;<i> published on the 4th quarter of 2011, still nothing).
+</I> From the mailing I've got it is oficially announced now. Delivery to be 
+early 2012. I know of some beta testers already here in The Netherlands.
+&gt;&gt;<i> I seems that SOEM is much more forgiving and will run on a range of
+</I>&gt;&gt;<i> hardware so long as it runs Linux, is that correct?
+</I>&gt;<i> It can be ported to Windows too, as long as you can provide efficient raw
+</I>&gt;<i> socket communication and real-time context.
+</I>It has been ported to many different targets already.
+-Plain windows (32 and 64) using WinPcap as NIC driver.
+-Windows with Ardence RT toolkit.
+-Linux, I86, ARM, PPC, M68000, microblaze, MIPS, BlackFin....
+-Embedded with various OS (or bare metal), on the same uP as above.
+
+It has full support for both little and big endian targets.
+&gt;&gt;<i> Will it work with any NIC (within reason)?
+</I>&gt;<i> Any NIC that have driver support on the target OS (or device).
+</I>All SOEM needs are a transmit and receive packet (RAW) method. And that 
+not even needs to be with DMA. Polling will suffice. So you can leave 
+the Ethernet stack in the company safe. It is just that for a Linux 
+target it is easy to use the RAW socket interface. Every Linux standard 
+NIC driver will just work out of the box. Even WiFi devices will be 
+happy to transport EtherCAT packets for you (even if real time behaviour 
+is down the drain then).
+&gt;&gt;<i> Is some realtime flavour of Linux essential?
+</I>&gt;<i> It depends on application.
+</I>It completly depends on your definition of real-time. If 1 second is 
+real time, all will work well with any OS. If you want to do 20KHz 
+cycles with no drops then you need to choose your OS and hardware very 
+carefull.  With the state of things today you can run 5KHz with Linux 
+and Intel uP in combination with the Preempt-RT patch.
+&gt;&gt;<i> Does SOEM support real time operation of the network like TwinCAT?
+</I>&gt;&gt;<i>   I believe it's the real time which is hard on Windows, and leads to
+</I>&gt;&gt;<i> the OS/hardware restrictions mentioned above?
+</I>&gt;<i> No. It depends how (and where) the NIC software driver is implemented. You
+</I>&gt;<i> have to patch (rewrite) native drivers in order to support real-time context
+</I>&gt;<i> of the standard NICs. Some ideas are presented in EtherLab software
+</I>&gt;<i> (www.etherlab.org). You may use different approaches.
+</I>The IgH EtherCAT master is the technically fastest approach if you are 
+happy with a Linux only solution. It follows the Linux Kernel-&gt;User 
+model. The EtherCAT master is written as a Kernel driver/server. Your 
+application is then a User mode client that calls the Kernel server. 
+RTAI or Xenomai can be added to implement strict RT behaviour.
+
+SOEM on the other hand is just a driver lib that has no specific OS 
+affinity. Your application just links in SOEM. It also has a very low 
+code footprint. The memory structures are strictly static (compile time 
+defined) and can be adjusted to fit your target platform.
+&gt;&gt;<i> Do you think it is feasible to port SOEM to embedded hardware
+</I>&gt;&gt;<i> running something like uC/OS-II? I can use the NicheStack which I
+</I>&gt;&gt;<i> believe supports access to RAW sockets.
+</I>&gt;<i> One of the beautiful things about SOEM is that it fits embedded design
+</I>&gt;<i> workflow. It is written in plain C, so very easy to port to embedded
+</I>&gt;<i> architectures (as opposed to some other solutions bounded to PC
+</I>&gt;<i> architectures). You will have to adapt nicdrv.c to support sockets in target
+</I>&gt;<i> platform.
+</I>&gt;<i>
+</I>&gt;&gt;<i> I would be grateful for any answers received.
+</I>&gt;<i> Glad if my comments helped you.
+</I>Mladen, I'm happy you help me out with replies to the soem list. It 
+saves me lots of work. Questions like Andrews just reminds me how much 
+more work needs to be done on documentation.
+
+And Andrew, perhaps good to know, I also provide an open source slave 
+stack SOES.
+
+Regards,
+Arthur Ketels.
+Speciaal Machinefabriek Ketels v.o.f.
+Bosscheweg  28
+5151BD  Drunen
+The Netherlands
+t: +31-416372258
+f: +31-416376307
+i: www.smfk.nl
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000053.html">[Soem-user] Basic Questions
+</A></li>
+	<LI>Next message: <A HREF="000049.html">[Soem-user] Basic Questions
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#48">[ date ]</a>
+              <a href="thread.html#48">[ thread ]</a>
+              <a href="subject.html#48">[ subject ]</a>
+              <a href="author.html#48">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

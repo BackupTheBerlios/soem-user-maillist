@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] SOEM buffering and data consistency issues
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-August/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20SOEM%20buffering%20and%20data%20consistency%20issues&In-Reply-To=%3C5022E60B.20507%40smfk.nl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000140.html">
+   <LINK REL="Next"  HREF="000141.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] SOEM buffering and data consistency issues</H1>
+    <B>Arthur Ketels</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20SOEM%20buffering%20and%20data%20consistency%20issues&In-Reply-To=%3C5022E60B.20507%40smfk.nl%3E"
+       TITLE="[Soem-user] SOEM buffering and data consistency issues">arthur at smfk.nl
+       </A><BR>
+    <I>Thu Aug  9 00:19:55 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000140.html">[Soem-user] SOEM buffering and data consistency issues
+</A></li>
+        <LI>Next message: <A HREF="000141.html">[Soem-user] Is ec_receive_processdata() necessary for every cycle?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#145">[ date ]</a>
+              <a href="thread.html#145">[ thread ]</a>
+              <a href="subject.html#145">[ subject ]</a>
+              <a href="author.html#145">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Johnathan,
+
+Op 4-8-2012 0:35, Johnathan Van Why schreef:
+&gt;<i> Arthur,
+</I>&gt;<i>
+</I>&gt;<i> I have now confirmed that the data corruption only occurs when
+</I>&gt;<i> ec_receive_processdata is called. As long as we count separately and
+</I>&gt;<i> always assign a correct value into ec_slave[index].outputs[0], the
+</I>&gt;<i> slave receives the correct value. Also, the data sent by the slave to
+</I>&gt;<i> the master is always correct.
+</I>I have tried to reproduce your problem but could not. In my tests 
+(running over a million cycles) the data stays synchronized even when 
+unplugging and replugging slaves. So it must be something else than 
+SOEM. Could you try on other hardware? And otherwise make a simple 
+source based on simple_test.c that you can get into an error state.
+&gt;<i>
+</I>&gt;<i> If there is anything you want us to test, then please let us know.
+</I>&gt;<i> Also, all of our code is public -- if you wish, I can rig up a demo
+</I>&gt;<i> for you (unfortunately, it depends on ROS and Orocos, so you'll have
+</I>&gt;<i> to install those (we have instructions ;)) that demonstrates the
+</I>&gt;<i> issue.
+</I>&gt;<i>
+</I>&gt;<i> Thank you for your support,
+</I>&gt;<i> Johnathan Van Why
+</I>
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000140.html">[Soem-user] SOEM buffering and data consistency issues
+</A></li>
+	<LI>Next message: <A HREF="000141.html">[Soem-user] Is ec_receive_processdata() necessary for every cycle?
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#145">[ date ]</a>
+              <a href="thread.html#145">[ thread ]</a>
+              <a href="subject.html#145">[ subject ]</a>
+              <a href="author.html#145">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

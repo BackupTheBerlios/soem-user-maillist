@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] empty object entry list
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-March/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20empty%20object%20entry%20list&In-Reply-To=%3C1330946087.93404.YahooMailNeo%40web29601.mail.ird.yahoo.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000076.html">
+   <LINK REL="Next"  HREF="000078.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] empty object entry list</H1>
+    <B>rocco brandi</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20empty%20object%20entry%20list&In-Reply-To=%3C1330946087.93404.YahooMailNeo%40web29601.mail.ird.yahoo.com%3E"
+       TITLE="[Soem-user] empty object entry list">viccio75 at yahoo.it
+       </A><BR>
+    <I>Mon Mar  5 12:14:47 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000076.html">[Soem-user] Permissions on the soem device
+</A></li>
+        <LI>Next message: <A HREF="000078.html">[Soem-user] empty object entry list
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#77">[ date ]</a>
+              <a href="thread.html#77">[ thread ]</a>
+              <a href="subject.html#77">[ subject ]</a>
+              <a href="author.html#77">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi everyone!
+
+I'm trying to read the entry list of the PDOs of&#160; a slave (I'm trying with some EL4112 modules).
+I used the code in slaveinfo.c:
+
+
+ec_ODlistt ODlist;
+ec_OElistt OElist;
+
+if ((ec_slave[cnt].mbx_proto &amp; 0x04))
+&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; {
+&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; ODlist.Entries = 0;
+&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; memset(&amp;ODlist, 0, sizeof(ODlist));
+&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; if( ec_readODlist(cnt, &amp;ODlist))
+&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; {
+&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; 
+&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; for( i = 0 ; i &lt; ODlist.Entries ; i++)
+&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; {
+&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; ec_readODdescription(i, &amp;ODlist); 
+&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; memset(&amp;OElist, 0, sizeof(OElist));
+&#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; &#160;&#160;&#160; ec_readOE(i, &amp;ODlist, &amp;OElist);
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; }
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; }
+&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; }
+
+I can read the Object Dictonary list, but the OElist is always empty
+
+what am I doing wrong?
+
+I've tried also another way.
+at line 523 of ethercatconfig.c ther's the function &quot;ec_readPDOmap&quot;, that calls &quot;ec_readPDOassign&quot;, that calls &quot;ec_SDOread&quot; that 
+actually reads SDO that is mapped in PDO (line 676 of ethercatcoe.c).
+
+in the case of EL4112 and PDO at 0x1600 the function &quot;ec_SDOread&quot; return 0x30010110. the lower byte is the bitlength (line 679 of ethercatcoe.c), but what does the other bytes means? I can't find it in EtherCAT specifications.
+
+
+Rocco
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120305/b17bd61d/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120305/b17bd61d/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000076.html">[Soem-user] Permissions on the soem device
+</A></li>
+	<LI>Next message: <A HREF="000078.html">[Soem-user] empty object entry list
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#77">[ date ]</a>
+              <a href="thread.html#77">[ thread ]</a>
+              <a href="subject.html#77">[ subject ]</a>
+              <a href="author.html#77">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

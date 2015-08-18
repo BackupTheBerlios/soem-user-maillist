@@ -1,0 +1,111 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Help needed compiling SOEM
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-September/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Help%20needed%20compiling%20SOEM&In-Reply-To=%3C505852A7.2000908%40gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000152.html">
+   <LINK REL="Next"  HREF="000156.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Help needed compiling SOEM</H1>
+    <B>Ben Lewis</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Help%20needed%20compiling%20SOEM&In-Reply-To=%3C505852A7.2000908%40gmail.com%3E"
+       TITLE="[Soem-user] Help needed compiling SOEM">egretengineering at gmail.com
+       </A><BR>
+    <I>Tue Sep 18 12:53:27 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000152.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+        <LI>Next message: <A HREF="000156.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#154">[ date ]</a>
+              <a href="thread.html#154">[ thread ]</a>
+              <a href="subject.html#154">[ subject ]</a>
+              <a href="author.html#154">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On 18/09/2012 6:34 PM, Arthur Ketels wrote:
+&gt;<i> Hi Ben
+</I>&gt;<i> Op 18-9-2012 1:09, Ben Lewis schreef:
+</I>&gt;&gt;<i> Hi Arthur,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Thanks for your reply.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I can confirm that I have sys/socket.h present on my system.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Installing build-essentials has not helped.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I get the same result on Ubuntu and Debian.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Any other suggestions I can try?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Regards, Ben
+</I>&gt;<i> No clue what is wrong with your set up. Most people just simply download and build without issues.
+</I>&gt;<i> I had a look at one of my PC's, running Ubuntu 12 64bit.
+</I>&gt;<i>
+</I>&gt;<i> The call chain for socket.h is:
+</I>&gt;<i> /usr/include/x68_64-linux-gnu/sys/socket.h
+</I>&gt;<i> /usr/include/x68_64-linux-gnu/bits/socket.h
+</I>&gt;<i> /usr/include/x68_64-linux-gnu/asm/socket.h
+</I>&gt;<i> /usr/include/asm-generic/socket.h
+</I>&gt;<i>
+</I>&gt;<i> The last file has the actual definitions your set-up complains about.
+</I>&gt;<i>
+</I>&gt;<i> build-essential should do the trick, but you can also reinstall glibc6 and glibc6-dev.
+</I>&gt;<i>
+</I>&gt;<i> Regards, Arthur.
+</I>
+Interesting...
+
+On both my Debian and Ubuntu installations I'm missing the usr/include/asm directory.
+
+It looks like it is required because line 40 of usr/include/sys/socket.h includes &lt;bits/socket.h&gt;, 
+which in turn includes &lt;asm/socket.h&gt; on line 366. However, I am missing this file (and entire 
+directory).
+
+This might be related to this bug <A HREF="https://bugs.launchpad.net/ubuntu/+source/linux/+bug/373214">https://bugs.launchpad.net/ubuntu/+source/linux/+bug/373214</A>
+
+I will update my installation and report back.
+
+Thanks for this pointer
+
+Ben
+
+
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000152.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+	<LI>Next message: <A HREF="000156.html">[Soem-user] Help needed compiling SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#154">[ date ]</a>
+              <a href="thread.html#154">[ thread ]</a>
+              <a href="subject.html#154">[ subject ]</a>
+              <a href="author.html#154">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

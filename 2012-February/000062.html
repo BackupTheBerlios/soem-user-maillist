@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] SOEM + RTNET : problems with ec_config_init
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-February/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20SOEM%20%2B%20RTNET%20%3A%20problems%20with%20ec_config_init&In-Reply-To=%3CCAP1XtZw7-Ub6mp7zu0Ni%2BgvPxt3GB9%3DMHWGzJLK4_gEaLfFDDw%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000061.html">
+   <LINK REL="Next"  HREF="000063.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] SOEM + RTNET : problems with ec_config_init</H1>
+    <B>Santiago Focke</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20SOEM%20%2B%20RTNET%20%3A%20problems%20with%20ec_config_init&In-Reply-To=%3CCAP1XtZw7-Ub6mp7zu0Ni%2BgvPxt3GB9%3DMHWGzJLK4_gEaLfFDDw%40mail.gmail.com%3E"
+       TITLE="[Soem-user] SOEM + RTNET : problems with ec_config_init">focke.85 at gmail.com
+       </A><BR>
+    <I>Fri Feb 10 15:59:58 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000061.html">[Soem-user] SOEM + RTNET : problems with ec_config_init
+</A></li>
+        <LI>Next message: <A HREF="000063.html">[Soem-user] CoE questions
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#62">[ date ]</a>
+              <a href="thread.html#62">[ thread ]</a>
+              <a href="subject.html#62">[ subject ]</a>
+              <a href="author.html#62">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Ruben
+
+2012/2/9 Ruben Smits &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">ruben at intermodalics.eu</A>&gt;
+
+&gt;<i> Hi Santiago,
+</I>&gt;<i>
+</I>&gt;<i> On Thu, Feb 9, 2012 at 6:09 PM, Santiago Focke &lt;<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">focke.85 at gmail.com</A>&gt; wrote:
+</I>&gt;<i>
+</I>&gt;&gt;<i> Hi all
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> I'm trying to make my SOEM master work with RTNET. I'm using the SOEM ROS
+</I>&gt;&gt;<i> stack from <A HREF="http://www.ros.org/wiki/soem">http://www.ros.org/wiki/soem</A> (SOEM version 1.2.4), Xenomai
+</I>&gt;&gt;<i> 2.6.0 and RTNET 0.9.12. I just got RTNET to work, running the script 'rtnet
+</I>&gt;&gt;<i> start' and checking for rteth1 with the rtifconfig script.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> Nevertheless I'm not sure how should I configure rtnet.config to make it
+</I>&gt;&gt;<i> work with my EtherCat slaves and my SOEM master (don't know what to put in
+</I>&gt;&gt;<i> IPADDR, NETMASK, TDMA_SLAVES, etc)
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> In this moment, when I run my master, ec_init(&quot;rteth1&quot;) &gt; 0, so that
+</I>&gt;&gt;<i> means that ec_init succeded on rteth1. But when I call
+</I>&gt;&gt;<i> ec_config_init(true), it seems to stay in a loop and never returns anything.
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> What should I do? How should I configure rtnet.config to work with
+</I>&gt;&gt;<i> EtherCAT slaves and my SOEM master?
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i> I also never managed to get RTNet configured correctly with the
+</I>&gt;<i> rtnet.config. But luckily it is possible to get rtnet started in the old
+</I>&gt;<i> way, the following script works for us:
+</I>&gt;<i>
+</I>&gt;<i> #unload normal driver
+</I>&gt;<i> sudo rmmod e1000
+</I>&gt;<i> #load rtnet drivers
+</I>&gt;<i> # Protocol stack
+</I>&gt;<i> sudo insmod ./rtnet.ko
+</I>&gt;<i> sudo insmod ./rtpacket.ko
+</I>&gt;<i> sudo insmod ./rtmac.ko
+</I>&gt;<i> sudo insmod ./rtipv4.ko
+</I>&gt;<i> sudo insmod ./rtudp.ko
+</I>&gt;<i> sudo insmod ./rtcfg.ko
+</I>&gt;<i>
+</I>&gt;<i> # Driver
+</I>&gt;<i> sudo insmod ./rt_loopback.ko
+</I>&gt;<i> sudo insmod ./rt_e1000.ko
+</I>&gt;<i>
+</I>&gt;<i> sudo /usr/local/rtnet/sbin/rtifconfig rteth1 up
+</I>&gt;<i>
+</I>&gt;<i>
+</I>I tried with these steps and the master configuration was done
+successfully. Nevertheless, when I start the master, I receive an error:
+
+Deployer [S]&gt; EtherCat_Master.start
+Deployer [S]&gt; CPU time limit exceeded
+
+
+I read in a previous post that you once had a similar problem with the same
+error, but honestly I didn't understand what you were talking in there. How
+can I solve this problem?
+
+
+&gt;<i>
+</I>&gt;<i> Did you try to run the slaveinfo executable?
+</I>&gt;<i>
+</I>&gt;<i> I tried indeed, but I get some error regarding the location of the shared
+</I>library libpthread_rt.so.1:
+
+./slaveinfo: error while loading shared libraries libpthread_rt.so.1:
+cannot open shared object file: not such file or directory
+
+I've checked and that library is in /usr/xenomai/lib/ (which I understand
+is the 'standard' location for Xenomai), linked to libpthread_rt.so.1.0.0.
+
+
+&gt;<i>
+</I>&gt;<i> Regards,
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i> --
+</I>&gt;&gt;<i> Santiago
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i> Regards,
+</I>&gt;<i>
+</I>&gt;<i> Ruben
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;&gt;<i> _______________________________________________
+</I>&gt;&gt;<i> Soem-user mailing list
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">Soem-user at lists.berlios.de</A>
+</I>&gt;&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">https://lists.berlios.de/mailman/listinfo/soem-user</A>
+</I>&gt;&gt;<i>
+</I>&gt;&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> --
+</I>&gt;<i> Ruben Smits, Phd
+</I>&gt;<i> Chief Technology Officer
+</I>&gt;<i> Intermodalics BVBA
+</I>&gt;<i> +32479511786
+</I>&gt;<i> www.intermodalics.eu
+</I>&gt;<i>
+</I>&gt;<i>
+</I>
+
+-- 
+Ing. Santiago Focke
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120210/4ca40b86/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120210/4ca40b86/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000061.html">[Soem-user] SOEM + RTNET : problems with ec_config_init
+</A></li>
+	<LI>Next message: <A HREF="000063.html">[Soem-user] CoE questions
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#62">[ date ]</a>
+              <a href="thread.html#62">[ thread ]</a>
+              <a href="subject.html#62">[ subject ]</a>
+              <a href="author.html#62">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

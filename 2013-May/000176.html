@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] ec_config_init
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2013-May/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20ec_config_init&In-Reply-To=%3C519CB04C.2060401%40smfk.nl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000175.html">
+   <LINK REL="Next"  HREF="000177.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] ec_config_init</H1>
+    <B>Arthur Ketels</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20ec_config_init&In-Reply-To=%3C519CB04C.2060401%40smfk.nl%3E"
+       TITLE="[Soem-user] ec_config_init">info at smfk.nl
+       </A><BR>
+    <I>Wed May 22 13:47:24 CEST 2013</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000175.html">[Soem-user] ec_config_init
+</A></li>
+        <LI>Next message: <A HREF="000177.html">[Soem-user] Error compiling soem 1.3.0
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#176">[ date ]</a>
+              <a href="thread.html#176">[ thread ]</a>
+              <a href="subject.html#176">[ subject ]</a>
+              <a href="author.html#176">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Op 21-5-2013 15:01, Mario Targa schreef:
+&gt;<i> Hello,
+</I>&gt;<i> I'm trying to connect my cpu with a Delta Electronics drive and 2 Kuhnke
+</I>&gt;<i> 16I/16O module.
+</I>&gt;<i> I'm using the release 1.2.8 of SOEM, adapted to my hardware.
+</I>&gt;<i>
+</I>&gt;<i> If I connect only the drive, reaching the end of the ec_config_init
+</I>&gt;<i> function the drive fails to go to pre-op state.
+</I>&gt;<i> It remains in init state (0x01), and ec_slave[].ALstatuscode is set to zero.
+</I>A wireshark trace is the method to find out the cause of your problems. 
+Whether it is slave firmware related or timing related.
+&gt;<i>
+</I>&gt;<i> Connecting only the 2 I/O by mean of their Bus Coupler, they reach
+</I>&gt;<i> normally the pre-op state.
+</I>&gt;<i>
+</I>&gt;<i> If I connect the cpu to the Bus Coupler, and from here to the drive, the
+</I>&gt;<i> I/Os go in pre-op, while the drive fails to go in pre-op state. In this
+</I>&gt;<i> situation, the variable ec_slave[].state contains 0x11, and
+</I>&gt;<i> ec_slave[].ALstatuscode contains 0x16.
+</I>ec_ALstatuscode2string(ec_slave[i].ALstatuscode)
+will give you a readable string for the ALslatuscoude
+In your case it is : Invalid mailbox configuration
+So the slave complains the master did not program SM0 and SM1 correctly. 
+To check the SM settings use slaveinfo
+&gt;<i>
+</I>&gt;<i> Finally, if I connect the cpu to the drive, and from here to the bus
+</I>&gt;<i> coupler, everything works and they all go to pre-op.
+</I>So it might indicate a timing related issue. A wireshark trace will 
+tell. You can email me a zipped trace and I have a look.
+&gt;<i> For example, inside the documentation I don't find the meaning of the
+</I>&gt;<i> values written at 0x930 and 0x934
+</I>Read the description in the ET1100 datasheet you can download on the 
+Beckhoff website.
+&gt;<i>
+</I>&gt;<i> Am I missing something ?
+</I>&gt;<i> Is it possible these parameters affect in some way the behaviour of my
+</I>&gt;<i> slaves ?
+</I>No
+
+Regards,
+Arthur Ketels.
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000175.html">[Soem-user] ec_config_init
+</A></li>
+	<LI>Next message: <A HREF="000177.html">[Soem-user] Error compiling soem 1.3.0
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#176">[ date ]</a>
+              <a href="thread.html#176">[ thread ]</a>
+              <a href="subject.html#176">[ subject ]</a>
+              <a href="author.html#176">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

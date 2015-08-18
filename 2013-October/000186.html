@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Dc synchronization
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2013-October/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Dc%20synchronization&In-Reply-To=%3C20131008115141.Horde.rhvM81eq9dQAVLh54CnPkg2%40www.etfbl.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000187.html">
+   <LINK REL="Next"  HREF="000188.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Dc synchronization</H1>
+    <B>mladen_knezic at etfbl.net</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Dc%20synchronization&In-Reply-To=%3C20131008115141.Horde.rhvM81eq9dQAVLh54CnPkg2%40www.etfbl.net%3E"
+       TITLE="[Soem-user] Dc synchronization">mladen_knezic at etfbl.net
+       </A><BR>
+    <I>Tue Oct  8 11:51:41 CEST 2013</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000187.html">[Soem-user] Dc synchronization
+</A></li>
+        <LI>Next message: <A HREF="000188.html">[Soem-user] DC config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#186">[ date ]</a>
+              <a href="thread.html#186">[ thread ]</a>
+              <a href="subject.html#186">[ subject ]</a>
+              <a href="author.html#186">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Hi Sergi,
+
+&gt;<i> I'm working on controlling three EtherCAT servomotors using SOEM library. I
+</I>&gt;<i> want to use DC to synchronize outputs sent to motors, but I have some
+</I>&gt;<i> queries and I would be grateful if somebody could solve them.
+</I>
+&gt;<i> 1) Following the code in the examples, I use ec_configdc() to set up
+</I>&gt;<i> distributed clocks, but afterwards, to compensate the drift of every local
+</I>&gt;<i> clock is it necessary that the master sends some other command? if so, this
+</I>&gt;<i> command has to be sent periodically or only once?
+</I>
+To compensate dynamic drift of DC, one must send periodically certain  
+datagrams (of ARMW or FRMW type) which reads the DC time from the  
+first DC capable slave (referred to as reference slave) to other DC  
+capable slaves.
+
+In SOEM you have this datagram integrated within LRW/LWR/LRD commands  
+that are used for process data exchange (see ethercatbase.c function  
+ec_LRWDC). Also, you can see how this is accomplished in  
+ethercatmain.c function ec_send_processdata_group using function  
+ec_adddatagram.
+
+&gt;<i> 2) My other question is about SYNC0. The master have to calculate and send
+</I>&gt;<i> the control commands of the servos before the SYNC0 event. So, how could I
+</I>&gt;<i> synchronize the master cycle with the SYNC0 event?
+</I>
+Local time of master must be synchronized with the time of reference  
+DC slave. You can study red_test.c example to see how this can be  
+accomplished in SOEM (of course, there are many other ways to do  
+this). See ec_sync function (in red_test.c), which implements PI  
+adaptation of the master local time (in order to be in sync with the  
+reference DC time). Note that this function should be also called  
+periodically.
+
+&gt;<i> Best regards,
+</I>
+&gt;<i> Sergi
+</I>
+Regards,
+
+Mladen
+
+</PRE>
+
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000187.html">[Soem-user] Dc synchronization
+</A></li>
+	<LI>Next message: <A HREF="000188.html">[Soem-user] DC config
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#186">[ date ]</a>
+              <a href="thread.html#186">[ thread ]</a>
+              <a href="subject.html#186">[ subject ]</a>
+              <a href="author.html#186">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Redundancy test examples [Solved]
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2010-July/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Redundancy%20test%20examples%20%5BSolved%5D&In-Reply-To=%3C001101cb2424%2435cb9c70%24a162d550%24%40knezic%40etfbl.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000012.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Redundancy test examples [Solved]</H1>
+    <B>Mladen Knezic</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Redundancy%20test%20examples%20%5BSolved%5D&In-Reply-To=%3C001101cb2424%2435cb9c70%24a162d550%24%40knezic%40etfbl.net%3E"
+       TITLE="[Soem-user] Redundancy test examples [Solved]">mladen.knezic at etfbl.net
+       </A><BR>
+    <I>Thu Jul 15 15:47:04 CEST 2010</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000012.html">[Soem-user] Redundancy test examples
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#13">[ date ]</a>
+              <a href="thread.html#13">[ thread ]</a>
+              <a href="subject.html#13">[ subject ]</a>
+              <a href="author.html#13">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+I have solved the &quot;problem&quot; with the redundancy test example freezing the
+comp. The problem was with the bad kernel configuration of the RTAI Linux
+extension. But, when I installed fresh Linux distribution and compiled the
+code, app ran perfectly but master could not make the slaves to go into OP
+state.
+
+Anyway, for the interested parties, after the inspection of the other
+example codes (mainly simple_test.c), I have found the potential bug in the
+red_test.c. It is needed to put the following after the line 85 (after
+ec_slave[0].state = EC_STATE_OPERATIONAL;):
+
+ec_send_processdata();
+
+The code now runs perfectly and can be tested for various scenarios.
+
+Thanks to all,
+
+Mladen Kne&#382;i&#263;, dipl. in&#382;. el.
+Katedra za elektroniku
+------------------------------------
+Elektrotehni&#269;ki fakultet u Banjaluci
+Patre 5, 78000 Banjaluka
+Phone: +387 51 221 874
+Fax:  +387 51 211 408
+Web: www.etfbl.net
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000012.html">[Soem-user] Redundancy test examples
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#13">[ date ]</a>
+              <a href="thread.html#13">[ thread ]</a>
+              <a href="subject.html#13">[ subject ]</a>
+              <a href="author.html#13">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

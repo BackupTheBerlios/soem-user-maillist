@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] dynamic slaves list
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-March/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20dynamic%20slaves%20list&In-Reply-To=%3C1331737793.94935.YahooMailNeo%40web29606.mail.ird.yahoo.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000080.html">
+   <LINK REL="Next"  HREF="000084.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] dynamic slaves list</H1>
+    <B>rocco brandi</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20dynamic%20slaves%20list&In-Reply-To=%3C1331737793.94935.YahooMailNeo%40web29606.mail.ird.yahoo.com%3E"
+       TITLE="[Soem-user] dynamic slaves list">viccio75 at yahoo.it
+       </A><BR>
+    <I>Wed Mar 14 16:09:53 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000080.html">[Soem-user] PDO communication issue
+</A></li>
+        <LI>Next message: <A HREF="000084.html">[Soem-user] dynamic slaves list
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#83">[ date ]</a>
+              <a href="thread.html#83">[ thread ]</a>
+              <a href="subject.html#83">[ subject ]</a>
+              <a href="author.html#83">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi everyone!
+
+in order to use less memory and in a more efficient way, I've changed the slave data array in a dynamic list, so a new element is add when a slave is found. in this way in memory there are only the information of the actual slaves, instead of a partial empty array of&#160; EC_MAXSLAVE elements.
+
+basically I replace 
+
+
+ec_slavet&#160;&#160;&#160; ec_slave[EC_MAXSLAVE];
+
+with
+
+ec_SlaveList *SlaveList;
+
+where ec_SlaveList is:
+
+typedef struct PACKED TagSlaveList
+{ec_slavet ec_slave;
+&#160; struct TagSlaveList *nextSlave;
+&#160;} ec_SlaveList;
+
+of course I had to modify ALL the functions that use ec_slave's fields.
+
+I've made some tests and everithing seems to work fine.&#160;
+
+I can share the code if someone want it
+
+
+Rocco ^_^
+
+P.S.: in order to further memory's optimization I'm going to change also ec_eepromPDOt in a dynamic list
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120314/2664db04/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120314/2664db04/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000080.html">[Soem-user] PDO communication issue
+</A></li>
+	<LI>Next message: <A HREF="000084.html">[Soem-user] dynamic slaves list
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#83">[ date ]</a>
+              <a href="thread.html#83">[ thread ]</a>
+              <a href="subject.html#83">[ subject ]</a>
+              <a href="author.html#83">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] ec_config_init
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2013-May/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20ec_config_init&In-Reply-To=%3C519B7039.8050300%40sidaccnc.it%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000176.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] ec_config_init</H1>
+    <B>Mario Targa</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20ec_config_init&In-Reply-To=%3C519B7039.8050300%40sidaccnc.it%3E"
+       TITLE="[Soem-user] ec_config_init">targa at sidaccnc.it
+       </A><BR>
+    <I>Tue May 21 15:01:45 CEST 2013</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000176.html">[Soem-user] ec_config_init
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#175">[ date ]</a>
+              <a href="thread.html#175">[ thread ]</a>
+              <a href="subject.html#175">[ subject ]</a>
+              <a href="author.html#175">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello,
+I'm trying to connect my cpu with a Delta Electronics drive and 2 Kuhnke 
+16I/16O module.
+I'm using the release 1.2.8 of SOEM, adapted to my hardware.
+
+If I connect only the drive, reaching the end of the ec_config_init 
+function the drive fails to go to pre-op state.
+It remains in init state (0x01), and ec_slave[].ALstatuscode is set to zero.
+
+Connecting only the 2 I/O by mean of their Bus Coupler, they reach 
+normally the pre-op state.
+
+If I connect the cpu to the Bus Coupler, and from here to the drive, the 
+I/Os go in pre-op, while the drive fails to go in pre-op state. In this 
+situation, the variable ec_slave[].state contains 0x11, and 
+ec_slave[].ALstatuscode contains 0x16.
+
+Finally, if I connect the cpu to the drive, and from here to the bus 
+coupler, everything works and they all go to pre-op.
+
+Any idea on why this could happen ?
+
+
+
+I'm waiting to know from Delta what means ALstatuscode equal to 0x16.
+In the meanwhile, I was looking inside the ec_config_init function, and 
+I'm not able to understand the reason of some settings.
+
+For example, inside the documentation I don't find the meaning of the 
+values written at 0x930 and 0x934
+
+
+w = htoes(0x1000);
+ec_BWR(0x0000, ECT_REG_DCSPEEDCNT, sizeof(w), &amp;w, EC_TIMEOUTRET); 	// 
+0x930 DC speedstart
+(according to page 90 of etg1000.4 : control loop parameter 1, 
+implementation specific)
+
+w = htoes(0x0c00);
+ec_BWR(0x0000, ECT_REG_DCTIMEFILT, sizeof(w), &amp;w, EC_TIMEOUTRET); 	// 
+0x934 DC filt expr
+(control loop parameter 3, implementation specific)
+
+
+Am I missing something ?
+Is it possible these parameters affect in some way the behaviour of my 
+slaves ?
+
+
+
+Few lines below, I see:
+
+ec_slave[slave].Itype = etohs(ec_APRDw(ADPh, ECT_REG_PDICTL, 
+EC_TIMEOUTRET)); 	// 0x140 read interface type of slave
+
+when at page 58 of etg1000.4, 0x130 is defined as DLS-user R3.
+
+
+Anyway, the drive answers 0xc08
+the bus coupler 0x100
+the i/o cards, 0x104
+How can I know if the values are right, and what they mean ?
+
+Thank you in advance
+
+Mario
+
+
+
+
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000176.html">[Soem-user] ec_config_init
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#175">[ date ]</a>
+              <a href="thread.html#175">[ thread ]</a>
+              <a href="subject.html#175">[ subject ]</a>
+              <a href="author.html#175">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,120 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] How do ecx_configdc and ec_dcsync0 work?
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2013-July/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20How%20do%20ecx_configdc%20and%20ec_dcsync0%20work%3F&In-Reply-To=%3CCANYyCJ1V5JBy_Y0BauXNL8tCRDE4uyN-%3DVZB8yiUegw%3DgJJQxQ%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000182.html">
+   <LINK REL="Next"  HREF="000184.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] How do ecx_configdc and ec_dcsync0 work?</H1>
+    <B>GyuSeung Oh</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20How%20do%20ecx_configdc%20and%20ec_dcsync0%20work%3F&In-Reply-To=%3CCANYyCJ1V5JBy_Y0BauXNL8tCRDE4uyN-%3DVZB8yiUegw%3DgJJQxQ%40mail.gmail.com%3E"
+       TITLE="[Soem-user] How do ecx_configdc and ec_dcsync0 work?">athxue at gmail.com
+       </A><BR>
+    <I>Mon Jul 22 02:42:05 CEST 2013</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000182.html">[Soem-user] SOEM for Windows Compact 7 (WINCE)
+</A></li>
+        <LI>Next message: <A HREF="000184.html">[Soem-user] ethercat dc setup
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#183">[ date ]</a>
+              <a href="thread.html#183">[ thread ]</a>
+              <a href="subject.html#183">[ subject ]</a>
+              <a href="author.html#183">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Dear all.
+
+I recently finished reading the SOEM codes and now I am trying to apply it
+to my robot.
+But there are still unclear that I can't understand so I am writing this
+email to ask you something.
+
+1. In the ecx_configdc function, first you send broadcast message to all
+slaves to latch DCrecvTimeA  and later send ECT_REG_DCSYSOFFSET message
+with the minus value taken from DCrecvTimeA  to set each slaves' system
+time to around 0. But it is not the broadcast message and there are stiil
+time running in the slave for each. So I am thinking the result after
+ecx_configdc is finished will be like this.
+
+ECT_REG_DCSYSTIME
+slave 1: 00000000
+slave 2: 00000050 (not around 0)
+slave 3: 00000100 (not around 0)
+
+2. I call ec_dcsync0 for all slaves to turn on DC sync. And I found that DC
+Sync0 signals are triggering for all slaves at the same time.
+How does this work?
+
+ wc = ecx_FPRD(context-&gt;port, slaveh, ECT_REG_DCSYSTIME, sizeof(t1), &amp;t1,
+EC_TIMEOUTRET); &lt;= You have different time for each slave because of
+question no.1.
+ t1 = etohll(t1);
+ if (CyclTime &gt; 0)
+ {
+     t = ((t1 + SyncDelay) / CyclTime) * CyclTime + CyclTime + CyclShift;
+ }
+ else
+ {
+     t = t1 + SyncDelay + CyclShift;
+ }
+ t = htoell(t);
+ wc = ecx_FPWR(context-&gt;port, slaveh, ECT_REG_DCSTART0, sizeof(t), &amp;t,
+EC_TIMEOUTRET); &lt;= All slaves will be triggering Sync0 signal at different
+time.
+
+ECT_REG_DCSTART0
+slave 1: 00000000+CyclTime
+slave 2: 00000050 (not around 0)+CyclTime
+slave 3: 00000100 (not around 0)+CyclTime
+
+3. After I enter SAFE_OP, Should I send PDO data peridically?
+I am using OMRON G5 servo drive. It goes to error state right after I set
+it to OP mode without PDO sending.
+So I fixed to send PDO after entering SAFE_OP mode and error state was
+dissappeared in the OP mode.
+
+Thank you in advance and sorry for my bad english.
+
+*Sincerely yours,*
+
+*Gyuseung Oh*
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20130722/14cd9629/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20130722/14cd9629/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000182.html">[Soem-user] SOEM for Windows Compact 7 (WINCE)
+</A></li>
+	<LI>Next message: <A HREF="000184.html">[Soem-user] ethercat dc setup
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#183">[ date ]</a>
+              <a href="thread.html#183">[ thread ]</a>
+              <a href="subject.html#183">[ subject ]</a>
+              <a href="author.html#183">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

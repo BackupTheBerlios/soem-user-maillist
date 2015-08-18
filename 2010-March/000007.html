@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Getting the AX5112 to work
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2010-March/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Getting%20the%20AX5112%20to%20work&In-Reply-To=%3Ci2rc4a2aa4b1003310831p786ff5b0k3b20b9efa89e1c75%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Getting the AX5112 to work</H1>
+    <B>Hidde Verstoep</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Getting%20the%20AX5112%20to%20work&In-Reply-To=%3Ci2rc4a2aa4b1003310831p786ff5b0k3b20b9efa89e1c75%40mail.gmail.com%3E"
+       TITLE="[Soem-user] Getting the AX5112 to work">hverstoep at e2mtechnologies.eu
+       </A><BR>
+    <I>Wed Mar 31 17:31:30 CEST 2010</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#7">[ date ]</a>
+              <a href="thread.html#7">[ thread ]</a>
+              <a href="subject.html#7">[ subject ]</a>
+              <a href="author.html#7">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello,
+
+I'm trying to get the Beckhoff AX5112 to work with SOEM.
+
+This device requires distributed clocks and the only example program I
+could find that used DC was red_test.c, so i changed it to call
+ec_init instead of ec_init_redundant. This means it is basically a
+simple test program with DC capabilities (right?). This change got me
+as far as PRE_OP.
+
+The second change is in ethercatconfig.c, where i had to add a lot of
+SoE commands required for this device (got them from a TwinCAT xml
+file). This got me as far as SAFE_OP.
+
+Now, whenever I try to go to OPERATIONAL, it fails. SOEM reports that
+the slave status is 0x14 and the status code is 0x1A (Synchronization
+error). Also, the drive display says: &quot;0xF415: IO Sync Lost&quot;. This
+gives me the strong suspicion it has something to do with DC. I was
+wondering if any of you have any idea how to solve this issue?
+
+I could supply a wireshark capture if needed (from SOEM and/or another
+master (which is not open source and has a lot of other problems) that
+is able to get this drive to OPERATIONAL although I couldn't find any
+significant differences).
+
+Best regards,
+
+Hidde
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#7">[ date ]</a>
+              <a href="thread.html#7">[ thread ]</a>
+              <a href="subject.html#7">[ subject ]</a>
+              <a href="author.html#7">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

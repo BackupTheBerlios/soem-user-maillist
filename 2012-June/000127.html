@@ -1,0 +1,116 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] CANopen objects
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-June/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20CANopen%20objects&In-Reply-To=%3C000301cd55c9%24ebd47810%24c37d6830%24%40tpaspa.it%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000126.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] CANopen objects</H1>
+    <B>FrancescoBoschetti</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20CANopen%20objects&In-Reply-To=%3C000301cd55c9%24ebd47810%24c37d6830%24%40tpaspa.it%3E"
+       TITLE="[Soem-user] CANopen objects">francesco.boschetti at tpaspa.it
+       </A><BR>
+    <I>Fri Jun 29 09:36:39 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000126.html">[Soem-user] New Release SOEM1.2.8
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#127">[ date ]</a>
+              <a href="thread.html#127">[ thread ]</a>
+              <a href="subject.html#127">[ subject ]</a>
+              <a href="author.html#127">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi All,
+
+using the ethercat master to configure several different types of devices
+(expecially servo-drives) i found out some quite big differences in the
+CANopen objects mapped in every single slave, even regarding objects
+involved in the configuration phase (like 1C00 or 1C32 and 1C33).
+
+For example I found out that some salves (with both inputs and outputs) do
+not have the objects 1C32 and 1C33 mapped even if they support DC Sync. 
+
+I also see that the ethercat master rely on these objects, for example, to
+configure the DC Sync.
+
+I have searched into all the ETHERCAT documentation to find out if, for
+example, the objects 1C32 and 1C33 are mandatory but I found different
+answers.for example in the document &quot;ETG1000_6_S_R_V1i0i2_EcatALProtocols&quot;
+these objects are marked as OPTIONAL but in the document
+&quot;ETG5001_1_V0i1i1_S_D_MDP_GeneralSpec&quot; they are marked as CONDITIONAL
+(MANDATORY if slave has outputs and/or inputs thus for a servo drive
+MANDATORY) but this document is about &quot;modular device&quot;.
+
+My question is: are these objects really CONDITIONAL or are they OPTIONAL??
+
+ 
+
+Thanks, 
+
+ 
+
+Francesco Boschetti
+Divisione Ricerca e Sviluppo
+
+  _____  
+
+
+Descrizione: Tpa Spa
+
+T.P.A. S.p.A. Tecnologie e Prodotti per l'Automazione
+Via Carducci, 221 - 20099 Sesto S. Giovanni
+
+Tel: +39 0236527573
+Email:  &lt;mailto:<A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">francesco.boschetti at tpaspa.it</A>&gt; <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">francesco.boschetti at tpaspa.it</A>
+Sito:  &lt;<A HREF="http://www.tpaspa.it/">http://www.tpaspa.it/</A>&gt; www.tpaspa.it
+
+ 
+
+ 
+
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120629/aa3429b6/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120629/aa3429b6/attachment.html</A>&gt;
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: image003.jpg
+Type: image/jpeg
+Size: 1523 bytes
+Desc: not available
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120629/aa3429b6/attachment.jpg">https://lists.berlios.de/pipermail/soem-user/attachments/20120629/aa3429b6/attachment.jpg</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000126.html">[Soem-user] New Release SOEM1.2.8
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#127">[ date ]</a>
+              <a href="thread.html#127">[ thread ]</a>
+              <a href="subject.html#127">[ subject ]</a>
+              <a href="author.html#127">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] First questions about SOEM
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2011-November/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20First%20questions%20about%20SOEM&In-Reply-To=%3C4EAFE324.5080605%40smfk.nl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000036.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] First questions about SOEM</H1>
+    <B>Arthur Ketels</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20First%20questions%20about%20SOEM&In-Reply-To=%3C4EAFE324.5080605%40smfk.nl%3E"
+       TITLE="[Soem-user] First questions about SOEM">info at smfk.nl
+       </A><BR>
+    <I>Tue Nov  1 13:16:36 CET 2011</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000036.html">[Soem-user] First questions about SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#35">[ date ]</a>
+              <a href="thread.html#35">[ thread ]</a>
+              <a href="subject.html#35">[ subject ]</a>
+              <a href="author.html#35">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hello Leopold,
+
+Op 1-11-2011 12:00, <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">soem-user-request at lists.berlios.de</A> schreef:
+&gt;<i> A Dilluns 31 Octubre 2011, Mladen Knezic va escriure:
+</I>&gt;&gt;<i> &gt;  On Mon, 31 Oct 2011 22:56:07 +0100, Leopold Palomo Avellaneda wrote
+</I>&gt;&gt;<i> &gt;  
+</I>&gt;&gt;&gt;<i> &gt;  &gt;  A Dilluns 31 Octubre 2011, Mladen Knezic va escriure:
+</I>&gt;&gt;&gt;<i> &gt;  &gt;  [...]
+</I>&gt;&gt;&gt;<i> &gt;  &gt;  
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  &gt;  &gt;  On the same interface?
+</I>&gt;&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  &gt;  
+</I>&gt;&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  &gt;  yes,, but using the ethercat master driver from the other project.
+</I>&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  
+</I>&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  Which one? IgH Etherlab, TwinCAT? Some other library?
+</I>&gt;&gt;&gt;<i> &gt;  &gt;  
+</I>&gt;&gt;&gt;<i> &gt;  &gt;  IgH Etherlab. We are using a GNU/Linux box.
+</I>&gt;&gt;&gt;<i> &gt;  &gt;  
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  &gt;  &gt;  Which device?
+</I>&gt;&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  &gt;  
+</I>&gt;&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  &gt;  the ethercat device? it's a Bosch Rexroth Indradrive controller.
+</I>&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  
+</I>&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  So, it is the same device.
+</I>&gt;&gt;&gt;<i> &gt;  &gt;  
+</I>&gt;&gt;&gt;<i> &gt;  &gt;  Yes, the only one we have ...
+</I>&gt;&gt;&gt;<i> &gt;  &gt;  
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  &gt;  &gt;  Slaveinfo example should show you
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  &gt;  &gt;  infromation about device attached to the interface. If it is not
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  &gt;  &gt;  the case you have either communicating over the wrong interface
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  &gt;  &gt;  (not one that the ethercat device is attached to) or something is
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  &gt;  &gt;  definitely wrong with your system.:)
+</I>&gt;&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  &gt;  
+</I>&gt;&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  &gt;  the question is which is wrong?
+</I>&gt;&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  &gt;  
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  &gt;  &gt;   From your last post I can see that soem successfully connects
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  &gt;  &gt;  to the raw socket, but it does not &quot;see&quot; any device on the bus.
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  &gt;  &gt;   From that, I can only conclude that there is no attached ethercat
+</I>&gt;&gt;&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  &gt;  &gt;  devices on the interface you are using.
+</I>&gt;&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  &gt;  
+</I>&gt;&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  &gt;  Ok, some other idea?
+</I>&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  
+</I>&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  I would try &quot;slaveinfo&quot; example. This example has only acyclic
+</I>&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  communication without making slave goes into the OP state. It
+</I>&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  communicates with device over the CoE protocol to find some essential
+</I>&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  information about the device. If that does not work, my next
+</I>&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  assumption that something is wrong with the connection. Try with
+</I>&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  different cable, or with different NIC.
+</I>&gt;&gt;&gt;<i> &gt;  &gt;  
+</I>&gt;&gt;&gt;<i> &gt;  &gt;  ok, thanks for the ideas. We are now in some kind of local holiday.
+</I>&gt;&gt;&gt;<i> &gt;  &gt;  On Wednesday  I will try the slave info and another NIC to checkit.
+</I>&gt;&gt;&gt;<i> &gt;  &gt;  Do you have had configure in some way the NIC to make it works with SOEM?
+</I>&gt;&gt;<i> &gt;  
+</I>&gt;&gt;<i> &gt;  No. Just specify the interface name. It should work (at least for me).:)
+</I>&gt;<i> well, I have just to load the module and no configuration done. No IP, gw, ....
+</I>&gt;<i>
+</I>&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  P.S. I have found some datasheet
+</I>&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  (<A HREF="http://www.boschrexroth.com/country_units/">http://www.boschrexroth.com/country_units/</A>
+</I>&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  europe/france/fr/branches/branches/handling/ressources/documentation/pr
+</I>&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  odu its/ IndraDrive_Mi.pdf) and info
+</I>&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  (<A HREF="http://www.boschrexroth.com/dcc/Vornavigation/">http://www.boschrexroth.com/dcc/Vornavigation/</A>
+</I>&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  Vornavi.cfm?&amp;language=en&amp;PageID=p146813). They does not state that
+</I>&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  drive supports EtherCAT communication. Can you confirm that this is
+</I>&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  the drive you are using, or send me a link with info about your
+</I>&gt;&gt;&gt;&gt;<i> &gt;  &gt;  &gt;  device?
+</I>&gt;&gt;&gt;<i> &gt;  &gt;  
+</I>&gt;&gt;&gt;<i> &gt;  &gt;  Indradrive HCS02. It's a multiprotocol device, with SercosIII,
+</I>&gt;&gt;&gt;<i> &gt;  &gt;  Ethercat and Ethernet/IP . Now it's activated the Ethercat protocol.
+</I>&gt;&gt;&gt;<i> &gt;  &gt;  The page is:
+</I>&gt;&gt;&gt;<i> &gt;  &gt;  
+</I>&gt;&gt;&gt;<i> &gt;  &gt;  <A HREF="http://www.boschrexroth.com/modules/BRMV2PDFDownload.dll?">http://www.boschrexroth.com/modules/BRMV2PDFDownload.dll?</A>
+</I>&gt;&gt;<i> &gt;  
+</I>&gt;&gt;<i> &gt;  db=brmv2&amp;lvid=90389&amp;mvid=5262&amp;clid=20&amp;sid=DD1441493B9F589CC877A37F9F3C69E0&amp;
+</I>&gt;&gt;<i> &gt;  sch=M
+</I>&gt;&gt;<i> &gt;  
+</I>&gt;&gt;<i> &gt;  Ok, thanx. I will examine the datasheet to see if there is something that I
+</I>&gt;&gt;<i> &gt;  have missed. In any case, I believe that you have configured the device
+</I>&gt;&gt;<i> &gt;  correctly. If so, there should be no problem with &quot;slaveinfo&quot; to work.
+</I>&gt;<i> Ok, I will check it. .. I'm really impatient ...
+</I>&gt;<i>
+</I>&gt;<i> Regards,
+</I>&gt;<i>
+</I>&gt;<i> Leo
+</I>If simple_test reports no slaves found it can have following reasons:
+1) No slaves attached
+2) NIC driver is in a wrong mode (do you have installed the IgH rt 
+drivers?), use only vanilla NIC drivers.
+3) Data is send out but does not return
+4) Data is not send out (driver setting, network cable)
+
+The best way to solve this quickly is NOT to send dozens of mails with 
+no real info, but to send a wireshark trace of the simple_test and/or 
+slaveinfo. Mention the exact type of slave, and references to internet 
+docu (ones that are not broken). If possible send the configuration of 
+the slave and/or the ESI xml file. For good measure the output of 
+ifconfig and lsmod. Then I can really answer your question.
+
+Regards, Arthur Ketels.
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000036.html">[Soem-user] First questions about SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#35">[ date ]</a>
+              <a href="thread.html#35">[ thread ]</a>
+              <a href="subject.html#35">[ subject ]</a>
+              <a href="author.html#35">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

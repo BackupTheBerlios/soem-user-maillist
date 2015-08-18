@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] crash after ec_siistring
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-March/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20crash%20after%20ec_siistring&In-Reply-To=%3C1331830247.24383.YahooMailNeo%40web29602.mail.ird.yahoo.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000084.html">
+   <LINK REL="Next"  HREF="000086.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] crash after ec_siistring</H1>
+    <B>rocco brandi</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20crash%20after%20ec_siistring&In-Reply-To=%3C1331830247.24383.YahooMailNeo%40web29602.mail.ird.yahoo.com%3E"
+       TITLE="[Soem-user] crash after ec_siistring">viccio75 at yahoo.it
+       </A><BR>
+    <I>Thu Mar 15 17:50:47 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000084.html">[Soem-user] dynamic slaves list
+</A></li>
+        <LI>Next message: <A HREF="000086.html">[Soem-user] [SOLVED]crash after ec_siistring
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#85">[ date ]</a>
+              <a href="thread.html#85">[ thread ]</a>
+              <a href="subject.html#85">[ subject ]</a>
+              <a href="author.html#85">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi everyone!
+
+I've got a little problem.
+
+I'm trying to read the name of each PDO, so I've made these changes in ec_siiPDO (ethercatmain.c ) at line 542:
+......
+
+uint16 index; //defined at the beginning of ec_siiPDO
+char string[20];//defined at the beginning of ec_siiPDO
+........
+
+//a+=4 /*original value in SOEM*/
+a++;
+
+index=ec_siigetbyte(slave, a++); //read NameIdx (Name of the object-index to STRINGS; See Ecat specifications)
+
+ec_siistring(string, slave, Index);
+a+=2;
+
+..........
+
+but every time the system crash after the ec_siistring instruction. If I put a breakpoint after this instruction I can see that &quot;string&quot; contain the name of the PDO, but when I run the system again, it crashes.
+
+what could be wrong?
+
+Thanks,
+Rocco
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120315/1aa3a77a/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120315/1aa3a77a/attachment.html</A>&gt;
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000084.html">[Soem-user] dynamic slaves list
+</A></li>
+	<LI>Next message: <A HREF="000086.html">[Soem-user] [SOLVED]crash after ec_siistring
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#85">[ date ]</a>
+              <a href="thread.html#85">[ thread ]</a>
+              <a href="subject.html#85">[ subject ]</a>
+              <a href="author.html#85">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

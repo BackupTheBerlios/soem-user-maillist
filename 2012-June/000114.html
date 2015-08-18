@@ -1,0 +1,154 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Using DC clock
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-June/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Using%20DC%20clock&In-Reply-To=%3C4FCE0398.2050200%40smfk.nl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000113.html">
+   <LINK REL="Next"  HREF="000115.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Using DC clock</H1>
+    <B>Arthur Ketels</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Using%20DC%20clock&In-Reply-To=%3C4FCE0398.2050200%40smfk.nl%3E"
+       TITLE="[Soem-user] Using DC clock">info at smfk.nl
+       </A><BR>
+    <I>Tue Jun  5 15:03:20 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000113.html">[Soem-user] Using DC clock
+</A></li>
+        <LI>Next message: <A HREF="000115.html">[Soem-user] Using DC clock
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#114">[ date ]</a>
+              <a href="thread.html#114">[ thread ]</a>
+              <a href="subject.html#114">[ subject ]</a>
+              <a href="author.html#114">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>
+Op 4-6-2012 12:20, Luca Magnabosco schreef:
+&gt;<i> Hi all,
+</I>&gt;<i> Finally my slaves seem to work (sometimes) but I still have few 
+</I>&gt;<i>  questions about using DC clock:
+</I>&gt;<i>
+</I>&gt;<i> 1)In which state has to be called the command ec_sync0(). In my case 
+</I>&gt;<i> it seem that I have to call it while I am in pre-op state,
+</I>&gt;<i>     if not it is ignored (the slaves work but without DC)
+</I>&gt;<i>    Is it common? ...because in ebox.c it is called when the ebox it's 
+</I>&gt;<i> already operational.
+</I>&gt;<i>    Anyway, calling ec_sync0() in pre-op the drivers sometimes don't 
+</I>&gt;<i> reach the operational state. But it seem to be casual...of course I'm 
+</I>&gt;<i> doing something wrong.
+</I>For a decent programmed slave it should not matter when the sync signal 
+is activated. It should just lock to the signal whenever it is 
+available. This is the case with our ebox slaves. However a lot of slave 
+vendors are very picky with regard to synchronisation.
+
+I think you have a slave that decides what mode to use in the pre-op to 
+safe-op transition. The slave reads the sync0 registers from the PDI 
+side to check if the master has programmed DC with sync0 in the slave.
+
+You can prevent sync errors in your slave when rewrite the standard SOEM 
+sequence to:
+- init
+- discovery of slaves
+- pre-op
+- map slaves
+- start DC
+- activate process data transfer
+- wait for DC lock
+- activate sync0
+- safe-op
+- wait for all slaves to reach safe-op
+- op
+- wait for all slaves to reach op
+- do your important stuff.....
+
+The issue with the standard SOEM order is that map en safe-op is in the 
+same function. So you have to disable the safe-op request in 
+ec_config_map().
+&gt;<i>
+</I>&gt;<i>
+</I>&gt;<i> 2)Which is the meaning of the shift in the command ec_sync0()?
+</I>&gt;<i> It's not the shift between ec_send/receive and DC clock because it is 
+</I>&gt;<i> &quot;manually setted&quot; in ebox.c inside the function ec_sync() and of 
+</I>&gt;<i> course it isn't the shift of the inputs and outputs of the slaves.
+</I>from ethercaddc.c:
+/** 1st sync pulse delay in ns here 100ms */
+#define SyncDelay       ((int32)100000000)
+
+     wc = ec_FPRD(slaveh, ECT_REG_DCSYSTIME, sizeof(t1), &amp;t1, 
+EC_TIMEOUTRET); /* read local time of slave */
+     t1 = etohll(t1);
+
+     /* Calculate first trigger time, always a whole multiple of 
+CyclTime rounded up
+     plus the shifttime (can be negative)
+     This insures best sychronisation between slaves, slaves with the 
+same CyclTime
+     will sync at the same moment (you can use CyclShift to shift the 
+sync) */
+     if (CyclTime &gt; 0)
+     {
+         t = ((t1 + SyncDelay) / CyclTime) * CyclTime + CyclTime + 
+CyclShift;
+     }
+
+So the slave gets triggered at the next whole multiple of the cycltime 
+plus the cycle shift + 100ms. And then every cycletime. You can use the 
+shift for two purposes:
+1. offset the trigger moment of slave y in relation to slave x.
+2. offset the trigger in multiple cycles. For example if your cycle time 
+is 1ms and the shift is 1000ms then the first sync pulse is delayed 
+another 1sec.
+
+Option 2 can be used to prevent time-outs of the slaves PDO to sync check.
+&gt;<i>
+</I>&gt;<i> 3)I haven't understand yet, if while the use of DC is activated in a 
+</I>&gt;<i> slave I can send asynchronous SDO too or only synchronous PDO.
+</I>You can use both synchonous and asynchronous PDOs. EtherCAT and SOEM 
+have no limitations. However some slaves can't handle that and throw an 
+error (or worse, crash). To be honest, the  synchronous solutions in a 
+lot of slaves are just crap. Your slave seems to be one of those.
+&gt;<i>
+</I>&gt;<i> Thanks for any kind of hint or idea
+</I>&gt;<i>
+</I>&gt;<i> Best regards
+</I>&gt;<i> Luca
+</I>&gt;<i>
+</I>Regards,
+Arthur Ketels
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000113.html">[Soem-user] Using DC clock
+</A></li>
+	<LI>Next message: <A HREF="000115.html">[Soem-user] Using DC clock
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#114">[ date ]</a>
+              <a href="thread.html#114">[ thread ]</a>
+              <a href="subject.html#114">[ subject ]</a>
+              <a href="author.html#114">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

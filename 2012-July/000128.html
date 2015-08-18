@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Support for syncing DC reference clock
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-July/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Support%20for%20syncing%20DC%20reference%20clock&In-Reply-To=%3CCAGmM2K6h%3D5C9vNR8MXTydK3cbGrQRpGL0x1otwAP_1Gc-nH6Mw%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000129.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Support for syncing DC reference clock</H1>
+    <B>Johnathan Van Why</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Support%20for%20syncing%20DC%20reference%20clock&In-Reply-To=%3CCAGmM2K6h%3D5C9vNR8MXTydK3cbGrQRpGL0x1otwAP_1Gc-nH6Mw%40mail.gmail.com%3E"
+       TITLE="[Soem-user] Support for syncing DC reference clock">jrvanwhy at gmail.com
+       </A><BR>
+    <I>Wed Jul  4 17:35:40 CEST 2012</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000129.html">[Soem-user] Support for syncing DC reference clock
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#128">[ date ]</a>
+              <a href="thread.html#128">[ thread ]</a>
+              <a href="subject.html#128">[ subject ]</a>
+              <a href="author.html#128">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>We have recently gotten EtherCAT's DC functionality working through
+SOEM, and verified that our slaves are properly syncing with the
+reference clock. However, it appears as if the reference clock is not
+being updated by the master, so the timing of the DC and our main loop
+are drifting with respect to each other.
+
+Although we are aware (and have verified) that we can sync our loop to
+the DC System Time by reading the ec_DCTime variable, it is preferable
+for the DC time to sync with that of the master (as described in all
+the EtherCAT documentation I've read), not the other way around.
+
+Has this been implemented? If not, I'll go ahead and file a feature
+request on the tracker (it'll probably be quite a while before we have
+enough time to implement this ourselves).
+
+Thank you for any help,
+Johnathan Van Why
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000129.html">[Soem-user] Support for syncing DC reference clock
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#128">[ date ]</a>
+              <a href="thread.html#128">[ thread ]</a>
+              <a href="subject.html#128">[ subject ]</a>
+              <a href="author.html#128">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

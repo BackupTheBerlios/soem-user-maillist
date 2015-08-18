@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] SOEM slaveinfo.c not returning Object Description list
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-February/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20SOEM%20slaveinfo.c%20not%20returning%20Object%20Description%20list&In-Reply-To=%3CCAC4gz4-aswJA3e2z2cd_Q3eiQrmUnamWW4U_eMbRXBQ5m8RMSg%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000071.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] SOEM slaveinfo.c not returning Object Description list</H1>
+    <B>Luca Magnabosco</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20SOEM%20slaveinfo.c%20not%20returning%20Object%20Description%20list&In-Reply-To=%3CCAC4gz4-aswJA3e2z2cd_Q3eiQrmUnamWW4U_eMbRXBQ5m8RMSg%40mail.gmail.com%3E"
+       TITLE="[Soem-user] SOEM slaveinfo.c not returning Object Description list">magnabosco.luca at gmail.com
+       </A><BR>
+    <I>Wed Feb 29 16:59:04 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000071.html">[Soem-user] Soem-user Digest, Vol 15, Issue 6
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#72">[ date ]</a>
+              <a href="thread.html#72">[ thread ]</a>
+              <a href="subject.html#72">[ subject ]</a>
+              <a href="author.html#72">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+Me too I'm new to Ethercat field bus and i'm trying to use SOEM v1.2.5 in my
+application (control a servomotor for the moment).
+
+At the moment I'm facing problems in running slaveinfo.c:
+
+The problem is that with the servomotor that I have [Yaskawa SGMCS-07] the
+function ec_readODlist(cnt, &amp;ODlist) return 0 and so the program doesn't
+enter in the cycle to retrieve the Object Description list.[ The first part
+of the program with the initialisation seem to work correctly]
+
+Could someone give me a hint about a possible reason?
+
+Thanks in advance for any kind of help.
+
+
+Regards,
+
+Luca
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120229/9eba1cf1/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120229/9eba1cf1/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000071.html">[Soem-user] Soem-user Digest, Vol 15, Issue 6
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#72">[ date ]</a>
+              <a href="thread.html#72">[ thread ]</a>
+              <a href="subject.html#72">[ subject ]</a>
+              <a href="author.html#72">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

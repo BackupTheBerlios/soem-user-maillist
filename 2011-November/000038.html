@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] First questions about SOEM
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2011-November/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20First%20questions%20about%20SOEM&In-Reply-To=%3C20111102113216.M41776%40etfbl.net%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000037.html">
+   <LINK REL="Next"  HREF="000039.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] First questions about SOEM</H1>
+    <B>Mladen Knezic</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20First%20questions%20about%20SOEM&In-Reply-To=%3C20111102113216.M41776%40etfbl.net%3E"
+       TITLE="[Soem-user] First questions about SOEM">mladen_knezic at etfbl.net
+       </A><BR>
+    <I>Wed Nov  2 12:32:33 CET 2011</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000037.html">[Soem-user] First questions about SOEM
+</A></li>
+        <LI>Next message: <A HREF="000039.html">[Soem-user] First questions about SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#38">[ date ]</a>
+              <a href="thread.html#38">[ thread ]</a>
+              <a href="subject.html#38">[ subject ]</a>
+              <a href="author.html#38">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>On Wed, 2 Nov 2011 12:21:43 +0100, Leopold Palomo-Avellaneda wrote
+&gt;<i> Hello Arthur,
+</I>&gt;<i> 
+</I>&gt;<i> A Dimarts 01 Novembre 2011, Arthur Ketels va escriure:
+</I>&gt;<i> [...]
+</I>&gt;<i> 
+</I>&gt;<i> &gt; If simple_test reports no slaves found it can have following reasons:
+</I>&gt;<i> &gt; 1) No slaves attached
+</I>&gt;<i> 
+</I>&gt;<i> false, I have an slave attached.
+</I>&gt;<i> 
+</I>&gt;<i> &gt; 2) NIC driver is in a wrong mode (do you have installed the IgH rt 
+</I>&gt;<i> &gt; drivers?), use only vanilla NIC drivers.
+</I>&gt;<i> 
+</I>&gt;<i> I have tested the IgH drivers, but now I'm using the vanilla 
+</I>&gt;<i> drivers. Exactly I'm using a stock debian squeeze kernel 2.6.32-5.
+</I>&gt;<i> 
+</I>&gt;<i> &gt; 3) Data is send out but does not return
+</I>&gt;<i> &gt; 4) Data is not send out (driver setting, network cable)
+</I>&gt;<i> 
+</I>&gt;<i> Well, I have found what's is happening. I configured the NIC with a 
+</I>&gt;<i> simple parameters: no IP, etc. Just a:
+</I>&gt;<i> 
+</I>&gt;<i> auto eth1
+</I>&gt;<i> iface eth1 inet manual
+</I>&gt;<i> 
+</I>&gt;<i> so, when I did a ifconfig, I got:
+</I>&gt;<i> 
+</I>&gt;<i> eth1      Link encap:Ethernet  HWaddr 00:13:46:3c:a4:9e  
+</I>&gt;<i>           BROADCAST MULTICAST  MTU:1500  Metric:1
+</I>&gt;<i>           RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+</I>&gt;<i>           TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+</I>&gt;<i>           collisions:0 txqueuelen:1000 
+</I>&gt;<i>           RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+</I>&gt;<i>           Interrupt:18 Base address:0xa000
+</I>&gt;<i> 
+</I>&gt;<i> in this configuration the SOEM doesn't work. Also, I don't know if 
+</I>&gt;<i> is necessary to have configured the IP part of the NIC. If it was 
+</I>&gt;<i> was my mistake, I'm sorry.
+</I>&gt;<i> 
+</I>&gt;<i> If I configure the IP part of the NIC, then it works. Setting a 
+</I>&gt;<i> private address: iface eth1 inet static         address 10.0.0.1     
+</I>&gt;<i>     netmask 255.255.255.0         network 10.0.0.1         broadcast 
+</I>&gt;<i> 10.0.0.255
+</I>&gt;<i> 
+</I>&gt;<i> then I got this info:
+</I>&gt;<i> 
+</I>&gt;<i> sudo ./simple_test eth1
+</I>&gt;<i> SOEM (Simple Open EtherCAT Master)
+</I>&gt;<i> Simple test
+</I>&gt;<i> Starting simple test
+</I>&gt;<i> ec_init on eth1 succeeded.
+</I>&gt;<i> 1 slaves found and configured.
+</I>&gt;<i> Slaves mapped, state to SAFE_OP.
+</I>&gt;<i> segments : 1 : 0 0 0 0
+</I>&gt;<i> Request operational state for all slaves
+</I>&gt;<i> Calculated workcounter 0
+</I>&gt;<i> Not all slaves reached operational state.
+</I>&gt;<i> Slave 1 State=0x04 StatusCode=0x0000 : Unknown
+</I>&gt;<i> 
+</I>&gt;<i> Request safe operational state for all slaves
+</I>&gt;<i> End simple test, close socket
+</I>&gt;<i> End program
+</I>&gt;<i> 
+</I>&gt;<i> also:
+</I>&gt;<i> 
+</I>&gt;<i> sudo ./slaveinfo eth1 -sdo
+</I>&gt;<i> SOEM (Simple Open EtherCAT Master)
+</I>&gt;<i> Slaveinfo
+</I>&gt;<i> Starting slaveinfo
+</I>&gt;<i> ec_init on eth1 succeeded.
+</I>&gt;<i> 1 slaves found and configured.
+</I>&gt;<i> Calculated workcounter 0
+</I>&gt;<i> 
+</I>&gt;<i> Slave:1
+</I>&gt;<i>  Name:? M:00000024 I:00242803
+</I>&gt;<i>  Output size: 0bits
+</I>&gt;<i>  Input size: 0bits
+</I>&gt;<i>  State: 4
+</I>&gt;<i>  Delay: 0[ns]
+</I>&gt;<i>  Has DC: 1
+</I>&gt;<i>  DCParentport:0
+</I>&gt;<i>  Activeports:1.0.0.0
+</I>&gt;<i>  Configured address: 1001
+</I>&gt;<i>  Man: 00000024 ID: 00242803 Rev: 00000001
+</I>&gt;<i>  SM0 A:1800 L: 234 F:00010026 Type:1
+</I>&gt;<i>  SM1 A:1a00 L: 234 F:00010022 Type:2
+</I>&gt;<i>  SM2 A:1000 L:   0 F:00000064 Type:3
+</I>&gt;<i>  SM3 A:1100 L:   0 F:00000062 Type:4
+</I>&gt;<i>  FMMUfunc 0:0 1:0 2:0 3:0
+</I>&gt;<i>  MBX length wr: 234 rd: 234 MBX protocols : 10
+</I>&gt;<i>  CoE details: 00 FoE details: 00 EoE details: 01 SoE details: 00
+</I>&gt;<i>  Ebus current: 0[mA]
+</I>&gt;<i>  only LRD/LWR:0
+</I>&gt;<i> End slaveinfo, close socket
+</I>&gt;<i> End program
+</I>&gt;<i> 
+</I>&gt;<i> &gt; 
+</I>&gt;<i> &gt; The best way to solve this quickly is NOT to send dozens of mails with 
+</I>&gt;<i> &gt; no real info,
+</I>&gt;<i> 
+</I>&gt;<i> I sent all the info that I had in that moment and I have sent 
+</I>&gt;<i> answered all the question related.
+</I>&gt;<i> 
+</I>&gt;<i> &gt; but to send a wireshark trace of the simple_test and/or 
+</I>&gt;<i> &gt; slaveinfo.
+</I>&gt;<i> 
+</I>&gt;<i> yes, you are right, I didn't send the wireshark trace. Trying to do 
+</I>&gt;<i> it is when I have realized that wireshark doesn't detect the interface.
+</I>&gt;<i> 
+</I>&gt;<i> &gt; Mention the exact type of slave, and references to internet 
+</I>&gt;<i> &gt; docu (ones that are not broken).
+</I>&gt;<i> 
+</I>&gt;<i> I did it with the link, but it's true, I didn't realize that it was 
+</I>&gt;<i> a session and not portable.
+</I>&gt;<i> 
+</I>&gt;<i> Try this one,
+</I>&gt;<i> 
+</I>&gt;<i> <A HREF="http://www.boschrexroth.com/content/internet/pdf/PDF_p179794_en.pdf">http://www.boschrexroth.com/content/internet/pdf/PDF_p179794_en.pdf</A>
+</I>&gt;<i> 
+</I>&gt;<i> but it's a bit hard to try to find an static link for the documentation.
+</I>&gt;<i> 
+</I>&gt;<i> &gt; If possible send the configuration of 
+</I>&gt;<i> &gt; the slave and/or the ESI xml file.
+</I>&gt;<i> 
+</I>&gt;<i> no because I have not one ESI xml and I don't know how to obtain it. 
+</I>&gt;<i> Bosch is a bit opaque in this.
+</I>&gt;<i> 
+</I>&gt;<i> Regards,
+</I>&gt;<i> 
+</I>&gt;<i> Leopold
+</I>&gt;<i> 
+</I>&gt;<i> -- 
+</I>&gt;<i> --
+</I>&gt;<i> Linux User 152692
+</I>&gt;<i> Catalonia
+</I>&gt;<i> _______________________________________________
+</I>&gt;<i> Soem-user mailing list
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">Soem-user at lists.berlios.de</A>
+</I>&gt;<i> <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">https://lists.berlios.de/mailman/listinfo/soem-user</A>
+</I>
+
+--
+Mladen Knezic, MSc. E. E.
+Research and Teaching Assistant
+Faculty of Electrical Engineering
+Banja Luka, Bosnia and Herzegovina
+Web: www.etfbl.net
+Phone: +387 65 804 205
+Fax: +387 51 211 408
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000037.html">[Soem-user] First questions about SOEM
+</A></li>
+	<LI>Next message: <A HREF="000039.html">[Soem-user] First questions about SOEM
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#38">[ date ]</a>
+              <a href="thread.html#38">[ thread ]</a>
+              <a href="subject.html#38">[ subject ]</a>
+              <a href="author.html#38">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

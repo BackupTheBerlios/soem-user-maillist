@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] BRD frames treated as errors by ET1100
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-January/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20BRD%20frames%20treated%20as%20errors%20by%20ET1100&In-Reply-To=%3C945138c207d86767cdfdbf81c09f9d36%40addiva.se%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000055.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] BRD frames treated as errors by ET1100</H1>
+    <B>Mattias Ekstr&#246;m</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20BRD%20frames%20treated%20as%20errors%20by%20ET1100&In-Reply-To=%3C945138c207d86767cdfdbf81c09f9d36%40addiva.se%3E"
+       TITLE="[Soem-user] BRD frames treated as errors by ET1100">mattias.ekstrom at addiva.se
+       </A><BR>
+    <I>Wed Jan  4 16:39:08 CET 2012</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000055.html">[Soem-user] BRD frames treated as errors by ET1100
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#54">[ date ]</a>
+              <a href="thread.html#54">[ thread ]</a>
+              <a href="subject.html#54">[ subject ]</a>
+              <a href="author.html#54">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE> Hi, I'm having some trouble getting my ethercat system running.
+
+ At the moment I'm just trying to talk between a micro controller
+ and a ET1100 chip, they are connected directly MAC-to-MII-port
+ as described in the documentation.
+
+ I have an oscilloscope so I have confirmed that data is actually
+ going out on the lines. I also see the ECAT Processing Unit Error
+ Counter increase by the same amount as the number of packets I
+ send. I've also verified that the port is considered open and
+ configured in the proper mode on the ethercat chip.
+
+ What I can't figure out is why the packets get treated as errors
+ by the ET1100. As both fields of the RX Error Counter remain at 0
+ (although as there is no PHY the high byte should always remain
+ at zero?) I'm starting to think that the packets arrive just fine
+ as far as ethernet goes, but something is wrong with the ethercat
+ header and datagrams. I'm using SOEM 1.2.5 for this and I'm just
+ the slaveinfo.c example.
+
+ What I'm seeing in Wireshark is that the ethernet driver sends 3
+ frames that appear to be correct, apart from one thing that
+ confuses me. They lack any padding and are only 30 bytes in length,
+ each. As far as I can see the ethercat protocol requires packets
+ to be padded to a minimum of 64 bytes. Is this correct? Could this
+ be the source of my troubles?
+
+ Any direction would be appreciated!
+
+ Regard,
+
+ Mattias Ekstr&#246;m
+
+
+
+
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000055.html">[Soem-user] BRD frames treated as errors by ET1100
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#54">[ date ]</a>
+              <a href="thread.html#54">[ thread ]</a>
+              <a href="subject.html#54">[ subject ]</a>
+              <a href="author.html#54">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

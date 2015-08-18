@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] Modification of ti_am335x inputs using SOEM
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-August/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Modification%20of%20ti_am335x%20inputs%20using%20SOEM&In-Reply-To=%3C511FB0204490444AA3C8B1660FFFDB89CED47E%40freyja.sstl.co.uk%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000144.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] Modification of ti_am335x inputs using SOEM</H1>
+    <B>Jeremie Labbe</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20Modification%20of%20ti_am335x%20inputs%20using%20SOEM&In-Reply-To=%3C511FB0204490444AA3C8B1660FFFDB89CED47E%40freyja.sstl.co.uk%3E"
+       TITLE="[Soem-user] Modification of ti_am335x inputs using SOEM">J.Labbe at sstl.co.uk
+       </A><BR>
+    <I>Fri Aug 31 16:50:48 CEST 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000144.html">[Soem-user] Is ec_receive_processdata() necessary for every	cycle?
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#146">[ date ]</a>
+              <a href="thread.html#146">[ thread ]</a>
+              <a href="subject.html#146">[ subject ]</a>
+              <a href="author.html#146">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi all, 
+ 
+First post on this.
+I'm trying to use SOEM EtherCAT master to trigger the bunch of leds on
+the TI AM3359 ICE dev kit.
+ 
+I have not modified the TI SSC nor the XML configuration file so am
+still running:
+FreeRun-Mode
+LEDs @ 0x7010 connected onto RxPDO @ 0x1601 using SM2 @ 0x1800 with
+assignment made on RxPDO assign @ 0x1c12.
+ 
+1) First Question: 
+assignment made on 0x1c12 is on subindex 1 with value 0x1600.
+What I can see from the Ebox.c example is that writing 0x1601 in this
+register 0x1c12 sets a stream mode when 0x1600 sets a standard mode.
+Could you describe those modes or refer to a document that does?
+ 
+2) Second Question:
+I have not been able to modify the status of the LEDs. 
+I'm trying to set up the slave[1].inputs to a hex value(0x55 for
+example) and then use ec_send_processdata().
+Does that seem wrong?
+Not sure what to do?
+ 
+Some UART debug have been injected in the TI SSC so I can see what's
+going on.
+My problem is in the function PDO_OutputMapping where I can see the
+address 0x1800 being scanned for data on each interrupt (being in
+FreeRun-Mode).
+I don't understand why this address is scanned.
+ 
+Note that I've never used CANopen nor EtherCAT before and am in a
+learning/understanding process.
+ 
+Best Regards,
+ 
+Jeremie
+ 
+
+
+This e-mail and any attachments may contain confidential and
+privileged information. If you are not the intended recipient,
+please notify the sender immediately by return e-mail, delete this
+e-mail and destroy any copies. Any dissemination or use of this
+information by a person other than the intended recipient is
+unauthorized and may be illegal.
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: &lt;<A HREF="https://lists.berlios.de/pipermail/soem-user/attachments/20120831/39f143b9/attachment.html">https://lists.berlios.de/pipermail/soem-user/attachments/20120831/39f143b9/attachment.html</A>&gt;
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000144.html">[Soem-user] Is ec_receive_processdata() necessary for every	cycle?
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#146">[ date ]</a>
+              <a href="thread.html#146">[ thread ]</a>
+              <a href="subject.html#146">[ subject ]</a>
+              <a href="author.html#146">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

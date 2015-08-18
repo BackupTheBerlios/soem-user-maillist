@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] CoE PDO read/write
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-December/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20CoE%20PDO%20read/write&In-Reply-To=%3C378982C2DED06049B6E2FED41772A03A2D25BA9C%40exchange2.groupy.isse.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000166.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] CoE PDO read/write</H1>
+    <B>Michael Vistein</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20CoE%20PDO%20read/write&In-Reply-To=%3C378982C2DED06049B6E2FED41772A03A2D25BA9C%40exchange2.groupy.isse.de%3E"
+       TITLE="[Soem-user] CoE PDO read/write">vistein at informatik.uni-augsburg.de
+       </A><BR>
+    <I>Mon Dec 10 14:42:58 CET 2012</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000166.html">[Soem-user] CoE PDO read/write
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#165">[ date ]</a>
+              <a href="thread.html#165">[ thread ]</a>
+              <a href="subject.html#165">[ subject ]</a>
+              <a href="author.html#165">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi,
+
+I'm currently trying to control a robotic device using CoE and CiA 402.
+
+After removing the CA flag I'm now able to put the device into Operational Mode, I get a process image of appropriate size and I can read SDO objects. However, I have not found a way to read the PDOs. 
+ec_send_processdata() returns with a non-zero wkc, however ec_receive_precessdata(...) always returns with zero.
+
+Maybe TxPDO and RxPDO have to be used instead of ec_receive_processdata for CoE? Unfortunately I did not find much information about using CoE with SOEM. Has anyone managed to use synchronous PDOs with SOEM so far?
+
+Michael
+
+-- 
+Michael Vistein, M.Sc.
+Lehrstuhl f&#252;r Softwaretechnik
+Raum 3045, Geb&#228;ude N
+Universit&#228;t Augsburg
+
+Tel.: +49 (821) 598 - 2116
+Fax.: +49 (821) 598 - 2175
+E-Mail: <A HREF="https://lists.berlios.de/mailman/listinfo/soem-user">vistein at informatik.uni-augsburg.de</A>
+
+
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000166.html">[Soem-user] CoE PDO read/write
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#165">[ date ]</a>
+              <a href="thread.html#165">[ thread ]</a>
+              <a href="subject.html#165">[ subject ]</a>
+              <a href="author.html#165">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

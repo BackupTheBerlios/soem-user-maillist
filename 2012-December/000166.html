@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] CoE PDO read/write
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-December/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20CoE%20PDO%20read/write&In-Reply-To=%3C50C72745.2010202%40smfk.nl%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000165.html">
+   <LINK REL="Next"  HREF="000167.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] CoE PDO read/write</H1>
+    <B>Arthur Ketels</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20CoE%20PDO%20read/write&In-Reply-To=%3C50C72745.2010202%40smfk.nl%3E"
+       TITLE="[Soem-user] CoE PDO read/write">info at smfk.nl
+       </A><BR>
+    <I>Tue Dec 11 13:29:57 CET 2012</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000165.html">[Soem-user] CoE PDO read/write
+</A></li>
+        <LI>Next message: <A HREF="000167.html">[Soem-user] CoE PDO read/write
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#166">[ date ]</a>
+              <a href="thread.html#166">[ thread ]</a>
+              <a href="subject.html#166">[ subject ]</a>
+              <a href="author.html#166">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi Michael,
+Op 10-12-2012 14:42, Michael Vistein schreef:
+&gt;<i> Hi,
+</I>&gt;<i>
+</I>&gt;<i> I'm currently trying to control a robotic device using CoE and CiA 402.
+</I>A little more info would help to know what we are dealing with here.
+&gt;<i>
+</I>&gt;<i> After removing the CA flag I'm now able to put the device into Operational Mode, I get a process image of appropriate size and I can read SDO objects. However, I have not found a way to read the PDOs.
+</I>&gt;<i> ec_send_processdata() returns with a non-zero wkc, however ec_receive_precessdata(...) always returns with zero.
+</I>Zero WKC on ec_receive_data() indicates there is no data transfer 
+between the master and slave logical IO mapping. Can you send a (zipped) 
+wireshark trace of a your device in OP? Also a dump of &quot;./slaveinfo eth0 
+-map&quot; would help.
+&gt;<i>
+</I>&gt;<i> Maybe TxPDO and RxPDO have to be used instead of ec_receive_processdata for CoE? Unfortunately I did not find much information about using CoE with SOEM. Has anyone managed to use synchronous PDOs with SOEM so far?
+</I>SOEM is used in hundreds of projects on many master targets and slave 
+combinations. It does work as advertised. But sometimes there can be a 
+snag before all works out. I always suggest to start simple, for example 
+a digital input / output slave. And make a &quot;blinky&quot; project. When that 
+works you can go to more complex projects.
+
+Arthur
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000165.html">[Soem-user] CoE PDO read/write
+</A></li>
+	<LI>Next message: <A HREF="000167.html">[Soem-user] CoE PDO read/write
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#166">[ date ]</a>
+              <a href="thread.html#166">[ thread ]</a>
+              <a href="subject.html#166">[ subject ]</a>
+              <a href="author.html#166">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>

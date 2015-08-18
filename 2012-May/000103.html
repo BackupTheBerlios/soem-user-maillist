@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Soem-user] The field &quot;name&quot; in the SII is optional and not written in the eprom for every slave?
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/soem-user/2012-May/index.html" >
+   <LINK REL="made" HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20The%20field%20%22name%22%20in%20the%20SII%20is%20optional%20and%20not%20written%0A%20in%20the%20eprom%20for%20every%20slave%3F&In-Reply-To=%3CCAC4gz49f8-o6LW%2Bo11a9LJ%2BFbQBpqh0Nq-yNfo-604R%2BYrhbRA%40mail.gmail.com%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000104.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Soem-user] The field &quot;name&quot; in the SII is optional and not written in the eprom for every slave?</H1>
+    <B>Luca Magnabosco</B> 
+    <A HREF="mailto:soem-user%40lists.berlios.de?Subject=Re%3A%20%5BSoem-user%5D%20The%20field%20%22name%22%20in%20the%20SII%20is%20optional%20and%20not%20written%0A%20in%20the%20eprom%20for%20every%20slave%3F&In-Reply-To=%3CCAC4gz49f8-o6LW%2Bo11a9LJ%2BFbQBpqh0Nq-yNfo-604R%2BYrhbRA%40mail.gmail.com%3E"
+       TITLE="[Soem-user] The field &quot;name&quot; in the SII is optional and not written in the eprom for every slave?">magnabosco.luca at gmail.com
+       </A><BR>
+    <I>Wed May  2 17:58:40 CEST 2012</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000104.html">[Soem-user] XML configuration tool completed!!
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#103">[ date ]</a>
+              <a href="thread.html#103">[ thread ]</a>
+              <a href="subject.html#103">[ subject ]</a>
+              <a href="author.html#103">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Hi all,
+I have a driver yaskawa&#160;SGDV-2R8AE1A.
+I need the field ec_slave[i].name to contain this name to automatic
+configure my SOEM master (implemented with Orocos using SOEM as a
+library).
+This is an automatic operation done by ec_config() and described at
+the line 405 of ethercatconfig.c using ec_siifind(..) described in
+ethercatmain.c.
+If execute the slaveinfo.c I obtain:
+...
+Slave:1
+Name:? M:00000539 I:02200001
+Output size: 48bits
+Input size: 48bits
+....
+So the filed ec_slave[1].name is ? M:00000539 I:02200001and not SGDV-2R8AE1A.
+because form ethercatconfig.c  /* no name for slave found, use
+constructed name */.
+
+Is this field optionally written in the eprom (SII) of the slaves and
+not written in my slave?
+
+I have seen that running slaveinfo -sdo there is a part where the
+program writes:
+
+Index: 1008 Datatype: 0009 Objectcode: 07 Name: Manufacturer Device Name
+Sub: 00 Datatype: 0009 Bitlength: 0100 Obj.access: 0007 Name:
+Value :SGDV-2R8AE1A
+
+So the name of my slave is written in the &quot;CoE Object Description&quot; but
+not in the correspondent part of the SII?
+</PRE>
+
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000104.html">[Soem-user] XML configuration tool completed!!
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#103">[ date ]</a>
+              <a href="thread.html#103">[ thread ]</a>
+              <a href="subject.html#103">[ subject ]</a>
+              <a href="author.html#103">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/soem-user">More information about the Soem-user
+mailing list</a><br>
+</body></html>
